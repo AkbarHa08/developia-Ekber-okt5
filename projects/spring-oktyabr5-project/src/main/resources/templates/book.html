@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="bg-dark">
+    <center>
+        
+        <a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana Səhifəyə qayıt</a>
+        <a th:href="@{/books/open/save}" class="btn btn-light" style="margin: 10px 0 0 0;">Yeni kitab əlavə et</a>
+    
+    <br><br><br><br>
+    <div class="container">
+        <table class="table table-light table-bordered border-dark" style="width: 800px;">
+    <thead>
+    <tr>
+        <th>İD</th>
+        <th>Ad</th>
+        <th>Məlumat</th>
+        <th>Qiymət</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="b : ${books}">
+        <td th:text="${b.id}"></td>
+        <td th:text="${b.name}"></td>
+        <td th:text="${b.description}"></td>
+        <td th:text="${b.price}"></td>
+    </tr>
+    </tbody>
+</table>
+    </div>
+</center>
+</body>
+</html>

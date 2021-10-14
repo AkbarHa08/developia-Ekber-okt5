@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Save Book</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form th:action="@{/books/save}" method="post" th:object="${books}">
+    <label for="bookName">Ad</label><br>
+    <input type="text" id="bookName" th:field="*{name}"><br>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+    <label for="bookDescription">Məlumat</label><br>
+    <input type="text" id="bookDescription" th:field="*{description}"><br>
+
+    <label for="bookPrice">Qiymət</label><br>
+    <input type="number" id="bookPrice" th:field="*{price}"><br>
+
+    <input type="submit" value="Yadda saxla">
+</form>
+</body>
+</html>
