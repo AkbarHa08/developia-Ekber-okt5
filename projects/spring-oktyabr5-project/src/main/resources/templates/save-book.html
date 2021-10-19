@@ -8,19 +8,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body>
-<form th:action="@{/books/save}" method="post" th:object="${books}">
-    <label for="bookName">Ad</label><br>
-    <input type="text" id="bookName" th:field="*{name}"><br>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+<body class="bg-dark">
+    <div class="container">
 
-    <label for="bookDescription">Məlumat</label><br>
-    <input type="text" id="bookDescription" th:field="*{description}"><br>
+            <form th:action="@{/books/save}" method="post" th:object="${books}" class="form-group">
+        <label for="bookName" class="text-light">Ad</label><br>
+        <input type="text" id="bookName" th:field="*{name}" class="form-control" style="width: 300px;"><br/>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    
+        <label for="bookDescription" class="text-light">Məlumat</label><br>
+        <input type="text" id="bookDescription" th:field="*{description}" class="form-control" style="width: 300px;"><br>
+    
+        <label for="bookPrice" class="text-light">Qiymət</label><br>
+        <input type="number" id="bookPrice" th:field="*{price}" class="form-control" style="width: 300px;"><br>
+    
+        <input type="submit" value="Yadda saxla" class="btn btn-danger">
+    </form>
 
-    <label for="bookPrice">Qiymət</label><br>
-    <input type="number" id="bookPrice" th:field="*{price}"><br>
+    </div>
+    
 
-    <input type="submit" value="Yadda saxla">
-</form>
 </body>
 </html>
