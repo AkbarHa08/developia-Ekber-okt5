@@ -11,7 +11,7 @@
 <body class="bg-dark">
     <div class="container">
 
-            <form th:action="@{/books/save}" method="post" th:object="${books}" class="form-group">
+            <form th:action="@{/books/save}" method="post" th:object="${book}" class="form-group">
         <label for="bookName" class="text-light">Ad</label><br>
         <input type="text" id="bookName" th:field="*{name}" class="form-control" style="width: 300px;"><br/>
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>

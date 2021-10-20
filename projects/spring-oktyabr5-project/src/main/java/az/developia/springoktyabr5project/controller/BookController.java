@@ -27,23 +27,18 @@ public class BookController {
 
 
         model.addAttribute("books", books);
-        return "book";
+        return "books";
     }
 
     @GetMapping(path = "/books/open/save")
     public String showSaveBooks(Model model) {
         Book b = new Book();
-        model.addAttribute("books", b);
+        model.addAttribute("book", b);
 
         return "save-book";
-    }
-
-
-
-
-
+    } 
     @PostMapping(path = "/books/save")
-    public String addBook(@Valid @ModelAttribute(name = "student") Book b, BindingResult result) {
+    public String addBook(@Valid @ModelAttribute(name = "book") Book b, BindingResult result) {
         if(result.hasErrors()) {
             return "save-book";
         }
