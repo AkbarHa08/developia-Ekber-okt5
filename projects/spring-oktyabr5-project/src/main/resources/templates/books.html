@@ -14,7 +14,9 @@
 </head>
 <body class="bg-dark">
 
-	<a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana
+	<div class="align-items: center;">
+
+<a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana
 		Səhifəyə qayıt</a>
 	<a th:href="@{/books/open/save}" class="btn btn-light"
 		style="margin: 10px 0 0 0;">Yeni kitab əlavə et</a>
@@ -23,7 +25,10 @@
 	<br>
 	<br>
 	<br>
-	<div class="container">
+	</div>
+
+	
+	<div class="container" style="align-items: center;">
 		<table class="table table-light table-bordered border-dark"
 			style="width: 800px;">
 			<thead>
@@ -31,7 +36,9 @@
 					<th>İD</th>
 					<th>Ad</th>
 					<th>Məlumat</th>
+					<th>Yazar</th>
 					<th>Qiymət</th>
+					<th>Əməliyyatlar</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,7 +46,11 @@
 					<td th:text="${b.id}"></td>
 					<td th:text="${b.name}"></td>
 					<td th:text="${b.description}"></td>
+					<td th:text="${b.author}"></td>
 					<td th:text="${b.price}"></td>
+					<td><a class="btn btn-danger" th:href="@{/books/delete/{id}(id=${b.id})}"
+					th:onclick="if(!confirm('Kitabı silməyə əminsiz?')) return false"
+					>Sil</a></td>
 				</tr>
 			</tbody>
 		</table>

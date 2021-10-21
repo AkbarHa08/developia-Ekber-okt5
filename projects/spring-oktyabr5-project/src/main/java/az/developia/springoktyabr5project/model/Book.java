@@ -4,8 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 public class Book {
@@ -14,11 +13,23 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(max = 100, message = "Kitab adi maksimum 100 simvol ola biler")
-    @NotEmpty(message = "Bos qoymaq olmaz")
-    @Size(min = 2, message = "Telebe adi minimum 2 simvol olmalidir")
+    @Size(max = 100, message = "Kitab adı maksimum 100 simvol ola bilər!")
+    @NotEmpty(message = "Boş qoymaq olmaz!")
+    @Size(min = 2, message = "Tələbə adı minimum 2 simvol olmalıdır!")
     private String name;
+
+    @Size(max = 300, message = "Kitab haqqında məlumat maksimum 300 simvol ola bilər!")
+    @NotEmpty(message = "Boş qoymaq olmaz!")
+    @Size(min = 10, message = "Kitab haqqında məlumat minimum 10 simvol ola bilər!")
     private String description;
+
+    @Size(max = 60, message = "Yazar adı maksimum 60 simvol ola bilər!")
+    @NotEmpty(message = "Yazar adı boş ola bilməz!")
+    @Size(min = 3, message = "Yazar adı minimum 3 simvol ola bilər!")
+    private String author;
+
+    @Max(value = 300, message = "Kitab qiyməti maksimum 300 ola bilər!")
+    @Min(value = 3, message = "Kitab qiyməti minimum 3 ola bilər!")
     private Double price;
 
     public Integer getId() {
@@ -51,5 +62,13 @@ public class Book {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
