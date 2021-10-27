@@ -35,6 +35,7 @@ public class BookController {
     public String showSaveBooks(Model model) {
         Book b = new Book();
         model.addAttribute("book", b);
+        model.addAttribute("header","Yeni kitab qeydiyyati");
 
         return "save-book";
     } 
@@ -61,6 +62,7 @@ public class BookController {
     public String editBook(@PathVariable Integer id, Model model) {
         Book b = bookRepository.findById(id).get();
         model.addAttribute("book", b);
+        model.addAttribute("header","Kitab redaktesi");
 
         return "save-book";
     }

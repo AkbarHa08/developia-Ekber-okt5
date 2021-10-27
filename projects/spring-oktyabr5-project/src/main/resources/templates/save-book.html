@@ -11,6 +11,7 @@
 <body class="bg-dark">
     <div class="container" style="align-items: center;">
 
+        <h2 th:text="${header}" class="text-light">Yeni telebe qeydiyyati</h2>
             <form th:action="@{/books/save}" method="post" th:object="${book}" class="form-group">
                 <input type="hidden" th:field="*{id}">
         <label for="bookName" class="text-light">Ad</label><br>
