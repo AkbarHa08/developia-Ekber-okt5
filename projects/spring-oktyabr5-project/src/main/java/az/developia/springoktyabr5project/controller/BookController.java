@@ -2,6 +2,7 @@ package az.developia.springoktyabr5project.controller;
 
 import az.developia.springoktyabr5project.model.Book;
 import az.developia.springoktyabr5project.repository.BookRepository;
+import az.developia.springoktyabr5project.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private LanguageRepository languageRepository;
+
 
 
     @GetMapping(path="/books")
@@ -36,6 +40,7 @@ public class BookController {
         Book b = new Book();
         model.addAttribute("book", b);
         model.addAttribute("header","Yeni kitab qeydiyyati");
+        model.addAttribute("languages", languageRepository.findAll());
 
         return "save-book";
     } 
@@ -63,6 +68,8 @@ public class BookController {
         Book b = bookRepository.findById(id).get();
         model.addAttribute("book", b);
         model.addAttribute("header","Kitab redaktesi");
+        model.addAttribute("languages", languageRepository.findAll());
+
 
         return "save-book";
     }

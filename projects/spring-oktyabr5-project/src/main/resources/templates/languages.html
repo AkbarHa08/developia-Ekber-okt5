@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Languages</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="bg-dark">
+
+	<div class="align-items: center;">
+
+<a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana
+		Səhifəyə qayıt</a>
+	<a th:href="@{/languages/open/save}" class="btn btn-light"
+		style="margin: 10px 0 0 0;">Yeni dil əlavə et</a>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	</div>
+
+	
+	<div class="container" style="align-items: center;">
+		<table class="table table-light table-bordered border-dark"
+			style="width: 600px; margin: auto">
+			<thead>
+				<tr>
+					<th>İD</th>
+					<th>Ad</th>
+					<th>Emeliyyatlar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="l : ${languages}">
+					<td th:text="${l.id}"></td>
+					<td th:text="${l.name}"></td>
+					<td><a class="btn btn-danger" th:href="@{/languages/delete/{id}(id=${l.id})}"
+					th:onclick="if(!confirm('Dili silməyə əminsiz?')) return false"
+					>Sil</a>
+						<a class="btn btn-primary" th:href="@{/languages/edit/{id}(id=${l.id})}"
+						>Redakte et</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

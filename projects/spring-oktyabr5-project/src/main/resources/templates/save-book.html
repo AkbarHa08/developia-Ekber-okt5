@@ -32,10 +32,7 @@
 
                 <label for="bookLanguage" class="text-light">Dil</label><br>
                 <select id="bookLanguage" th:field="*{language}" class="form-control" style="width: 300px">
-                    <option th:value="Az">Az</option>
-                    <option th:value="En">En</option>
-                    <option th:value="Ru">Ru</option>
-                    <option th:value="Tr">Tr</option>
+                    <option th:each="language : ${languages}" th:value="${language.name}" th:text="${language.name}"></option>
                 </select><br>
     
         <input type="submit" value="Yadda saxla" class="btn btn-danger">
