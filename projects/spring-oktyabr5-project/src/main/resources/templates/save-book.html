@@ -12,6 +12,7 @@
     <div class="container" style="align-items: center;">
 
             <form th:action="@{/books/save}" method="post" th:object="${book}" class="form-group">
+                <input type="hidden" th:field="*{id}">
         <label for="bookName" class="text-light">Ad</label><br>
         <input type="text" id="bookName" th:field="*{name}" class="form-control" style="width: 300px;"><br/>
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></div><br>

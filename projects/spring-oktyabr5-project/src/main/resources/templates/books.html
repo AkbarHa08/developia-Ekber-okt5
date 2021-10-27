@@ -50,7 +50,10 @@
 					<td th:text="${b.price}"></td>
 					<td><a class="btn btn-danger" th:href="@{/books/delete/{id}(id=${b.id})}"
 					th:onclick="if(!confirm('Kitabı silməyə əminsiz?')) return false"
-					>Sil</a></td>
+					>Sil</a>
+						<a class="btn btn-primary" th:href="@{/books/edit/{id}(id=${b.id})}"
+						>Redakte et</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
