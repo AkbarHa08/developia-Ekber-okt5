@@ -38,6 +38,7 @@
 					<th>Məlumat</th>
 					<th>Yazar</th>
 					<th>Qiymət</th>
+					<th>Dil</th>
 					<th>Əməliyyatlar</th>
 				</tr>
 			</thead>
@@ -48,6 +49,7 @@
 					<td th:text="${b.description}"></td>
 					<td th:text="${b.author}"></td>
 					<td th:text="${b.price}"></td>
+					<td th:text="${b.language}"></td>
 					<td><a class="btn btn-danger" th:href="@{/books/delete/{id}(id=${b.id})}"
 					th:onclick="if(!confirm('Kitabı silməyə əminsiz?')) return false"
 					>Sil</a>

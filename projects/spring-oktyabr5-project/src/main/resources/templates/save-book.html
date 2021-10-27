@@ -29,6 +29,14 @@
         <label for="bookPrice" class="text-light">Qiymət</label><br>
         <input type="number" id="bookPrice" th:field="*{price}" class="form-control" style="width: 300px;"><br>
         <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></div><br>
+
+                <label for="bookLanguage" class="text-light">Dil</label><br>
+                <select id="bookLanguage" th:field="*{language}" class="form-control" style="width: 300px">
+                    <option th:value="Az">Az</option>
+                    <option th:value="En">En</option>
+                    <option th:value="Ru">Ru</option>
+                    <option th:value="Tr">Tr</option>
+                </select><br>
     
         <input type="submit" value="Yadda saxla" class="btn btn-danger">
     </form>

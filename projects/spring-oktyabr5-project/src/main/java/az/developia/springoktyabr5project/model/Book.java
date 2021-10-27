@@ -32,6 +32,16 @@ public class Book {
     @Min(value = 3, message = "Kitab qiyməti minimum 3 ola bilər!")
     private Double price;
 
+    private String language;
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public Integer getId() {
         return id;
     }
