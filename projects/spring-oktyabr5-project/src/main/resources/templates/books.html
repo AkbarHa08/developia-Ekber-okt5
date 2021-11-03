@@ -29,8 +29,8 @@
 
 	
 	<div class="container" style="align-items: center;">
-		<table class="table table-light table-bordered border-dark"
-			style="width: 800px;">
+		<table class="table table-light table-bordered border-dark justify-content-center"
+			style="width: 1000px;">
 			<thead>
 				<tr>
 					<th>İD</th>
@@ -39,6 +39,7 @@
 					<th>Yazar</th>
 					<th>Qiymət</th>
 					<th>Dil</th>
+					<th>Janrlar</th>
 					<th>Əməliyyatlar</th>
 				</tr>
 			</thead>
@@ -50,6 +51,7 @@
 					<td th:text="${b.author}"></td>
 					<td th:text="${b.price}"></td>
 					<td th:text="${b.language}"></td>
+					<td th:text="${b.genres}"></td>
 					<td><a class="btn btn-danger" th:href="@{/books/delete/{id}(id=${b.id})}"
 					th:onclick="if(!confirm('Kitabı silməyə əminsiz?')) return false"
 					>Sil</a>

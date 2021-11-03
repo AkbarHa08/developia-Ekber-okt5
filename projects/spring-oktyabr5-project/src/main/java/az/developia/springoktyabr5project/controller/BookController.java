@@ -2,6 +2,7 @@ package az.developia.springoktyabr5project.controller;
 
 import az.developia.springoktyabr5project.model.Book;
 import az.developia.springoktyabr5project.repository.BookRepository;
+import az.developia.springoktyabr5project.repository.GenreRepository;
 import az.developia.springoktyabr5project.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class BookController {
     @Autowired
     private LanguageRepository languageRepository;
 
+    @Autowired
+    private GenreRepository genreRepository;
 
 
     @GetMapping(path="/books")
@@ -41,12 +44,16 @@ public class BookController {
         model.addAttribute("book", b);
         model.addAttribute("header","Yeni kitab qeydiyyati");
         model.addAttribute("languages", languageRepository.findAll());
-
+        model.addAttribute("genresList", genreRepository.findAll());
+        
         return "save-book";
     } 
     @PostMapping(path = "/books/save")
-    public String addBook(@Valid @ModelAttribute(name = "book") Book b, BindingResult result) {
+    public String addBook(@Valid @ModelAttribute(name = "book") Book b, BindingResult result, Model model) {
         if(result.hasErrors()) {
+        	model.addAttribute("languages", languageRepository.findAll());
+        	model.addAttribute("genresList", genreRepository.findAll());
+        	
             return "save-book";
         }
 
@@ -69,6 +76,7 @@ public class BookController {
         model.addAttribute("book", b);
         model.addAttribute("header","Kitab redaktesi");
         model.addAttribute("languages", languageRepository.findAll());
+        model.addAttribute("genresList", genreRepository.findAll());
 
 
         return "save-book";

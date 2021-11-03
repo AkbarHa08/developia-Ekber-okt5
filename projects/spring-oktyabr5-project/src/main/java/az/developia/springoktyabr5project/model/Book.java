@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -33,8 +35,19 @@ public class Book {
     private Double price;
 
     private String language;
+    
+    @ManyToMany
+    private List<Genre> genres;
 
-    public String getLanguage() {
+    public List<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
+	}
+
+	public String getLanguage() {
         return language;
     }
 

@@ -1,4 +1,4 @@
-package az.developia.springoktyabr5project;
+package az.developia.springoktyabr5project.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

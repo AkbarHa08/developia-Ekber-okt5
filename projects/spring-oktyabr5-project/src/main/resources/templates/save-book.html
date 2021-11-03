@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -34,6 +34,23 @@
                 <select id="bookLanguage" th:field="*{language}" class="form-control" style="width: 300px">
                     <option th:each="language : ${languages}" th:value="${language.name}" th:text="${language.name}"></option>
                 </select><br>
+                
+        <div class="form-group">
+        <label class="text-light">Janrlar</label><br>
+        
+        <span th:each="g : ${genresList}" class="text-light">
+        	<input class="text-light" type="checkbox" th:field="*{genres}" th:value="${g.id}" th:text="${g.name}">
+        	<br>
+        </span>
+        
+       
+       
+       
+       
+        </div>        
+        
+        
+        
     
         <input type="submit" value="Yadda saxla" class="btn btn-danger">
     </form>
