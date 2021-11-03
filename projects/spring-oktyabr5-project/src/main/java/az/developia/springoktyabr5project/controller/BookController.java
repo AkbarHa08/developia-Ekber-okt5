@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -80,6 +81,20 @@ public class BookController {
 
 
         return "save-book";
+    }
+    
+    @GetMapping(path="/books/rest")
+    @ResponseBody
+    public List<Book> getBooks(Model model) {
+        List<Book> books = bookRepository.findAll();
+
+        return books;
+    }
+    
+    @GetMapping(path="/books-rest")
+    public String showBooksRest(Model model) {
+        
+        return "books-rest";
     }
 
 }
