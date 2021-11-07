@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -67,6 +68,15 @@ public class LanguageController {
         model.addAttribute("header","Dil redaktesi");
 
         return "save-language";
+    }
+    
+    @GetMapping(path="/languages/rest")
+    @ResponseBody
+    public List<Language> getLanguages() {
+        List<Language> languages = languageRepository.findAll();
+
+
+        return languages;
     }
 
 }
