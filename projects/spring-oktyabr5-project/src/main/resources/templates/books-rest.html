@@ -26,9 +26,29 @@
 	<br>
 	<br>
 	</div>
+	
+	
+	
 
 	
 	<div class="container" style="align-items: center;">
+	
+	<form onsubmit="saveBook(event)">
+	<label for="book-name" class="text-light">Ad</label><br>
+	<input type="text" id="book-name" class="form-control" style="width: 300px;"><br>
+	
+	<label for="book-description" class="text-light">Haqqinda</label><br>
+	<input type="text" id="book-description" class="form-control" style="width: 300px;"><br>
+	
+	
+	<input type="submit" value="Qeydiyyat et" class="btn btn-primary"><br><br>
+	
+	
+	
+	</form>
+	
+	
+	
 		<table class="table table-light table-bordered border-dark justify-content-center"
 			style="width: 1000px;">
 			<thead>
@@ -82,7 +102,7 @@
 				}
 				
 				booksTbodyHtml+="</ol></td>";
-				booksTbodyHtml+="<td><button>Sil</button></td></tr>";
+				booksTbodyHtml+="<td><button class='btn btn-danger'>Sil</button></td></tr>";
 			}
 			
 			booksTbody.innerHTML=booksTbodyHtml;
@@ -91,6 +111,21 @@
 		http.open("GET","/books/rest",true);
 		
 		http.send();
+		
+		
+		function saveBook(event){
+			event.preventDefault();
+			var name = document.getElementById('book-name').value;
+			var description = document.getElementById('book-description').value;
+			
+			var book = {name:name,description:description};
+			
+			var http = new XMLHttpRequest();
+			
+			http.open("POST","/books/rest",true);
+			http.setRequestHeader("Content-Type","application/JSON");
+			http.send(JSON.stringify(book));
+		}
 		
 		
 		
