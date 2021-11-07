@@ -20,6 +20,7 @@
 		Səhifəyə qayıt</a>
 	<a th:href="@{/books/open/save}" class="btn btn-light"
 		style="margin: 10px 0 0 0;">Yeni kitab əlavə et</a>
+		<button class="btn btn-success" onclick="loadBooks()">Kitablari yukle</button>
 
 	<br>
 	<br>
@@ -79,44 +80,50 @@
 		
 		
 		<script type="text/javascript">
+		
+		function loadBooks(){
+			var booksTbody = document.getElementById("books-table-tbody");
 			
-		var booksTbody = document.getElementById("books-table-tbody");
-		
-		var booksTbodyHtml = '';
-		
-		var http= new XMLHttpRequest();
-		
-		http.onload = function() {
-			console.log(this.responseText);
+			var booksTbodyHtml = '';
 			
-			var array=JSON.parse(this.responseText);
-			for(var i=0;i<array.length;i++){
-				var b = array[i];
-				booksTbodyHtml+="<tr><td>"+b.id+"</td>";
-				booksTbodyHtml+="<td>"+b.name+"</td>";
-				booksTbodyHtml+="<td>"+b.description+"</td>";
-				booksTbodyHtml+="<td>"+b.author+"</td>";
-				booksTbodyHtml+="<td>"+b.price+"</td>";
-				booksTbodyHtml+="<td>"+b.language+"</td>";
-				booksTbodyHtml+="<td><ol>";
+			var http= new XMLHttpRequest();
+			
+			http.onload = function() {
+				console.log(this.responseText);
 				
-				for(var j=0;j<b.genres.length;j++){
-					var genre = b.genres[j];
-					booksTbodyHtml+="<li>"+genre.name+"</li>"; 
+				var array=JSON.parse(this.responseText);
+				for(var i=0;i<array.length;i++){
+					var b = array[i];
+					booksTbodyHtml+="<tr><td>"+b.id+"</td>";
+					booksTbodyHtml+="<td>"+b.name+"</td>";
+					booksTbodyHtml+="<td>"+b.description+"</td>";
+					booksTbodyHtml+="<td>"+b.author+"</td>";
+					booksTbodyHtml+="<td>"+b.price+"</td>";
+					booksTbodyHtml+="<td>"+b.language+"</td>";
+					booksTbodyHtml+="<td><ol>";
 					
+					for(var j=0;j<b.genres.length;j++){
+						var genre = b.genres[j];
+						booksTbodyHtml+="<li>"+genre.name+"</li>"; 
+						
+						
+					}
 					
+					booksTbodyHtml+="</ol></td>";
+					booksTbodyHtml+="<td><button class='btn btn-danger' onclick='deleteBook("+b.id+")'>Sil</button></td></tr>";
 				}
 				
-				booksTbodyHtml+="</ol></td>";
-				booksTbodyHtml+="<td><button class='btn btn-danger'>Sil</button></td></tr>";
+				booksTbody.innerHTML=booksTbodyHtml;
 			}
 			
-			booksTbody.innerHTML=booksTbodyHtml;
+			http.open("GET","/books/rest",true);
+			
+			http.send();
 		}
+			
 		
-		http.open("GET","/books/rest",true);
 		
-		http.send();
+		
 		
 		
 		function saveBook(event){
@@ -130,11 +137,31 @@
 			
 			var http = new XMLHttpRequest();
 			
+			http.onload = function(){
+				loadBooks();
+			}
+			 
 			http.open("POST","/books/rest",true);
 			http.setRequestHeader("Content-Type","application/JSON");
 			http.send(JSON.stringify(book));
 		}
 		
+		
+		function deleteBook(id){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				loadBooks();
+			}
+			 
+			http.open("DELETE","/books/rest/"+id,true);
+			
+			
+			http.send();
+		}
+		
+		
+		loadBooks();
 		
 		
 		</script>
