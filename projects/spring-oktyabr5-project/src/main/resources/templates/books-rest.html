@@ -65,14 +65,24 @@
 			
 			var array=JSON.parse(this.responseText);
 			for(var i=0;i<array.length;i++){
-				booksTbodyHtml+="<tr><td>"+array[i].id+"</td>";
-				booksTbodyHtml+="<td>"+array[i].name+"</td>";
-				booksTbodyHtml+="<td>"+array[i].description+"</td>";
-				booksTbodyHtml+="<td>"+array[i].author+"</td>";
-				booksTbodyHtml+="<td>"+array[i].price+"</td>";
-				booksTbodyHtml+="<td>"+array[i].language+"</td>";
-				booksTbodyHtml+="<td>"+array[i].genres+"</td>";
-				booksTbodyHtml+="<td><button>Sil</button></td>";
+				var b = array[i];
+				booksTbodyHtml+="<tr><td>"+b.id+"</td>";
+				booksTbodyHtml+="<td>"+b.name+"</td>";
+				booksTbodyHtml+="<td>"+b.description+"</td>";
+				booksTbodyHtml+="<td>"+b.author+"</td>";
+				booksTbodyHtml+="<td>"+b.price+"</td>";
+				booksTbodyHtml+="<td>"+b.language+"</td>";
+				booksTbodyHtml+="<td><ol>";
+				
+				for(var j=0;j<b.genres.length;j++){
+					var genre = b.genres[j];
+					booksTbodyHtml+="<li>"+genre.name+"</li>"; 
+					
+					
+				}
+				
+				booksTbodyHtml+="</ol></td>";
+				booksTbodyHtml+="<td><button>Sil</button></td></tr>";
 			}
 			
 			booksTbody.innerHTML=booksTbodyHtml;
