@@ -25,13 +25,13 @@ public class Book {
     @Size(min = 10, message = "Kitab haqqında məlumat minimum 10 simvol ola bilər!")
     private String description;
 
-//    @Size(max = 60, message = "Yazar adı maksimum 60 simvol ola bilər!")
-//    @NotEmpty(message = "Yazar adı boş ola bilməz!")
-//    @Size(min = 3, message = "Yazar adı minimum 3 simvol ola bilər!")
+    @Size(max = 60, message = "Yazar adı maksimum 60 simvol ola bilər!")
+    @NotEmpty(message = "Yazar adı boş ola bilməz!")
+    @Size(min = 3, message = "Yazar adı minimum 3 simvol ola bilər!")
     private String author;
 
-//    @Max(value = 300, message = "Kitab qiyməti maksimum 300 ola bilər!")
-//    @Min(value = 3, message = "Kitab qiyməti minimum 3 ola bilər!")
+    @Max(value = 300, message = "Kitab qiyməti maksimum 300 ola bilər!")
+    @Min(value = 3, message = "Kitab qiyməti minimum 3 ola bilər!")
     private Double price;
 
     private String language;

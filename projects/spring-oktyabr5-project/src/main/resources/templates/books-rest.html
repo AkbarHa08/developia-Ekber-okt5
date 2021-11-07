@@ -37,8 +37,14 @@
 	<label for="book-name" class="text-light">Ad</label><br>
 	<input type="text" id="book-name" class="form-control" style="width: 300px;"><br>
 	
-	<label for="book-description" class="text-light">Haqqinda</label><br>
+	<label for="book-description" class="text-light">Melumat</label><br>
 	<input type="text" id="book-description" class="form-control" style="width: 300px;"><br>
+	
+	<label for="book-author" class="text-light">Yazar</label><br>
+	<input type="text" id="book-author" class="form-control" style="width: 300px;"><br>
+	
+	<label for="book-price" class="text-light">Qiymet</label><br>
+	<input type="number" id="book-price" class="form-control" style="width: 300px;"><br>
 	
 	
 	<input type="submit" value="Qeydiyyat et" class="btn btn-primary"><br><br>
@@ -117,8 +123,10 @@
 			event.preventDefault();
 			var name = document.getElementById('book-name').value;
 			var description = document.getElementById('book-description').value;
+			var author = document.getElementById('book-author').value;
+			var price = document.getElementById('book-price').value;
 			
-			var book = {name:name,description:description};
+			var book = {name:name,description:description,author:author,price:price};
 			
 			var http = new XMLHttpRequest();
 			
