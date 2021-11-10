@@ -47,10 +47,25 @@
 	<label for="book-price" class="text-light">Qiymet</label><br>
 	<input type="number" id="book-price" class="form-control" style="width: 300px;"><br>
 	
-		<label for="book-language" class="text-light">Dil</label><br>
+	<label for="book-page-count" class="text-light">Sehife sayi</label><br>
+	<input type="number" id="book-page-count" class="form-control" style="width: 300px;"><br>
+	
+	
+	
+		<label class="text-light">Dil</label><br>
 		<select id='languages-select'>
 			
 		</select><br><br>
+		
+		
+		
+		<label class="text-light">Janrlar</label><br>
+		<span id="book-genres">
+			
+		</span>
+		<br>
+		
+		
 	
 	
 	
@@ -71,6 +86,7 @@
 					<th>Məlumat</th>
 					<th>Yazar</th>
 					<th>Qiymət</th>
+					<th>Sehife sayi</th>
 					<th>Dil</th>
 					<th>Janrlar</th>
 					<th>Əməliyyatlar</th>
@@ -88,6 +104,7 @@
 		<script type="text/javascript">
 		
 		var languagesSelect = document.getElementById('languages-select');
+		var bookGenresSpan = document.getElementById('book-genres');
 		
 		
 		function loadBooks(){
@@ -108,6 +125,7 @@
 					booksTbodyHtml+="<td>"+b.description+"</td>";
 					booksTbodyHtml+="<td>"+b.author+"</td>";
 					booksTbodyHtml+="<td>"+b.price+"</td>";
+					booksTbodyHtml+="<td>"+b.pageCount+"</td>";
 					booksTbodyHtml+="<td>"+b.language+"</td>";
 					booksTbodyHtml+="<td><ol>";
 					
@@ -141,9 +159,10 @@
 			var description = document.getElementById('book-description').value;
 			var author = document.getElementById('book-author').value;
 			var price = document.getElementById('book-price').value;
+			var pageCount = document.getElementById('book-page-count').value;
 			var language = document.getElementById('languages-select').value;
 			
-			var book = {name:name,description:description,author:author,price:price,language:language};
+			var book = {name:name,description:description,author:author,price:price,pageCount:pageCount,language:language};
 			
 			var http = new XMLHttpRequest();
 			
@@ -174,21 +193,51 @@
 		loadBooks();
 		
 		
-		var http = new XMLHttpRequest();
-		
-		http.onload = function(){
-			var languageArray = JSON.parse(this.responseText);
-			var languageHtml = '';
-			for(var i=0;i<languageArray.length;i++){
-				languageHtml+="<option>"+languageArray[i].name+"</option>";
+		function loadLanguages(){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				var languageArray = JSON.parse(this.responseText);
+				var languageHtml = '';
+				for(var i=0;i<languageArray.length;i++){
+					languageHtml+="<option>"+languageArray[i].name+"</option>";
+				}
+				languagesSelect.innerHTML=languageHtml;
 			}
-			languagesSelect.innerHTML=languageHtml;
+			 
+			http.open("GET","/languages/rest/",true);
+			
+			
+			http.send();
 		}
-		 
-		http.open("GET","/languages/rest/",true);
+		
+		loadLanguages();
+		
+		function loadBookGenres(){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				var genresArray = JSON.parse(this.responseText);
+				var genresHtml = '';
+				for(var i=0;i<genresArray.length;i++){
+					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"'>"+genresArray[i].name+"<br>";
+				}
+				bookGenresSpan.innerHTML=genresHtml;
+				console.log(genresHtml);
+			}
+			
+			 
+			http.open("GET","/genres/rest",true);
+			
+			
+			http.send();
+		}
 		
 		
-		http.send();
+		
+		loadBookGenres();
+		
+		
 		
 		
 		</script>

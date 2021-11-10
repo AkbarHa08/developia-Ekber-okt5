@@ -33,6 +33,11 @@ public class Book {
     @Max(value = 300, message = "Kitab qiyməti maksimum 300 ola bilər!")
     @Min(value = 3, message = "Kitab qiyməti minimum 3 ola bilər!")
     private Double price;
+    
+    
+    @Max(value = 2000, message = "Sehife sayi maksimum 2000 ola biler!")
+    @Min(value = 10, message = "Sehife sayi minimum 10 ola biler!")
+    private Integer pageCount;
 
     private String language;
     
@@ -94,4 +99,14 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+	public Integer getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(Integer pageCount) {
+		this.pageCount = pageCount;
+	}
+    
+    
 }

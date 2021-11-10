@@ -29,6 +29,10 @@
         <label for="bookPrice" class="text-light">Qiymət</label><br>
         <input type="number" id="bookPrice" th:field="*{price}" class="form-control" style="width: 300px;"><br>
         <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></div><br>
+        
+        <label for="bookPageCount" class="text-light">Səhifə sayı</label><br>
+        <input type="number" id="bookPageCount" th:field="*{pageCount}" class="form-control" style="width: 300px;"><br>
+        <div th:if="${#fields.hasErrors('pageCount')}" th:errors="*{pageCount}" class="text-danger"></div><br>
 
                 <label for="bookLanguage" class="text-light">Dil</label><br>
                 <select id="bookLanguage" th:field="*{language}" class="form-control" style="width: 300px">
