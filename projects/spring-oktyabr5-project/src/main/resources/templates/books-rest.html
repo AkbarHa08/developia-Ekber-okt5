@@ -60,7 +60,7 @@
 		
 		
 		<label class="text-light">Janrlar</label><br>
-		<span id="book-genres">
+		<span id="book-genres" class="text-light">
 			
 		</span>
 		<br>
@@ -220,7 +220,7 @@
 				var genresArray = JSON.parse(this.responseText);
 				var genresHtml = '';
 				for(var i=0;i<genresArray.length;i++){
-					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"'>"+genresArray[i].name+"<br>";
+					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"'>"+"  "+genresArray[i].name+"<br>";
 				}
 				bookGenresSpan.innerHTML=genresHtml;
 				console.log(genresHtml);
