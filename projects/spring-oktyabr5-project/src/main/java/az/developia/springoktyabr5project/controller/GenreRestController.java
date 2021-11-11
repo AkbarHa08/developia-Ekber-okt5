@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.springoktyabr5project.model.Book;
 import az.developia.springoktyabr5project.model.Genre;
 import az.developia.springoktyabr5project.repository.BookRepository;
 import az.developia.springoktyabr5project.repository.GenreRepository;
 
-@Controller
+@RestController
 @RequestMapping(path = "/genres/rest")
 @CrossOrigin(origins = "*")
 public class GenreRestController {
