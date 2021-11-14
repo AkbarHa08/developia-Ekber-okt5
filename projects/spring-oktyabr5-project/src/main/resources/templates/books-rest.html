@@ -188,16 +188,20 @@
 		
 		
 		function deleteBook(id){
-			var http = new XMLHttpRequest();
-			
-			http.onload = function(){
-				loadBooks();
+			if(confirm('Kitabı silməyə əminsiz?')){
+				var http = new XMLHttpRequest();
+				
+				http.onload = function(){
+					loadBooks();
+				}
+				 
+				http.open("DELETE","/books/rest/"+id,true);
+				
+				
+				http.send();
 			}
-			 
-			http.open("DELETE","/books/rest/"+id,true);
 			
 			
-			http.send();
 		}
 		
 		
