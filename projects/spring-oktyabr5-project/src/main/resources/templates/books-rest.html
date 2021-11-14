@@ -137,7 +137,7 @@
 					}
 					
 					booksTbodyHtml+="</ol></td>";
-					booksTbodyHtml+="<td><button class='btn btn-danger' onclick='deleteBook("+b.id+")'>Sil</button></td></tr>";
+					booksTbodyHtml+="<td><button class='btn btn-danger' onclick='deleteBook("+b.id+")'>Sil</button>    <button class='btn btn-warning' onclick='editBook("+b.id+")'>Redakte et</button></td></tr>";
 				}
 				
 				booksTbody.innerHTML=booksTbodyHtml;
@@ -161,8 +161,19 @@
 			var price = document.getElementById('book-price').value;
 			var pageCount = document.getElementById('book-page-count').value;
 			var language = document.getElementById('languages-select').value;
+			var genresInputs = document.getElementsByClassName('genres');
 			
-			var book = {name:name,description:description,author:author,price:price,pageCount:pageCount,language:language};
+			var genres = [];
+
+			for(var i=0;i<genresInputs.length;i++){
+				var genreCheckbox = genresInputs[i];
+				if(genreCheckbox.checked){
+					genres.push({id:genreCheckbox.value});
+				}
+			}
+			console.log(genres);
+			
+			var book = {name:name,description:description,author:author,price:price,pageCount:pageCount,language:language,genres:genres};
 			
 			var http = new XMLHttpRequest();
 			
@@ -188,6 +199,22 @@
 			
 			http.send();
 		}
+		
+		
+		function editBook(id){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				var bookJson = this.responseText;
+				console.log(bookJson);
+			}
+			 
+			http.open("GET","/books/rest/"+id,true);
+			
+			
+			http.send();
+		}
+		
 		
 		
 		loadBooks();
@@ -220,7 +247,7 @@
 				var genresArray = JSON.parse(this.responseText);
 				var genresHtml = '';
 				for(var i=0;i<genresArray.length;i++){
-					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"'>"+"  "+genresArray[i].name+"<br>";
+					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"' class='genres'>"+"  "+genresArray[i].name+"<br>";
 				}
 				bookGenresSpan.innerHTML=genresHtml;
 				console.log(genresHtml);
