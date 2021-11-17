@@ -1,0 +1,164 @@
+var languagesSelect = document.getElementById('languages-select');
+		var bookGenresSpan = document.getElementById('book-genres');
+		
+		
+		function loadBooks(){
+			var booksTbody = document.getElementById("books-table-tbody");
+			
+			var booksTbodyHtml = '';
+			
+			var http= new XMLHttpRequest();
+			
+			http.onload = function() {
+				console.log(this.responseText);
+				
+				var array=JSON.parse(this.responseText);
+				for(var i=0;i<array.length;i++){
+					var b = array[i];
+					booksTbodyHtml+="<tr><td>"+b.id+"</td>";
+					booksTbodyHtml+="<td>"+b.name+"</td>";
+					booksTbodyHtml+="<td>"+b.description+"</td>";
+					booksTbodyHtml+="<td>"+b.author+"</td>";
+					booksTbodyHtml+="<td>"+b.price+"</td>";
+					booksTbodyHtml+="<td>"+b.pageCount+"</td>";
+					booksTbodyHtml+="<td>"+b.language+"</td>";
+					booksTbodyHtml+="<td><ol>";
+					
+					for(var j=0;j<b.genres.length;j++){
+						var genre = b.genres[j];
+						booksTbodyHtml+="<li>"+genre.name+"</li>"; 
+						
+						
+					}
+					
+					booksTbodyHtml+="</ol></td>";
+					booksTbodyHtml+="<td><button class='btn btn-danger' onclick='deleteBook("+b.id+")'>Sil</button>    <button class='btn btn-warning' onclick='editBook("+b.id+")'>Redakte et</button></td></tr>";
+				}
+				
+				booksTbody.innerHTML=booksTbodyHtml;
+			}
+			
+			http.open("GET","/books/rest",true);
+			
+			http.send();
+		}
+			
+		
+		
+		
+		
+		
+		function saveBook(event){
+			event.preventDefault();
+			var name = document.getElementById('book-name').value;
+			var description = document.getElementById('book-description').value;
+			var author = document.getElementById('book-author').value;
+			var price = document.getElementById('book-price').value;
+			var pageCount = document.getElementById('book-page-count').value;
+			var language = document.getElementById('languages-select').value;
+			var genresInputs = document.getElementsByClassName('genres');
+			
+			var genres = [];
+
+			for(var i=0;i<genresInputs.length;i++){
+				var genreCheckbox = genresInputs[i];
+				if(genreCheckbox.checked){
+					genres.push({id:genreCheckbox.value});
+				}
+			}
+			console.log(genres);
+			
+			var book = {name:name,description:description,author:author,price:price,pageCount:pageCount,language:language,genres:genres};
+			
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				loadBooks();
+			}
+			 
+			http.open("POST","/books/rest",true);
+			http.setRequestHeader("Content-Type","application/JSON");
+			http.send(JSON.stringify(book));
+		}
+		
+		
+		function deleteBook(id){
+			if(confirm('Kitabı silməyə əminsiz?')){
+				var http = new XMLHttpRequest();
+				
+				http.onload = function(){
+					loadBooks();
+				}
+				 
+				http.open("DELETE","/books/rest/"+id,true);
+				
+				
+				http.send();
+			}
+			
+			
+		}
+		
+		
+		function editBook(id){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				var bookJson = this.responseText;
+				console.log(bookJson);
+			}
+			 
+			http.open("GET","/books/rest/"+id,true);
+			
+			
+			http.send();
+		}
+		
+		
+		
+		loadBooks();
+		
+		
+		function loadLanguages(){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				var languageArray = JSON.parse(this.responseText);
+				var languageHtml = '';
+				for(var i=0;i<languageArray.length;i++){
+					languageHtml+="<option>"+languageArray[i].name+"</option>";
+				}
+				languagesSelect.innerHTML=languageHtml;
+			}
+			 
+			http.open("GET","/languages/rest/",true);
+			
+			
+			http.send();
+		}
+		
+		loadLanguages();
+		
+		function loadBookGenres(){
+			var http = new XMLHttpRequest();
+			
+			http.onload = function(){
+				var genresArray = JSON.parse(this.responseText);
+				var genresHtml = '';
+				for(var i=0;i<genresArray.length;i++){
+					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"' class='genres'>"+"  "+genresArray[i].name+"<br>";
+				}
+				bookGenresSpan.innerHTML=genresHtml;
+				console.log(genresHtml);
+			}
+			
+			 
+			http.open("GET","/genres/rest",true);
+			
+			
+			http.send();
+		}
+		
+		
+		
+		loadBookGenres();
