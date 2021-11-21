@@ -1,7 +1,13 @@
 package az.developia.springoktyabr5project.controller;
 
+import java.util.ArrayList;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +32,22 @@ public class BookRestController {
 	
 
 	@PostMapping
-    public void addBook(@RequestBody Book book) {
-      bookRepository.save(book);
+    public ArrayList<String> addBook(@Valid @RequestBody Book book, BindingResult br) {
+		ArrayList<String> errorMessages = new ArrayList<String>();
+		if(br.hasErrors()) {
+			System.out.println("melumatlar tam deyil!");
+			
+			for (FieldError error : br.getFieldErrors()) {
+				System.out.println(error.getField());
+				System.out.println(error.getDefaultMessage());
+				System.out.println("---------------------------");
+				errorMessages.add(error.getField()+":::"+error.getDefaultMessage());
+			}
+		}else {
+			 bookRepository.save(book);
+		}
+		return errorMessages;
+     
 
     }
 	

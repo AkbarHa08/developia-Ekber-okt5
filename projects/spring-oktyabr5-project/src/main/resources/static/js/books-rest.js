@@ -10,6 +10,9 @@
 			var genresInputs = document.getElementsByClassName('genres')
 			
 			var saveBookButton = document.getElementById('save-book-button');
+			
+			var nameErrorField = document.getElementById('name-error');
+			var descriptionErrorField = document.getElementById('description-error');
 		
 			var updateMode = false;
 			var selectedBookId = 0;
@@ -84,7 +87,26 @@
 			var http = new XMLHttpRequest();
 			
 			http.onload = function(){
-				loadBooks();
+				var errors = this.responseText;
+				var errorsArray = JSON.parse(errors);
+				if(errorsArray.length==0){
+					loadBooks();
+				} else{
+					// burada error mesajlarini goster
+					//alert("sehv var, tam doldurun!");
+					for(var i=0;i<errorsArray.length;i++){
+						var error = errorsArray[i];
+						var field = error.split(":::")[0];
+						var message = error.split(":::")[1];
+						if(field=='name'){
+							nameErrorField.innerHTML = message;
+						}
+						if(field=='description'){
+							descriptionErrorField.innerHTML = message;
+						}
+						
+					}
+				}
 			}
 			 
 			if(updateMode){

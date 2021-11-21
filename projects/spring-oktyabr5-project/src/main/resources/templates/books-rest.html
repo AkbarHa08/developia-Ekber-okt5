@@ -33,16 +33,20 @@
 	
 	<form onsubmit="saveBook(event)">
 	<label for="book-name" class="text-light">Ad</label><br>
-	<input type="text" id="book-name" class="form-control" style="width: 300px;"><br>
+	<input type="text" id="book-name" class="form-control" style="width: 300px;">
+	<span id="name-error" class="text text-danger"></span><br>
 	
 	<label for="book-description" class="text-light">Melumat</label><br>
-	<input type="text" id="book-description" class="form-control" style="width: 300px;"><br>
+	<input type="text" id="book-description" class="form-control" style="width: 300px;">
+	<span id="description-error" class="text text-danger"></span><br>
 	
 	<label for="book-author" class="text-light">Yazar</label><br>
 	<input type="text" id="book-author" class="form-control" style="width: 300px;"><br>
+	<span id="author-error" class="text text-danger"></span><br>
 	
 	<label for="book-price" class="text-light">Qiymet</label><br>
 	<input type="number" id="book-price" class="form-control" style="width: 300px;"><br>
+	<span id="price-error" class="text text-danger"></span><br>
 	
 	<label for="book-page-count" class="text-light">Sehife sayi</label><br>
 	<input type="number" id="book-page-count" class="form-control" style="width: 300px;"><br>
