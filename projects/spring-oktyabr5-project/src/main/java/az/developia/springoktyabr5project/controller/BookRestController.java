@@ -41,4 +41,10 @@ public class BookRestController {
 		return bookRepository.findById(id).get();
 	}
 	
+	@PutMapping
+    public void updateBook(@RequestBody Book book) {
+      bookRepository.save(book);
+
+    }
+	
 }

@@ -1,6 +1,18 @@
-var languagesSelect = document.getElementById('languages-select');
+		var languagesSelect = document.getElementById('languages-select');
 		var bookGenresSpan = document.getElementById('book-genres');
 		
+		var nameInput = document.getElementById('book-name');
+			var descriptionInput = document.getElementById('book-description');
+			var authorInput = document.getElementById('book-author');
+			var priceInput = document.getElementById('book-price');
+			var pageCountInput = document.getElementById('book-page-count');
+			var languageInput = document.getElementById('languages-select');
+			var genresInputs = document.getElementsByClassName('genres')
+			
+			var saveBookButton = document.getElementById('save-book-button');
+		
+			var updateMode = false;
+			var selectedBookId = 0;
 		
 		function loadBooks(){
 			var booksTbody = document.getElementById("books-table-tbody");
@@ -50,13 +62,12 @@ var languagesSelect = document.getElementById('languages-select');
 		
 		function saveBook(event){
 			event.preventDefault();
-			var name = document.getElementById('book-name').value;
-			var description = document.getElementById('book-description').value;
-			var author = document.getElementById('book-author').value;
-			var price = document.getElementById('book-price').value;
-			var pageCount = document.getElementById('book-page-count').value;
-			var language = document.getElementById('languages-select').value;
-			var genresInputs = document.getElementsByClassName('genres');
+			var name = nameInput.value;
+			var description = descriptionInput.value;
+			var author = authorInput.value;
+			var price = priceInput.value;
+			var pageCount = pageCountInput.value;
+			var language = languageInput.value;
 			
 			var genres = [];
 
@@ -76,9 +87,20 @@ var languagesSelect = document.getElementById('languages-select');
 				loadBooks();
 			}
 			 
-			http.open("POST","/books/rest",true);
-			http.setRequestHeader("Content-Type","application/JSON");
-			http.send(JSON.stringify(book));
+			if(updateMode){
+				 http.open("PUT","/books/rest",true);
+				 http.setRequestHeader("Content-Type","application/JSON");
+				 book.id = selectedBookId;
+				 http.send(JSON.stringify(book));
+				 updateMode = false;
+				 saveBookButton.value = "Qeydiyyat et";
+			} else{
+				 http.open("POST","/books/rest",true);
+				 http.setRequestHeader("Content-Type","application/JSON");
+				 http.send(JSON.stringify(book));
+			}
+		
+			
 		}
 		
 		
@@ -101,17 +123,53 @@ var languagesSelect = document.getElementById('languages-select');
 		
 		
 		function editBook(id){
+			updateMode = true;
+			selectedBookId=id;
+			saveBookButton.value = "Redakte et";
+			
 			var http = new XMLHttpRequest();
 			
 			http.onload = function(){
 				var bookJson = this.responseText;
-				console.log(bookJson);
+				var bookObj = JSON.parse(bookJson);
+				
+				nameInput.value = bookObj.name;
+				descriptionInput.value = bookObj.description;
+				authorInput.value = bookObj.author;
+				priceInput.value = bookObj.price;
+				pageCountInput.value = bookObj.pageCount;
+				languageInput.value = bookObj.language;
+				
+				var genresInputs = document.getElementsByClassName('genres');
+				for(var j=0;j<genresInputs.length;j++){
+					var genreInput = genresInputs[j];
+					
+					genreInput.checked=false;
+				}
+				
+				for(var i=0;i<bookObj.genres.length;i++){
+					var genre = bookObj.genres[i];
+					
+					for(var j=0;j<genresInputs.length;j++){
+						var genreInput = genresInputs[j];
+						if(genreInput.value==genre.id){
+							genreInput.checked=true;
+						}
+					}
+				}
+					
 			}
 			 
 			http.open("GET","/books/rest/"+id,true);
 			
 			
 			http.send();
+		}
+		
+		function resetForm(){
+			updateMode=false;
+			saveBookButton.value = "Qeydiyyat et";
+			
 		}
 		
 		
