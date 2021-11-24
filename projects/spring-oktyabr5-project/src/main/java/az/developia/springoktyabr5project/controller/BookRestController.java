@@ -62,8 +62,21 @@ public class BookRestController {
 	}
 	
 	@PutMapping
-    public void updateBook(@RequestBody Book book) {
-      bookRepository.save(book);
+    public ArrayList<String> updateBook(@Valid @RequestBody Book book, BindingResult br) {
+		ArrayList<String> errorMessages = new ArrayList<String>();
+		if(br.hasErrors()) {
+			System.out.println("melumatlar tam deyil!");
+			
+			for (FieldError error : br.getFieldErrors()) {
+				System.out.println(error.getField());
+				System.out.println(error.getDefaultMessage());
+				System.out.println("---------------------------");
+				errorMessages.add(error.getField()+":::"+error.getDefaultMessage());
+			}
+		}else {
+			 bookRepository.save(book);
+		}
+		return errorMessages;
 
     }
 	

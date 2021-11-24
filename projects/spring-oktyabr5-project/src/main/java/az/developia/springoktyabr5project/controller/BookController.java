@@ -76,6 +76,7 @@ public class BookController {
     @GetMapping(path = "/books/edit/{id}")
     public String editBook(@PathVariable Integer id, Model model) {
         Book b = bookRepository.findById(id).get();
+        
         model.addAttribute("book", b);
         model.addAttribute("header","Kitab redaktesi");
         model.addAttribute("languages", languageRepository.findAll());

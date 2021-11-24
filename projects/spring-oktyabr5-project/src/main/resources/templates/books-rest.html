@@ -13,43 +13,46 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body class="bg-dark">
-
-	<div class="align-items: center;">
-
-<a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana
-		Səhifəyə qayıt</a>
-
-	<br>
-	<br>
-	<br>
-	<br>
+		
+	<div class="container-fluid" style="align-items: center;">
+	
+	<div>
+		<div class="row">
+			<div class="col-sm-3">
+			<a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana Səhifəyə qayıt</a>
+			</div>
+			
+			<div class="col-sm-9">
+				<button class='btn btn-danger'>Sil</button> 
+			    <button class='btn btn-warning'>Redakte et</button>
+			</div>
+		
+		</div>
 	</div>
 	
+	<br>
 	
-	
-
-	
-	<div class="container" style="align-items: center;">
-	
-	<form onsubmit="saveBook(event)">
+	<div class="row">
+		<div class="col-sm-3">
+			<form onsubmit="saveBook(event)">
 	<label for="book-name" class="text-light">Ad</label><br>
-	<input type="text" id="book-name" class="form-control" style="width: 300px;">
+	<input type="text" id="book-name" class="form-control" style="width: 250px;">
 	<span id="name-error" class="text text-danger"></span><br>
 	
 	<label for="book-description" class="text-light">Melumat</label><br>
-	<input type="text" id="book-description" class="form-control" style="width: 300px;">
+	<input type="text" id="book-description" class="form-control" style="width: 250px;">
 	<span id="description-error" class="text text-danger"></span><br>
 	
 	<label for="book-author" class="text-light">Yazar</label><br>
-	<input type="text" id="book-author" class="form-control" style="width: 300px;"><br>
+	<input type="text" id="book-author" class="form-control" style="width: 250px;">
 	<span id="author-error" class="text text-danger"></span><br>
 	
 	<label for="book-price" class="text-light">Qiymet</label><br>
-	<input type="number" id="book-price" class="form-control" style="width: 300px;"><br>
+	<input type="number" id="book-price" class="form-control" style="width: 250px;">
 	<span id="price-error" class="text text-danger"></span><br>
 	
 	<label for="book-page-count" class="text-light">Sehife sayi</label><br>
-	<input type="number" id="book-page-count" class="form-control" style="width: 300px;"><br>
+	<input type="number" id="book-page-count" class="form-control" style="width: 250px;"><br>
 	
 	
 	
@@ -77,11 +80,11 @@
 	
 	
 	</form>
-	
-	
-	
-		<table class="table table-light table-bordered border-dark justify-content-center"
-			style="width: 1000px;">
+		</div>
+		
+		<div class="col-sm-9">
+			<table class="table table-light table-bordered border-dark justify-content-center"
+			style="width: 800px;">
 			<thead>
 				<tr>
 					<th>İD</th>
@@ -89,10 +92,9 @@
 					<th>Məlumat</th>
 					<th>Yazar</th>
 					<th>Qiymət</th>
-					<th>Sehife sayi</th>
+					<th>Sehife</th>
 					<th>Dil</th>
 					<th>Janrlar</th>
-					<th>Əməliyyatlar</th>
 				</tr>
 			</thead>
 			<tbody id="books-table-tbody">
@@ -101,6 +103,16 @@
 				
 			</tbody>
 		</table>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+		
 		
 		
 		

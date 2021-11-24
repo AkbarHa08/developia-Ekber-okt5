@@ -17,12 +17,12 @@ public class Book {
 
     @Size(max = 100, message = "Kitab adı maksimum 100 simvol ola bilər!")
     @NotEmpty(message = "Boş qoymaq olmaz!")
-    @Size(min = 2, message = "Tələbə adı minimum 2 simvol olmalıdır!")
+    @Size(min = 2, message = "Kitab adı minimum 2 simvol olmalıdır!")
     private String name;
 
     @Size(max = 300, message = "Kitab haqqında məlumat maksimum 300 simvol ola bilər!")
     @NotEmpty(message = "Boş qoymaq olmaz!")
-    @Size(min = 10, message = "Kitab haqqında məlumat minimum 10 simvol ola bilər!")
+    @Size(min = 5, message = "Kitab haqqında məlumat minimum 5 simvol ola bilər!")
     private String description;
 
     @Size(max = 60, message = "Yazar adı maksimum 60 simvol ola bilər!")

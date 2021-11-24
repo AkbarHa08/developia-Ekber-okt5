@@ -13,6 +13,8 @@
 			
 			var nameErrorField = document.getElementById('name-error');
 			var descriptionErrorField = document.getElementById('description-error');
+			var authorErrorField = document.getElementById('author-error');
+			var priceErrorField = document.getElementById('price-error');
 		
 			var updateMode = false;
 			var selectedBookId = 0;
@@ -46,8 +48,8 @@
 						
 					}
 					
-					booksTbodyHtml+="</ol></td>";
-					booksTbodyHtml+="<td><button class='btn btn-danger' onclick='deleteBook("+b.id+")'>Sil</button>    <button class='btn btn-warning' onclick='editBook("+b.id+")'>Redakte et</button></td></tr>";
+					booksTbodyHtml+="</ol>";
+					booksTbodyHtml+="</tr>";
 				}
 				
 				booksTbody.innerHTML=booksTbodyHtml;
@@ -59,11 +61,18 @@
 		}
 			
 		
-		
+		function resetValidations(){
+			nameErrorField.innerHTML = '';
+			descriptionErrorField.innerHTML = '';
+			authorErrorField.innerHTML = '';
+			priceErrorField.innerHTML = '';
+		}
 		
 		
 		
 		function saveBook(event){
+			resetValidations();
+			
 			event.preventDefault();
 			var name = nameInput.value;
 			var description = descriptionInput.value;
@@ -90,22 +99,42 @@
 				var errors = this.responseText;
 				var errorsArray = JSON.parse(errors);
 				if(errorsArray.length==0){
+					updateMode = false;
+				 	saveBookButton.value = "Qeydiyyat et";
 					loadBooks();
+					
 				} else{
 					// burada error mesajlarini goster
 					//alert("sehv var, tam doldurun!");
+					
+					var nameErrorV = '';
+					var descriptionErrorV = '';
+					var authorErrorV = '';
+					var priceErrorV = '';
+					
 					for(var i=0;i<errorsArray.length;i++){
 						var error = errorsArray[i];
 						var field = error.split(":::")[0];
 						var message = error.split(":::")[1];
 						if(field=='name'){
-							nameErrorField.innerHTML = message;
+							nameErrorV+=message+"<br>";
 						}
 						if(field=='description'){
-							descriptionErrorField.innerHTML = message;
+							descriptionErrorV+=message+"<br>";
+						}
+						if(field=='author'){
+							authorErrorV+=message+"<br>";
+						}
+						if(field=='price'){
+							priceErrorV+=message+"<br>";
 						}
 						
 					}
+					
+					nameErrorField.innerHTML = nameErrorV;
+					descriptionErrorField.innerHTML = descriptionErrorV;
+					authorErrorField.innerHTML = authorErrorV;
+					priceErrorField.innerHTML = priceErrorV;
 				}
 			}
 			 
@@ -114,8 +143,7 @@
 				 http.setRequestHeader("Content-Type","application/JSON");
 				 book.id = selectedBookId;
 				 http.send(JSON.stringify(book));
-				 updateMode = false;
-				 saveBookButton.value = "Qeydiyyat et";
+				 
 			} else{
 				 http.open("POST","/books/rest",true);
 				 http.setRequestHeader("Content-Type","application/JSON");
