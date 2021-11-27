@@ -12,6 +12,14 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<link rel="stylesheet" href="@{/css/books-rest.css}">
+
+<style>
+.book-id{
+	cursor: pointer;
+}
+</style>
+
 <body class="bg-dark">
 		
 	<div class="container-fluid" style="align-items: center;">
@@ -23,8 +31,8 @@
 			</div>
 			
 			<div class="col-sm-9">
-				<button class='btn btn-danger'>Sil</button> 
-			    <button class='btn btn-warning'>Redakte et</button>
+				<button class='btn btn-danger' onclick='deleteBook()'>Sil</button> 
+				<button class='btn btn-primary' onclick='editBook()'>Redakte</button> 
 			</div>
 		
 		</div>
@@ -83,7 +91,7 @@
 		</div>
 		
 		<div class="col-sm-9">
-			<table class="table table-light table-bordered border-dark justify-content-center"
+			<table class="table table-light border-dark justify-content-center"
 			style="width: 800px;">
 			<thead>
 				<tr>

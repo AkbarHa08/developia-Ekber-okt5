@@ -20,6 +20,8 @@
 			var selectedBookId = 0;
 		
 		function loadBooks(){
+			selectedBookId = 0;
+			
 			var booksTbody = document.getElementById("books-table-tbody");
 			
 			var booksTbodyHtml = '';
@@ -32,7 +34,7 @@
 				var array=JSON.parse(this.responseText);
 				for(var i=0;i<array.length;i++){
 					var b = array[i];
-					booksTbodyHtml+="<tr><td>"+b.id+"</td>";
+					booksTbodyHtml+="<tr><td class='book-id' onclick='onSelectBook("+b.id+")' id='book-"+b.id+"' >"+b.id+"</td>";
 					booksTbodyHtml+="<td>"+b.name+"</td>";
 					booksTbodyHtml+="<td>"+b.description+"</td>";
 					booksTbodyHtml+="<td>"+b.author+"</td>";
@@ -162,7 +164,7 @@
 					loadBooks();
 				}
 				 
-				http.open("DELETE","/books/rest/"+id,true);
+				http.open("DELETE","/books/rest/"+selectedBookId,true);
 				
 				
 				http.send();
@@ -172,9 +174,12 @@
 		}
 		
 		
-		function editBook(id){
-			updateMode = true;
-			selectedBookId=id;
+		function editBook(){
+			console.log(selectedBookId);
+			if(selectedBookId==0){
+				alert("Siyahidan kitab secin!!!");
+			} else{
+				updateMode = true;
 			saveBookButton.value = "Redakte et";
 			
 			var http = new XMLHttpRequest();
@@ -210,10 +215,13 @@
 					
 			}
 			 
-			http.open("GET","/books/rest/"+id,true);
+			http.open("GET","/books/rest/"+selectedBookId,true);
 			
 			
 			http.send();
+			}
+			
+			
 		}
 		
 		function resetForm(){
@@ -265,6 +273,21 @@
 			
 			
 			http.send();
+		}
+		
+		function onSelectBook(bookId){
+			if(selectedBookId==0){
+				document.getElementById('book-'+bookId).style.backgroundColor='gray';
+				selectedBookId = bookId;
+			} else if(bookId==selectedBookId){
+				document.getElementById('book-'+selectedBookId).style.backgroundColor='white';
+				selectedBookId = 0;
+			}else{
+				document.getElementById('book-'+selectedBookId).style.backgroundColor='white';
+				document.getElementById('book-'+bookId).style.backgroundColor='gray';
+				selectedBookId = bookId;
+			}
+			
 		}
 		
 		
