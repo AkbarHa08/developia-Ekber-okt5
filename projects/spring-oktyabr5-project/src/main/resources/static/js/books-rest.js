@@ -38,7 +38,7 @@
 					booksTbodyHtml+="<td>"+b.name+"</td>";
 					booksTbodyHtml+="<td>"+b.description+"</td>";
 					booksTbodyHtml+="<td>"+b.author+"</td>";
-					booksTbodyHtml+="<td>"+b.price+"</td>";
+					booksTbodyHtml+="<td>"+b.price+" AZN"+"</td>";
 					booksTbodyHtml+="<td>"+b.pageCount+"</td>";
 					booksTbodyHtml+="<td>"+b.language+"</td>";
 					booksTbodyHtml+="<td><ol>";
@@ -262,7 +262,7 @@
 				var genresArray = JSON.parse(this.responseText);
 				var genresHtml = '';
 				for(var i=0;i<genresArray.length;i++){
-					genresHtml+="<input type='checkbox' value='"+genresArray[i].id+"' class='genres'>"+"  "+genresArray[i].name+"<br>";
+					genresHtml+="<input type='checkbox' class='genres' value='"+genresArray[i].id+"'>"+"  "+genresArray[i].name+"<br>";
 				}
 				bookGenresSpan.innerHTML=genresHtml;
 				console.log(genresHtml);

@@ -30,9 +30,10 @@
 			<a th:href="@{/home}" class="btn btn-light" style="margin: 10px 0 0 0;">Ana Səhifəyə qayıt</a>
 			</div>
 			
+			<br>
 			<div class="col-sm-9">
 				<button class='btn btn-danger' onclick='deleteBook()'>Sil</button> 
-				<button class='btn btn-primary' onclick='editBook()'>Redakte</button> 
+				<button class='btn btn-primary' onclick='editBook()'>Redaktə</button> 
 			</div>
 		
 		</div>
@@ -43,46 +44,60 @@
 	<div class="row">
 		<div class="col-sm-3">
 			<form onsubmit="saveBook(event)">
-	<label for="book-name" class="text-light">Ad</label><br>
-	<input type="text" id="book-name" class="form-control" style="width: 250px;">
-	<span id="name-error" class="text text-danger"></span><br>
+				<div class="form-group">
+					<label for="book-name" class="text-light">Ad</label><br>
+					<input type="text" id="book-name" class="form-control" style="width: 250px;">
+					<span id="name-error" class="text text-danger"></span>
+				</div>
 	
-	<label for="book-description" class="text-light">Melumat</label><br>
+				<div class="form-group">
+					<label for="book-description" class="text-light">Məlumat</label><br>
 	<input type="text" id="book-description" class="form-control" style="width: 250px;">
-	<span id="description-error" class="text text-danger"></span><br>
+	<span id="description-error" class="text text-danger"></span>
+				</div>
 	
-	<label for="book-author" class="text-light">Yazar</label><br>
+				<div class="form-group">
+					<label for="book-author" class="text-light">Yazar</label><br>
 	<input type="text" id="book-author" class="form-control" style="width: 250px;">
-	<span id="author-error" class="text text-danger"></span><br>
+	<span id="author-error" class="text text-danger"></span>
+				</div>
 	
-	<label for="book-price" class="text-light">Qiymet</label><br>
+	
+				<div class="form-group">
+					<label for="book-price" class="text-light">Qiymət</label><br>
 	<input type="number" id="book-price" class="form-control" style="width: 250px;">
-	<span id="price-error" class="text text-danger"></span><br>
+	<span id="price-error" class="text text-danger"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="book-page-count" class="text-light">Səhifə sayı</label><br>
+	<input type="number" id="book-page-count" class="form-control" style="width: 250px;">
+				</div>
 	
-	<label for="book-page-count" class="text-light">Sehife sayi</label><br>
-	<input type="number" id="book-page-count" class="form-control" style="width: 250px;"><br>
 	
 	
 	
-		<label class="text-light">Dil</label><br>
-		<select id='languages-select'>
+				<div class="form-group">
+					<label class="text-light" for="languages-select">Dili</label><br>
+					<select id='languages-select' class="form-control" style="width: 250px;">
 			
-		</select><br><br>
+					</select>
+				</div>
+	
 		
-		
-		
-		<label class="text-light">Janrlar</label><br>
-		<span id="book-genres" class="text-light">
+		<div class="form-group">
+			<label class="text-light">Janrlar</label><br>
+			<span id="book-genres" class="text-light">
 			
-		</span>
-		<br>
+			</span>
+		</div>
 		
 		
 	
 	
 	
 	<input type="submit" value="Qeydiyyat et" class="btn btn-primary" id="save-book-button">
-	<input type="reset" value="Sifirla" class="btn btn-danger" onclick="resetForm()">
+	<input type="reset" value="Sıfırla" class="btn btn-danger" onclick="resetForm()">
 	<br><br>
 	
 	
@@ -95,12 +110,12 @@
 			style="width: 800px;">
 			<thead>
 				<tr>
-					<th>İD</th>
+					<th>ID</th>
 					<th>Ad</th>
 					<th>Məlumat</th>
 					<th>Yazar</th>
 					<th>Qiymət</th>
-					<th>Sehife</th>
+					<th>Səhifə</th>
 					<th>Dil</th>
 					<th>Janrlar</th>
 				</tr>
