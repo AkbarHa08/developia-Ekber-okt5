@@ -18,6 +18,7 @@
 		
 			var updateMode = false;
 			var selectedBookId = 0;
+			var booksTbody = document.getElementById("books-table-tbody");
 		
 		function loadBooks(){
 			selectedBookId = 0;
@@ -31,36 +32,10 @@
 			http.onload = function() {
 				
 				var array=JSON.parse(this.responseText);
-				for(var i=0;i<array.length;i++){
-					var b = array[i];
-					booksTbodyHtml+="<tr><td class='book-id' >"+b.id
-					+"<input class='for-delete-books' type='checkbox' value='"+b.id+"'> </td>";
-					
-					
-					
-					
-					
-					
-					booksTbodyHtml+="<td>"+b.name+"</td>";
-					booksTbodyHtml+="<td>"+b.description+"</td>";
-					booksTbodyHtml+="<td>"+b.author+"</td>";
-					booksTbodyHtml+="<td>"+b.price+" AZN"+"</td>";
-					booksTbodyHtml+="<td>"+b.pageCount+"</td>";
-					booksTbodyHtml+="<td>"+b.language+"</td>";
-					booksTbodyHtml+="<td><ol>";
-					
-					for(var j=0;j<b.genres.length;j++){
-						var genre = b.genres[j];
-						booksTbodyHtml+="<li>"+genre.name+"</li>"; 
-						
-						
-					}
-					
-					booksTbodyHtml+="</ol>";
-					booksTbodyHtml+="</tr>";
-				}
 				
-				booksTbody.innerHTML=booksTbodyHtml;
+				fillBooksToTable(array);
+				
+				
 			}
 			
 			http.open("GET","/books/rest",true);
@@ -325,4 +300,61 @@
 		
 		loadBookGenres();
 		
+		function onSearch(event){
+			var searchText = event.target.value;
+			
+			selectedBookId = 0;
+			
+			var http= new XMLHttpRequest();
+			
+			http.onload = function() {
+				
+				var array=JSON.parse(this.responseText);
+				
+				fillBooksToTable(array);
+				
+				
+			}
+			
+			http.open("POST","/books/rest/search",true);
+			http.setRequestHeader("Content-Type","application/json");
+			var search = {searchText:searchText};
+			http.send(JSON.stringify(search));
+			 
+		}
+		
+		function fillBooksToTable(array){
+			
+			var booksTbodyHtml = ''; 
+			
+			for(var i=0;i<array.length;i++){
+					var b = array[i];
+					booksTbodyHtml+="<tr><td class='book-id' >"+b.id
+					+"<input class='for-delete-books' type='checkbox' value='"+b.id+"'> </td>";
+					
+					
+					
+					
+					
+					
+					booksTbodyHtml+="<td>"+b.name+"</td>";
+					booksTbodyHtml+="<td>"+b.description+"</td>";
+					booksTbodyHtml+="<td>"+b.author+"</td>";
+					booksTbodyHtml+="<td>"+b.price+" AZN"+"</td>";
+					booksTbodyHtml+="<td>"+b.pageCount+"</td>";
+					booksTbodyHtml+="<td>"+b.language+"</td>";
+					booksTbodyHtml+="<td><ol>";
+					
+					for(var j=0;j<b.genres.length;j++){
+						var genre = b.genres[j];
+						booksTbodyHtml+="<li>"+genre.name+"</li>"; 
+						
+						
+					}
+					
+					booksTbodyHtml+="</ol>";
+					booksTbodyHtml+="</tr>";
+				}
+				booksTbody.innerHTML=booksTbodyHtml;
+		}
 		

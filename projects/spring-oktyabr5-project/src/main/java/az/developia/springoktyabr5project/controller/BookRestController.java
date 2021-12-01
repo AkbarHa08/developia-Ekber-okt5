@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import az.developia.springoktyabr5project.Search;
 import az.developia.springoktyabr5project.model.Book;
 import az.developia.springoktyabr5project.repository.BookRepository;
 
@@ -81,10 +82,10 @@ public class BookRestController {
 
     }
 	
-	@GetMapping(path="/search/{searchText}") 
-	public ArrayList<String> searchBooks(@PathVariable String searchText){
+	@PostMapping(path="/search") 
+	public List<Book> searchBooks(@RequestBody Search search){
 		 
-		return null;
+		return bookRepository.findAllByName(search.getSearchText());
 	}
 	
 	@DeleteMapping(path = "/delete-all")
