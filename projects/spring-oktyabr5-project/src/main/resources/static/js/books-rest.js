@@ -29,12 +29,18 @@
 			var http= new XMLHttpRequest();
 			
 			http.onload = function() {
-				console.log(this.responseText);
 				
 				var array=JSON.parse(this.responseText);
 				for(var i=0;i<array.length;i++){
 					var b = array[i];
-					booksTbodyHtml+="<tr><td class='book-id' onclick='onSelectBook("+b.id+")' id='book-"+b.id+"' >"+b.id+"</td>";
+					booksTbodyHtml+="<tr><td class='book-id' >"+b.id
+					+"<input class='for-delete-books' type='checkbox' value='"+b.id+"'> </td>";
+					
+					
+					
+					
+					
+					
 					booksTbodyHtml+="<td>"+b.name+"</td>";
 					booksTbodyHtml+="<td>"+b.description+"</td>";
 					booksTbodyHtml+="<td>"+b.author+"</td>";
@@ -156,30 +162,54 @@
 		}
 		
 		
-		function deleteBook(id){
-			if(confirm('Kitabı silməyə əminsiz?')){
+		
+		function deleteBook(){
+
 				var http = new XMLHttpRequest();
 				
-				http.onload = function(){
+				http.onload = function(){ 
 					loadBooks();
 				}
-				 
-				http.open("DELETE","/books/rest/"+selectedBookId,true);
 				
-				
-				http.send();
+		var forDeleteBookCheckboxes = document.getElementsByClassName('for-delete-books');
+		var bookIds = [];
+		for(var i=0;i<forDeleteBookCheckboxes.length;i++){
+			if(forDeleteBookCheckboxes[i].checked){
+				bookIds.push(Number(forDeleteBookCheckboxes[i].value));
 			}
-			
+		}		
+		
+		
+				 
+				http.open("DELETE","/books/rest/delete-all",true);
+				
+				http.setRequestHeader("Content-Type","application/json")
+				
+				http.send(JSON.stringify(bookIds));
 			
 		}
 		
 		
+		
+		
 		function editBook(){
-			console.log(selectedBookId);
-			if(selectedBookId==0){
+			var forDeleteBookCheckboxes = document.getElementsByClassName('for-delete-books');
+			var bookIds = [];
+		for(var i=0;i<forDeleteBookCheckboxes.length;i++){
+			if(forDeleteBookCheckboxes[i].checked){
+				bookIds.push(Number(forDeleteBookCheckboxes[i].value));
+			}
+		}
+			
+			if(bookIds.length==0){
 				alert("Siyahidan kitab secin!!!");
-			} else{
+			} else if(bookIds.length>1){
+				alert('Siyahidan 1 kitab secin!!!');
+			}
+			else{
 				updateMode = true;
+				var id = Number(bookIds[0]);
+				selectedBookId = id;
 			saveBookButton.value = "Redakte et";
 			
 			var http = new XMLHttpRequest();
@@ -265,7 +295,6 @@
 					genresHtml+="<input type='checkbox' class='genres' value='"+genresArray[i].id+"'>"+"  "+genresArray[i].name+"<br>";
 				}
 				bookGenresSpan.innerHTML=genresHtml;
-				console.log(genresHtml);
 			}
 			
 			 
@@ -275,21 +304,9 @@
 			http.send();
 		}
 		
-		function onSelectBook(bookId){
-			if(selectedBookId==0){
-				document.getElementById('book-'+bookId).style.backgroundColor='gray';
-				selectedBookId = bookId;
-			} else if(bookId==selectedBookId){
-				document.getElementById('book-'+selectedBookId).style.backgroundColor='white';
-				selectedBookId = 0;
-			}else{
-				document.getElementById('book-'+selectedBookId).style.backgroundColor='white';
-				document.getElementById('book-'+bookId).style.backgroundColor='gray';
-				selectedBookId = bookId;
-			}
-			
-		}
 		
 		
 		
 		loadBookGenres();
+		
+		

@@ -1,6 +1,7 @@
 package az.developia.springoktyabr5project.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -80,4 +81,16 @@ public class BookRestController {
 
     }
 	
+	@GetMapping(path="/search/{searchText}") 
+	public ArrayList<String> searchBooks(@PathVariable String searchText){
+		 
+		return null;
+	}
+	
+	@DeleteMapping(path = "/delete-all")
+	public void deleteAll(@RequestBody List<Integer> bookIds) {
+		for (Integer id : bookIds) {
+			bookRepository.deleteById(id);
+		}
+	}
 }
