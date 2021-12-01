@@ -164,20 +164,29 @@
 		
 		
 		function deleteBook(){
-
-				var http = new XMLHttpRequest();
-				
-				http.onload = function(){ 
-					loadBooks();
-				}
-				
-		var forDeleteBookCheckboxes = document.getElementsByClassName('for-delete-books');
+			var forDeleteBookCheckboxes = document.getElementsByClassName('for-delete-books');
 		var bookIds = [];
 		for(var i=0;i<forDeleteBookCheckboxes.length;i++){
 			if(forDeleteBookCheckboxes[i].checked){
 				bookIds.push(Number(forDeleteBookCheckboxes[i].value));
 			}
-		}		
+		}	
+			
+			
+				if(bookIds.length==0){
+					alert('zehmet olmasa kitab secin!!!');
+				} else{
+					var tesdiq = confirm('kitabi silmeye eminsiniz?');
+				
+				if(tesdiq){
+					
+					var http = new XMLHttpRequest();
+				
+				http.onload = function(){ 
+					loadBooks();
+				}
+				
+			
 		
 		
 				 
@@ -186,6 +195,13 @@
 				http.setRequestHeader("Content-Type","application/json")
 				
 				http.send(JSON.stringify(bookIds));
+				}
+				}
+			
+				
+			
+
+				
 			
 		}
 		
