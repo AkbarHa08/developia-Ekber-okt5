@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Books Rest Ag Grid</title>
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+</head>
+<body>
+    <div id="myBooks" style="height: 70vh; width:100%;" class="ag-theme-alpine"></div>
+
+
+	<script type="text/javascript">
+	const columnDefs = [
+		  { field: "id", headerName:"ID", checkboxSelection:true },
+		  { field: "name", headerName:"Ad"},
+		  { field: "description", headerName:"Melumat" }
+		];
+	
+	
+	
+	const gridOptions = {
+			  columnDefs: columnDefs,
+			  rowData: null,
+			  defaultColDef:{sortable:true, filter:true},
+				animateRows:true,
+				floatingFilter:true,
+				pagination:true,
+				rowSelection:'multiple'
+			};
+
+				document.addEventListener('DOMContentLoaded', () => {
+			    const gridDiv = document.querySelector('#myBooks');
+			    new agGrid.Grid(gridDiv, gridOptions);
+			});
+		var http= new XMLHttpRequest();
+		http.onload = function() {
+			var array=JSON.parse(this.responseText);
+			gridOptions.api.setRowData(array);
+		}
+		http.open("GET","/books/rest",true);
+		http.send();
+	</script>
+</body>
+</html>

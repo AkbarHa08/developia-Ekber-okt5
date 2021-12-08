@@ -101,5 +101,11 @@ public class BookController {
         
         return "books-rest";
     }
+    
+    @GetMapping(path="/books-rest-ag-grid")
+    public String showBooksRestAgGrid(Model model) {
+        
+        return "books-rest-ag-grid";
+    }
 
 }
