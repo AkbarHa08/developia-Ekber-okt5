@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Books Rest Ag Grid</title>
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
+	<a th:href="@{/}">Esas Sehife</a>
+	<button onclick="onDelete()">Sil</button>
+	
     <div id="myBooks" style="height: 70vh; width:100%;" class="ag-theme-alpine"></div>
 
 
@@ -13,7 +16,11 @@
 	const columnDefs = [
 		  { field: "id", headerName:"ID", checkboxSelection:true },
 		  { field: "name", headerName:"Ad"},
-		  { field: "description", headerName:"Melumat" }
+		  { field: "description", headerName:"Melumat" },
+		  { field: "author", headerName:"Yazar" },
+		  { field: "price", headerName:"Qiymet" },
+		  { field: "pageCount", headerName:"Sehife" },
+		  { field: "language", headerName:"Dil" }
 		];
 	
 	
@@ -39,6 +46,10 @@
 		}
 		http.open("GET","/books/rest",true);
 		http.send();
+		
+		function onDelete(){
+			console.log(gridOptions.api.getSelectedRows());
+		}
 	</script>
 </body>
 </html>

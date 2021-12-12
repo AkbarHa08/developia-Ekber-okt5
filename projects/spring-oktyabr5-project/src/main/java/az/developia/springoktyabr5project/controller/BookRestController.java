@@ -85,7 +85,7 @@ public class BookRestController {
 	@PostMapping(path="/search") 
 	public List<Book> searchBooks(@RequestBody Search search){
 		 
-		return bookRepository.findAllByName(search.getSearchText());
+		return bookRepository.findAllSearch(search.getSearchText());
 	}
 	
 	@DeleteMapping(path = "/delete-all")
