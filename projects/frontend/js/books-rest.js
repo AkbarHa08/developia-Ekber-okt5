@@ -1,6 +1,4 @@
 		var API_URL="http://localhost:8073";
-
-		var token = localStorage.getItem('token');
 		
 		var languagesSelect = document.getElementById('languages-select');
 		var bookGenresSpan = document.getElementById('book-genres');
@@ -43,7 +41,7 @@
 			}
 			
 			http.open("GET",API_URL+"/books/rest",true);
-			http.setRequestHeader('Authorization',token);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 			
 			http.send();
 		}
@@ -128,7 +126,7 @@
 			 
 			if(updateMode){
 				 http.open("PUT",API_URL+"/books/rest",true);
-				 http.setRequestHeader('Authorization',token);
+				 http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 				 http.setRequestHeader("Content-Type","application/JSON");
 				 book.id = selectedBookId;
@@ -136,7 +134,7 @@
 				 
 			} else{
 				 http.open("POST",API_URL+"/books/rest",true);
-				 http.setRequestHeader('Authorization',token);
+				 http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 				 http.setRequestHeader("Content-Type","application/JSON");
 				 http.send(JSON.stringify(book));
@@ -175,7 +173,7 @@
 		
 				 
 				http.open("DELETE",API_URL+"/books/rest/delete-all",true);
-				http.setRequestHeader('Authorization',token);
+				http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 				
 				http.setRequestHeader("Content-Type","application/json")
@@ -248,7 +246,7 @@
 			}
 			 
 			http.open("GET",API_URL+"/books/rest/"+selectedBookId,true);
-			http.setRequestHeader('Authorization',token);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 			
 			
@@ -282,7 +280,7 @@
 			}
 			 
 			http.open("GET",API_URL+"/languages/rest/",true);
-			http.setRequestHeader('Authorization',token);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 			
 			
@@ -305,7 +303,7 @@
 			
 			 
 			http.open("GET",API_URL+"/genres/rest",true);
-			http.setRequestHeader('Authorization',token);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 			
 			
@@ -334,7 +332,7 @@
 			}
 			
 			http.open("POST",API_URL+"/books/rest/search",true);
-			http.setRequestHeader('Authorization',token);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 
 			http.setRequestHeader("Content-Type","application/json");
 			var search = {searchText:searchText};
