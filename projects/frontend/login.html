@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giris </title>
+</head>
+<body>
+    <form onsubmit="onLogin(event)">
+        <label for="username">Username</label><br>
+        <input id="username"><br>
+        <label for="password">Password</label><br>
+        <input id="password" type="password"><br>
+
+        <input type="submit">
+    </form>
+    <script>
+        function onLogin(event) {
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            var loginSuccess = true;
+
+            if(loginSuccess){
+                localStorage.setItem('token','Basic '+window.btoa(username+":"+password));
+            }
+        }
+    </script>
+</body>
+</html>
