@@ -1,4 +1,4 @@
-package az.developia.springoktyabr5project;
+package az.developia.springoktyabr5project.model;
 
 public class Search {
 	private String searchText;

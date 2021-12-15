@@ -1,4 +1,4 @@
-package az.developia.springoktyabr5project.controller;
+package az.developia.springoktyabr5project.controller.rest;
 
 import java.util.List;
 

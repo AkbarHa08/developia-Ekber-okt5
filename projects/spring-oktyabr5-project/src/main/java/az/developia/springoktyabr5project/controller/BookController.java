@@ -86,13 +86,7 @@ public class BookController {
         return "save-book";
     }
     
-    @GetMapping(path="/books/rest")
-    @ResponseBody
-    public List<Book> getBooks(Model model) {
-        List<Book> books = bookRepository.findAll();
-
-        return books;
-    }
+    
     
     
     
@@ -107,5 +101,7 @@ public class BookController {
         
         return "books-rest-ag-grid";
     }
+    
+   
 
 }

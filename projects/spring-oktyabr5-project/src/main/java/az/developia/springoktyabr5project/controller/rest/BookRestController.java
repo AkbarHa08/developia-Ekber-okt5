@@ -1,4 +1,4 @@
-package az.developia.springoktyabr5project.controller;
+package az.developia.springoktyabr5project.controller.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import az.developia.springoktyabr5project.Search;
 import az.developia.springoktyabr5project.model.Book;
+import az.developia.springoktyabr5project.model.Search;
 import az.developia.springoktyabr5project.repository.BookRepository;
 
 @RestController
@@ -33,6 +34,13 @@ public class BookRestController {
 	    private BookRepository bookRepository;
 	
 
+	@GetMapping
+	    public List<Book> getBooks() {
+	        List<Book> books = bookRepository.findAll();
+
+	        return books;
+	    } 	
+	 
 	@PostMapping
     public ArrayList<String> addBook(@Valid @RequestBody Book book, BindingResult br) {
 		ArrayList<String> errorMessages = new ArrayList<String>();

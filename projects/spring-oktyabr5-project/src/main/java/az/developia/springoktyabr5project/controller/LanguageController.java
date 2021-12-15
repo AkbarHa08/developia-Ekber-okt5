@@ -29,7 +29,6 @@ public class LanguageController {
     public String showLanguages(Model model) {
         List<Language> languages = languageRepository.findAll();
 
-
         model.addAttribute("languages", languages);
         return "languages";
     }
@@ -54,7 +53,7 @@ public class LanguageController {
     }
 
     @GetMapping(path = "/languages/delete/{id}")
-    public String deleteLanguage(@PathVariable Integer id, Model model) {
+    public String deleteLanguage(@PathVariable Integer id) {
 
         languageRepository.deleteById(id);
 
@@ -70,13 +69,6 @@ public class LanguageController {
         return "save-language";
     }
     
-    @GetMapping(path="/languages/rest")
-    @ResponseBody
-    public List<Language> getLanguages() {
-        List<Language> languages = languageRepository.findAll();
-
-
-        return languages;
-    }
+    
 
 }
