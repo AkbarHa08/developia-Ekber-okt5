@@ -1,3 +1,5 @@
+		var API_URL="http://localhost:8073";
+		
 		var languagesSelect = document.getElementById('languages-select');
 		var bookGenresSpan = document.getElementById('book-genres');
 		
@@ -8,7 +10,7 @@
 			var pageCountInput = document.getElementById('book-page-count');
 			var languageInput = document.getElementById('languages-select');
 			var genresInputs = document.getElementsByClassName('genres')
-			
+
 			var saveBookButton = document.getElementById('save-book-button');
 			
 			var nameErrorField = document.getElementById('name-error');
@@ -38,7 +40,8 @@
 				
 			}
 			
-			http.open("GET","/books/rest",true);
+			http.open("GET",API_URL+"/books/rest",true);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
 			
 			http.send();
 		}
@@ -122,13 +125,17 @@
 			}
 			 
 			if(updateMode){
-				 http.open("PUT","/books/rest",true);
+				 http.open("PUT",API_URL+"/books/rest",true);
+				 http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 				 http.setRequestHeader("Content-Type","application/JSON");
 				 book.id = selectedBookId;
 				 http.send(JSON.stringify(book));
 				 
 			} else{
-				 http.open("POST","/books/rest",true);
+				 http.open("POST",API_URL+"/books/rest",true);
+				 http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 				 http.setRequestHeader("Content-Type","application/JSON");
 				 http.send(JSON.stringify(book));
 			}
@@ -165,7 +172,9 @@
 		
 		
 				 
-				http.open("DELETE","/books/rest/delete-all",true);
+				http.open("DELETE",API_URL+"/books/rest/delete-all",true);
+				http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 				
 				http.setRequestHeader("Content-Type","application/json")
 				
@@ -236,7 +245,9 @@
 					
 			}
 			 
-			http.open("GET","/books/rest/"+selectedBookId,true);
+			http.open("GET",API_URL+"/books/rest/"+selectedBookId,true);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 			
 			
 			http.send();
@@ -268,7 +279,9 @@
 				languagesSelect.innerHTML=languageHtml;
 			}
 			 
-			http.open("GET","/languages/rest/",true);
+			http.open("GET",API_URL+"/languages/rest/",true);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 			
 			
 			http.send();
@@ -289,7 +302,9 @@
 			}
 			
 			 
-			http.open("GET","/genres/rest",true);
+			http.open("GET",API_URL+"/genres/rest",true);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 			
 			
 			http.send();
@@ -316,7 +331,9 @@
 				
 			}
 			
-			http.open("POST","/books/rest/search",true);
+			http.open("POST",API_URL+"/books/rest/search",true);
+			http.setRequestHeader('Authorization','Basic '+window.btoa('u:p'));
+
 			http.setRequestHeader("Content-Type","application/json");
 			var search = {searchText:searchText};
 			http.send(JSON.stringify(search));
