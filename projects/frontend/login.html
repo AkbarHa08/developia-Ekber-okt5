@@ -15,7 +15,10 @@
 
         <input type="submit">
     </form>
+    <span id="error-message" style="color: red;"></span>
     <script>
+        var API_URL="http://localhost:8073";
+
         function onLogin(event) {
             event.preventDefault();
             var username = document.getElementById('username').value;
@@ -23,9 +26,25 @@
             
             var loginSuccess = true;
 
-            if(loginSuccess){
-                localStorage.setItem('token','Basic '+window.btoa(username+":"+password));
+            var http= new XMLHttpRequest();
+            http.onreadystatechange = function(){
+                if(this.readyState==4 && this.status==200){
+                    document.getElementById('error-message').innerHTML = 'Melumatlar dogrudur!!!';
+                    document.getElementById('error-message').style.color = 'green';
+                    localStorage.setItem('token',token);
+                    window.location.href='books-rest.html';
+                }else if(this.readyState==1 && this.status!=200){
+                    document.getElementById('error-message').innerHTML = 'Melumatlar sehvdir!!!';
+                }
+                
             }
+
+            var token = 'Basic '+window.btoa(username+':'+password);
+            http.open('GET',API_URL+'/users/rest/login',true);
+            http.setRequestHeader('Authorization',token);
+            http.send();
+
+
         }
     </script>
 </body>

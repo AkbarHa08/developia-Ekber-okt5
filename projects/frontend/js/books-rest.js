@@ -1,6 +1,6 @@
 		var API_URL="http://localhost:8073";
 
-		var token = 'Basic '+window.btoa('u:p');
+		var token = localStorage.getItem('token');
 		
 		var languagesSelect = document.getElementById('languages-select');
 		var bookGenresSpan = document.getElementById('book-genres');
@@ -45,6 +45,7 @@
 			http.open("GET",API_URL+"/books/rest",true);
 			http.setRequestHeader('Authorization',token);
 			
+			http.setRequestHeader("Content-Type","application/JSON");
 			http.send();
 		}
 			
