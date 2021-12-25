@@ -5,19 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giris </title>
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <form onsubmit="onLogin(event)">
-        <label for="username">Username</label><br>
+        <label for="username">Istifadeci adi</label><br>
         <input id="username"><br>
-        <label for="password">Password</label><br>
+        <label for="password">Sifre</label><br>
         <input id="password" type="password"><br>
 
         <input type="submit">
     </form>
+    <p>Hesabin yoxdur? Onda</p>
+    <a href="signup.html">Hesab yarat</a>
     <span id="error-message" style="color: red;"></span>
     <script>
-        var API_URL="http://localhost:8073";
+        var API_URL=localStorage.getItem('api_url');
 
         function onLogin(event) {
             event.preventDefault();

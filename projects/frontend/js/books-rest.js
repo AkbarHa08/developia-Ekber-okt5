@@ -1,4 +1,4 @@
-		var API_URL="http://localhost:8073";
+		var API_URL=localStorage.getItem('api_url');
 
 		var token = localStorage.getItem('token');
 		
