@@ -6,12 +6,14 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,15 +36,26 @@ public class BookRestController {
 	    private BookRepository bookRepository;
 	
 
-	@GetMapping
-	    public List<Book> getBooks() {
-	        List<Book> books = bookRepository.findAll();
+	@GetMapping(path = "/user/{username}")
+	    public List<Book> getBooks(@PathVariable String username) {
+	        List<Book> books = bookRepository.findAllByReaderUsername(username);
 
-	        return books;
+	        return books;	
 	    } 	
+	
+	private String findRealUsername() {
+		
+		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
 	 
-	@PostMapping
-    public ArrayList<String> addBook(@Valid @RequestBody Book book, BindingResult br) {
+	@PostMapping(path = "/user/{username}")
+    public ArrayList<String> addBook(@Valid @RequestBody Book book, BindingResult br, @PathVariable String username) {
+		if(findRealUsername().equals(username)) {
+			
+		} else {
+			throw new RuntimeException("basqa muellimin adina telebe qeydiyyat etmek olmur");
+		}
+		
 		ArrayList<String> errorMessages = new ArrayList<String>();
 		if(br.hasErrors()) {
 			System.out.println("melumatlar tam deyil!");
@@ -54,6 +67,7 @@ public class BookRestController {
 				errorMessages.add(error.getField()+":::"+error.getDefaultMessage());
 			}
 		}else {
+			book.setReaderUsername(username);
 			 bookRepository.save(book);
 		}
 		return errorMessages;
@@ -102,4 +116,11 @@ public class BookRestController {
 			bookRepository.deleteById(id);
 		}
 	}
+	
+	@ExceptionHandler
+	public String handle(RuntimeException ex) {
+		return ex.getMessage();
+	}
+	
+	
 }

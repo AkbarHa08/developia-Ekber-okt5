@@ -22,12 +22,12 @@ public class Book {
 
     @Size(max = 300, message = "Kitab haqqında məlumat maksimum 300 simvol ola bilər!")
     @NotEmpty(message = "Boş qoymaq olmaz!")
-    @Size(min = 5, message = "Kitab haqqında məlumat minimum 5 simvol ola bilər!")
+    @Size(min = 2, message = "Kitab haqqında məlumat minimum 2 simvol ola bilər!")
     private String description;
 
     @Size(max = 60, message = "Yazar adı maksimum 60 simvol ola bilər!")
     @NotEmpty(message = "Yazar adı boş ola bilməz!")
-    @Size(min = 3, message = "Yazar adı minimum 3 simvol ola bilər!")
+    @Size(min = 2, message = "Yazar adı minimum 2 simvol ola bilər!")
     private String author;
 
     @Max(value = 300, message = "Kitab qiyməti maksimum 300 ola bilər!")
@@ -43,8 +43,18 @@ public class Book {
     
     @ManyToMany
     private List<Genre> genres;
+    
+    private String readerUsername;
 
-    public List<Genre> getGenres() {
+    public String getReaderUsername() {
+		return readerUsername;
+	}
+
+	public void setReaderUsername(String readerUsername) {
+		this.readerUsername = readerUsername;
+	}
+
+	public List<Genre> getGenres() {
 		return genres;
 	}
 

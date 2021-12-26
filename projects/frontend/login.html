@@ -27,6 +27,7 @@
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
             
+            
             var loginSuccess = true;
 
             var http= new XMLHttpRequest();
@@ -35,6 +36,7 @@
                     document.getElementById('error-message').innerHTML = 'Melumatlar dogrudur!!!';
                     document.getElementById('error-message').style.color = 'green';
                     localStorage.setItem('token',token);
+                    localStorage.setItem('username',username);
                     window.location.href='books-rest.html';
                 }else if(this.readyState==1 && this.status!=200){
                     document.getElementById('error-message').innerHTML = 'Melumatlar sehvdir!!!';

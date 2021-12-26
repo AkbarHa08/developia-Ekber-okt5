@@ -42,7 +42,7 @@
 				
 			}
 			
-			http.open("GET",API_URL+"/books/rest",true);
+			http.open("GET",API_URL+"/books/rest/user/"+localStorage.getItem('username'),true);
 			http.setRequestHeader('Authorization',token);
 			
 			http.setRequestHeader("Content-Type","application/JSON");
@@ -136,7 +136,7 @@
 				 http.send(JSON.stringify(book));
 				 
 			} else{
-				 http.open("POST",API_URL+"/books/rest",true);
+				 http.open("POST",API_URL+"/books/rest/user/"+localStorage.getItem('username'),true);
 				 http.setRequestHeader('Authorization',token);
 
 				 http.setRequestHeader("Content-Type","application/JSON");
