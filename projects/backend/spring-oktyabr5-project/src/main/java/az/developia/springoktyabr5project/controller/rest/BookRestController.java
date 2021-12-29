@@ -106,9 +106,14 @@ public class BookRestController {
 	
 	@PostMapping(path="/search") 
 	public List<Book> searchBooks(@RequestBody Search search){
-		 
-		return bookRepository.findAllSearch(search.getSearchText());
+			
+		
+		
+		return bookRepository.findAllSearch(search.getSearchText(),findRealUsername());
 	}
+	
+	
+	
 	
 	@DeleteMapping(path = "/delete-all")
 	public void deleteAll(@RequestBody List<Integer> bookIds) {
@@ -121,6 +126,8 @@ public class BookRestController {
 	public String handle(RuntimeException ex) {
 		return ex.getMessage();
 	}
+	
+	
 	
 	
 }

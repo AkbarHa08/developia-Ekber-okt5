@@ -15,9 +15,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 	
 	public List<Book> findAllByReaderUsername(String username);
 	
-	public String sorgu="select * from book where name like %?1% or description like %?1% or author like %?1% or price like %?1% or page_count like %?1% or language like %?1%";
+	public String sorgu="select * from book where (reader_username=?2) and (name like %?1% or description like %?1% or author like %?1% or price like %?1% or page_count like %?1% or language like %?1%)";
 	
 	@Query(value=sorgu,nativeQuery = true)
-	public List<Book> findAllSearch(String search);
+	public List<Book> findAllSearch(String search,String username);
 
 } 
