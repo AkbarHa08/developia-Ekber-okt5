@@ -3,6 +3,7 @@ package az.developia.springoktyabr5project.controller.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class BookRestController {
 		if(findRealUsername().equals(username)) {
 			
 		} else {
-			throw new RuntimeException("basqa muellimin adina telebe qeydiyyat etmek olmur");
+			throw new RuntimeException("basqa oxuyucunun adina kitab qeydiyyat etmek olmur");
 		}
 		
 		ArrayList<String> errorMessages = new ArrayList<String>();
@@ -77,16 +78,32 @@ public class BookRestController {
 	
 	@DeleteMapping(path="/{id}")
 	public void delete(@PathVariable Integer id) {
-		bookRepository.deleteById(id);
+		Book b = bookRepository.findById(id).get();
+		if(b.getReaderUsername().equals(findRealUsername())) {
+			bookRepository.deleteById(id);
+		} else {
+			throw new RuntimeException("Basqa oxuyucunun kitabini silmek olmaz!");
+		}
+		
+		
 	}
 	
 	@GetMapping(path="/{id}")
 	public Book getById(@PathVariable Integer id) {
-		return bookRepository.findById(id).get();
+		Book b = bookRepository.findById(id).get();
+		if(b.getReaderUsername().equals(findRealUsername())) {
+			return bookRepository.findById(id).get();
+		} else {
+			throw new RuntimeException("Basqa oxuyucunun kitabini gormek olmaz!");
+		}
+		
+		
 	}
 	
 	@PutMapping
     public ArrayList<String> updateBook(@Valid @RequestBody Book book, BindingResult br) {
+		
+		
 		ArrayList<String> errorMessages = new ArrayList<String>();
 		if(br.hasErrors()) {
 			System.out.println("melumatlar tam deyil!");
@@ -98,6 +115,7 @@ public class BookRestController {
 				errorMessages.add(error.getField()+":::"+error.getDefaultMessage());
 			}
 		}else {
+			book.setReaderUsername(findRealUsername());
 			 bookRepository.save(book);
 		}
 		return errorMessages;
@@ -118,7 +136,13 @@ public class BookRestController {
 	@DeleteMapping(path = "/delete-all")
 	public void deleteAll(@RequestBody List<Integer> bookIds) {
 		for (Integer id : bookIds) {
-			bookRepository.deleteById(id);
+			Book b = bookRepository.findById(id).get();
+			if(b.getReaderUsername().equals(findRealUsername())) {
+				bookRepository.deleteById(id);
+			} else {
+				throw new RuntimeException("Basqa oxuyucunun kitabini silmek olmaz!");
+			}
+			
 		}
 	}
 	
