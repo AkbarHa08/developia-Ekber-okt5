@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Oxuyucu qruplari</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<link rel="stylesheet" href="css/book-rest.css">
+
+<body>
+
+		
+	<div class="container-fluid" style="align-items: center;">
+	
+	<div>
+		<div class="row">
+			<div class="col-sm-3">
+			
+			</div>
+			
+			<br>
+			<div class="col-sm-9">
+				<button class='btn btn-danger' onclick='deleteGroup()'>Sil</button> 
+				<button class='btn btn-primary' onclick='editGroup()'>Redaktə</button> 
+				<input type="search" id="search-group" placeholder="Buradan axtaris edin..." onchange="onSearch(event)">
+			</div>
+		
+		</div>
+	</div>
+	
+	<br>
+	
+	<div class="row">
+		<div class="col-sm-3">
+			<form onsubmit="saveGroup(event)">
+				<div class="form-group">
+					<label for="group-name">Ad</label><br>
+					<input type="text" id="group-name" class="form-control" style="width: 250px;">
+					<span id="name-error" class="text text-danger"></span>
+                </div>
+		
+		
+	
+	
+	
+	<input type="submit" value="Qeydiyyat et" class="btn btn-primary" id="save-group-button">
+	<input type="reset" value="Sıfırla" class="btn btn-danger" onclick="resetForm()">
+	<br><br>
+	
+	
+	
+	</form>
+		</div>
+		
+		<div class="col-sm-9 ">
+			<table class="table table-striped table-bordered justify-content-center" id="groups-table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Ad</th>
+				</tr>
+			</thead>
+			<tbody id="groups-table-tbody">
+				
+				
+				
+			</tbody>
+		</table>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		<script src="js/reader-groups.js"></script>
+		
+		
+		
+	</div>
+
+</body>
+</html>

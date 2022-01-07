@@ -5,29 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hesab yarat</title>
+    <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <form onsubmit="onSignup(event)">
-        <label for="username">Istifadeci adi</label><br>
-        <input id="username"><br>
-        <label for="password">Sifre</label><br>
-        <input id="password" type="password"><br>
-        <label for="name">Ad</label><br>
-        <input id="name"><br>
-        <label for="surname">Soyad</label><br>
-        <input id="surname"><br>
-        <label for="email">Email</label><br>
-        <input id="email" type="email"><br>
-        <label for="phone">Telefon</label><br>
-        <input id="phone" type="number"><br>
+    <div class="container-fluid">
+        <form onsubmit="onSignup(event)">
+            <label for="username">İstifadəçi adı</label><br>
+            <input id="username"><br>
+            <label for="password">Şifrə</label><br>
+            <input id="password" type="password"><br>
+            <label for="name">Ad</label><br>
+            <input id="name"><br>
+            <label for="surname">Soyad</label><br>
+            <input id="surname"><br>
+            <label for="email">Email</label><br>
+            <input id="email" type="email"><br>
+            <label for="phone">Telefon</label><br>
+            <input id="phone" type="text"><br>
+    
+            <input type="submit" value="Hesab yarat">
+        </form>
+        <span>Hesabın var? Onda</span>
+        <a href="login.html">hesaba daxil ol</a>
+        <br>
+        <span id="error-message" style="color: red;"></span>
+    </div>
 
-        <input type="submit" value="Hesab yarat">
-    </form>
-    <p>Hesabin var? Onda</p>
-    <a href="login.html">Hesabina giris et</a>
-    <br>
-    <span id="error-message" style="color: red;"></span>
+    
     <script>
         var API_URL=localStorage.getItem('api_url');
 

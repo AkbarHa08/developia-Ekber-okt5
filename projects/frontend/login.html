@@ -4,21 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giris </title>
+    <title>Giriş </title>
+    <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <form onsubmit="onLogin(event)">
-        <label for="username">Istifadeci adi</label><br>
-        <input id="username"><br>
-        <label for="password">Sifre</label><br>
-        <input id="password" type="password"><br>
-
-        <input type="submit">
-    </form>
-    <p>Hesabin yoxdur? Onda</p>
-    <a href="signup.html">Hesab yarat</a>
-    <span id="error-message" style="color: red;"></span>
+    <div class="container-fluid">
+        <form onsubmit="onLogin(event)">
+            <label for="username">İstifadəçi adı</label><br>
+            <input id="username"><br>
+            <label for="password">Şifrə</label><br>
+            <input id="password" type="password"><br>
+    
+            <input type="submit" value="Daxil ol">
+        </form>
+        <span>Hesabın yoxdur? Onda</span>
+        <a href="signup.html">hesab yarat</a><br>
+        <span id="error-message" style="color: red;"></span>
+    </div>
+    
     <script>
         var API_URL=localStorage.getItem('api_url');
 
@@ -33,13 +44,13 @@
             var http= new XMLHttpRequest();
             http.onreadystatechange = function(){
                 if(this.readyState==4 && this.status==200){
-                    document.getElementById('error-message').innerHTML = 'Melumatlar dogrudur!!!';
+                    document.getElementById('error-message').innerHTML = 'Məlumatlar doğrudur!';
                     document.getElementById('error-message').style.color = 'green';
                     localStorage.setItem('token',token);
                     localStorage.setItem('username',username);
-                    window.location.href='books-rest.html';
+                    window.location.href='reader-home.html';
                 }else if(this.readyState==1 && this.status!=200){
-                    document.getElementById('error-message').innerHTML = 'Melumatlar sehvdir!!!';
+                    document.getElementById('error-message').innerHTML = 'Məlumatlar səhvdir!';
                 }
                 
             }
