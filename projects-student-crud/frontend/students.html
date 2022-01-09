@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tələbələr</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div style="width: 30%; margin: auto;">
+        <form onsubmit="onSaveStudent(event)">
+            <div class="form-group">
+                <label for="student-name">Ad</label>
+                <input id="student-name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="student-surname">Soyad</label>
+                <input id="student-surname" class="form-control">
+            </div>
+            <input type="submit" value="Yadda saxla" class="btn btn-success">
+        </form>
+    </div>
+    <hr>
+    <div class="container">
+        <table class="table table-bordered" id="">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="students-tbody">
+                
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        function onSaveStudent(event){
+            event.preventDefault();
+            var studentName = document.getElementById('student-name').value;
+            var studentSurname = document.getElementById('student-surname').value;
+
+            var studentObject = {};
+
+            studentObject.name = studentName;
+            studentObject.surname = studentSurname;
+
+            var http = new XMLHttpRequest();
+
+            http.onload=function(){
+                loadAllStudents();
+            }
+
+            http.open("POST","http://localhost:8585/students",true);
+            http.setRequestHeader("Content-Type","application/json");
+            http.send(JSON.stringify(studentObject));
+        }
+
+        function loadAllStudents(){
+
+            var http = new XMLHttpRequest();
+
+            http.onload=function(){
+                var response = this.responseText;
+                var studentsArray=JSON.parse(response);
+                fillStudentsTable(studentsArray);
+            }
+
+            http.open("GET","http://localhost:8585/students",true);
+            http.send();
+        }
+
+        loadAllStudents()
+
+        function fillStudentsTable(array){
+            var studentsTbodyElement = document.getElementById('students-tbody');
+
+            var studentsTbodyHtml = '';
+            for(var i=0;i<array.length;i++){
+                var student = array[i];
+                studentsTbodyHtml+="<tr><td>"+student.id+"</td>";
+                    studentsTbodyHtml+="<td>"+student.name+"</td>";
+                    studentsTbodyHtml+="<td>"+student.surname+"</td>";
+
+                    studentsTbodyHtml+="<td><button class='btn btn-danger'>Sil</button> <button class='btn btn-primary'>Redakte</button> </td></tr>"
+            }
+            studentsTbodyElement.innerHTML = studentsTbodyHtml;
+        }
+
+
+    </script>
+
+
+</body>
+</html>
