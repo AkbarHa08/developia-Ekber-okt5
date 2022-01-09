@@ -20,6 +20,14 @@ public class ReaderGroup {
 	private String name;
 	private String readerUsername;
 	
+	public String getReaderUsername() {
+		return readerUsername;
+	}
+
+	public void setReaderUsername(String readerUsername) {
+		this.readerUsername = readerUsername;
+	}
+
 	@ManyToMany
 	private List<Book> books;
 

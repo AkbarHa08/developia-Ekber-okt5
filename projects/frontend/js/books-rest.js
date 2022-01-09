@@ -266,6 +266,17 @@ function resetForm() {
 }
 
 
+function onSelectBook(bookId){
+	if (selectedBookId == 0) {
+		document.getElementById('book-'+ bookId).style.backgroundColor = 'lightblue';
+	} else{
+		document.getElementById('book-' + selectedBookId).style.backgroundColor = 'white';
+		document.getElementById('book-' + bookId).style.backgroundColor = 'lightblue';
+	}
+	selectedBookId = bookId;
+}
+
+
 
 loadBooks();
 
@@ -345,35 +356,36 @@ function onSearch(event) {
 
 function fillBooksToTable(array) {
 
-	var booksTbodyHtml = '';
+	const columnDefs = [
+		{ field: "id", headerName:"ID", checkboxSelection:true },
+		{ field: "name", headerName:"Ad"},
+		{ field: "description", headerName:"Melumat" },
+		{ field: "author", headerName:"Yazar" },
+		{ field: "price", headerName:"Qiymet" },
+		{ field: "pageCount", headerName:"Sehife" },
+		{ field: "language", headerName:"Dil" }
+	  ];
+  
+  
+  
+  const gridOptions = {
+			columnDefs: columnDefs,
+			rowData: null,
+			defaultColDef:{sortable:true, filter:true},
+			  animateRows:true,
+			  floatingFilter:true,
+			  pagination:true,
+			  rowSelection:'multiple'
+		  };
 
-	for (var i = 0; i < array.length; i++) {
-		var b = array[i];
-		booksTbodyHtml += "<tr><td class='book-id' >" + b.id
-			+ "<input class='for-delete-books' type='checkbox' value='" + b.id + "'> </td>";
-
-
-
-
-
-
-		booksTbodyHtml += "<td>" + b.name + "</td>";
-		booksTbodyHtml += "<td>" + b.description + "</td>";
-		booksTbodyHtml += "<td>" + b.author + "</td>";
-		booksTbodyHtml += "<td>" + b.price + " AZN" + "</td>";
-		booksTbodyHtml += "<td>" + b.pageCount + "</td>";
-		booksTbodyHtml += "<td>" + b.language + "</td>";
-		booksTbodyHtml += "<td><ol>";
-
-		for (var j = 0; j < b.genres.length; j++) {
-			var genre = b.genres[j];
-			booksTbodyHtml += "<li>" + genre.name + "</li>";
-
-
-		}
-
-		booksTbodyHtml += "</ol>";
-		booksTbodyHtml += "</tr>";
-	}
-	booksTbody.innerHTML = booksTbodyHtml;
+			  document.addEventListener('DOMContentLoaded', () => {
+			  const gridDiv = document.getElementById('myBooks');
+			  new agGrid.Grid(gridDiv, gridOptions);
+			  gridOptions.api.setRowData(array);
+		  });
+	  
+		  
+	  
+	 
+	  
 }

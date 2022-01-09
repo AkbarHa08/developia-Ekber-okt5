@@ -193,63 +193,24 @@ function resetForm() {
 
 }
 
+function onSelectGroup(groupId){
+	if (selectedGroupId == 0) {
+		document.getElementById('group-'+ groupId).style.backgroundColor = 'lightblue';
+	} else{
+		document.getElementById('group-' + selectedGroupId).style.backgroundColor = 'white';
+		document.getElementById('group-' + groupId).style.backgroundColor = 'lightblue';
+	}
+	selectedGroupId = groupId;
+}
+
 
 
 loadGroups();
 
-
-function loadLanguages() {
-	var http = new XMLHttpRequest();
-
-	http.onload = function () {
-		var languageArray = JSON.parse(this.responseText);
-		var languageHtml = '';
-		for (var i = 0; i < languageArray.length; i++) {
-			languageHtml += "<option>" + languageArray[i].name + "</option>";
-		}
-		languagesSelect.innerHTML = languageHtml;
-	}
-
-	http.open("GET", API_URL + "/languages/rest/", true);
-	http.setRequestHeader('Authorization', token);
-
-
-
-	http.send();
-}
-
-loadLanguages();
-
-function loadBookGenres() {
-	var http = new XMLHttpRequest();
-
-	http.onload = function () {
-		var genresArray = JSON.parse(this.responseText);
-		var genresHtml = '';
-		for (var i = 0; i < genresArray.length; i++) {
-			genresHtml += "<input type='checkbox' class='genres' value='" + genresArray[i].id + "'>" + "  " + genresArray[i].name + "<br>";
-		}
-		bookGenresSpan.innerHTML = genresHtml;
-	}
-
-
-	http.open("GET", API_URL + "/genres/rest", true);
-	http.setRequestHeader('Authorization', token);
-
-
-
-	http.send();
-}
-
-
-
-
-loadBookGenres();
-
 function onSearch(event) {
 	var searchText = event.target.value;
 
-	selectedBookId = 0;
+	selectedGroupId = 0;
 
 	var http = new XMLHttpRequest();
 
@@ -257,7 +218,7 @@ function onSearch(event) {
 
 		var array = JSON.parse(this.responseText);
 
-		fillBooksToTable(array);
+		fillGroupsToTable(array);
 
 
 	}
@@ -271,37 +232,29 @@ function onSearch(event) {
 
 }
 
-function fillBooksToTable(array) {
+function fillGroupsToTable(array) {
 
-	var booksTbodyHtml = '';
+	var groupsTbodyHtml = '';
 
 	for (var i = 0; i < array.length; i++) {
-		var b = array[i];
-		booksTbodyHtml += "<tr><td class='book-id' >" + b.id
-			+ "<input class='for-delete-books' type='checkbox' value='" + b.id + "'> </td>";
-
-
-
-
-
-
-		booksTbodyHtml += "<td>" + b.name + "</td>";
-		booksTbodyHtml += "<td>" + b.description + "</td>";
-		booksTbodyHtml += "<td>" + b.author + "</td>";
-		booksTbodyHtml += "<td>" + b.price + " AZN" + "</td>";
-		booksTbodyHtml += "<td>" + b.pageCount + "</td>";
-		booksTbodyHtml += "<td>" + b.language + "</td>";
-		booksTbodyHtml += "<td><ol>";
-
-		for (var j = 0; j < b.genres.length; j++) {
-			var genre = b.genres[j];
-			booksTbodyHtml += "<li>" + genre.name + "</li>";
-
-
-		}
-
-		booksTbodyHtml += "</ol>";
-		booksTbodyHtml += "</tr>";
+		var g = array[i];
+		groupsTbodyHtml += "<tr><td class='group-id' >" + g.id
+			+ "<input class='for-delete-group' type='checkbox' value='" + g.id + "'> </td>";
+		groupsTbodyHtml += "<td>" + g.name + "</td>";
+		groupsTbodyHtml += "</tr>";
 	}
-	booksTbody.innerHTML = booksTbodyHtml;
+	groupTbody.innerHTML = groupsTbodyHtml;
+}
+
+function checkName(event){
+	var name = event.target.value;
+	if(name == ''){
+		nameErrorField.innerHTML = localStorage.getItem('name');
+	} else{
+		if(name.length < 2 ){
+			nameErrorField.innerHTML = 'Ad minimum 2 simvol olmalidir';
+		} else{
+			nameErrorField.innerHTML = '';
+		}
+	}
 }
