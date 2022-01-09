@@ -22,6 +22,7 @@
                 <input id="student-surname" class="form-control">
             </div>
             <input type="submit" value="Yadda saxla" class="btn btn-success">
+            <input type="reset" value="Sifirla" class="btn btn-warning">
         </form>
     </div>
     <hr>
@@ -59,7 +60,7 @@
                 loadAllStudents();
             }
 
-            http.open("POST","http://localhost:8585/students",true);
+            http.open("POST","http://localhost:8070/students",true);
             http.setRequestHeader("Content-Type","application/json");
             http.send(JSON.stringify(studentObject));
         }
@@ -74,7 +75,7 @@
                 fillStudentsTable(studentsArray);
             }
 
-            http.open("GET","http://localhost:8585/students",true);
+            http.open("GET","http://localhost:8070/students",true);
             http.send();
         }
 
@@ -90,9 +91,20 @@
                     studentsTbodyHtml+="<td>"+student.name+"</td>";
                     studentsTbodyHtml+="<td>"+student.surname+"</td>";
 
-                    studentsTbodyHtml+="<td><button class='btn btn-danger'>Sil</button> <button class='btn btn-primary'>Redakte</button> </td></tr>"
+                    studentsTbodyHtml+="<td><button class='btn btn-danger' onclick='onDelete("+student.id+")'>Sil</button> <button class='btn btn-primary'>Redakte</button> </td></tr>"
             }
             studentsTbodyElement.innerHTML = studentsTbodyHtml;
+        }
+
+        function onDelete(id){
+            var http = new XMLHttpRequest();
+
+            http.onload = function(){
+                loadAllStudents();
+            }
+
+            http.open("DELETE","http://localhost:8070/students/"+id,true);
+            http.send();
         }
 
 
