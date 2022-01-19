@@ -80,13 +80,15 @@ function saveGroup(event) {
 
 
 function deleteGroup() {
-	var forDeleteGroupCheckboxes = document.getElementsByClassName('for-delete-group');
 	var groupIds = [];
-	for (var i = 0; i < forDeleteGroupCheckboxes.length; i++) {
-		if (forDeleteGroupCheckboxes[i].checked) {
-			groupIds.push(Number(forDeleteGroupCheckboxes[i].value));
-		}
-	}
+
+	var selectedRows = gridOptionsGlobal.api.getSelectedRows();
+
+	for (var i = 0; i < selectedRows.length; i++) {
+		groupIds.push(selectedRows[i].id);
+		
+	}	
+	
 
 
 	if (groupIds.length == 0) {
