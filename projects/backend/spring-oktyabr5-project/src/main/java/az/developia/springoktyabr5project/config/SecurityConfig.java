@@ -24,8 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/users/rest/signup/**").permitAll()
 		.anyRequest().authenticated().and().httpBasic();
+		
+		http.headers().frameOptions().disable();
+		
 	}
-	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource);
