@@ -2,6 +2,7 @@ package az.developia.springoktyabr5project.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class ReaderGroup {
 		this.readerUsername = readerUsername;
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Book> books;
 
 	public Integer getId() {

@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.springoktyabr5project.model.Book;
+import az.developia.springoktyabr5project.model.ReaderGroup;
 import az.developia.springoktyabr5project.model.Search;
 import az.developia.springoktyabr5project.repository.BookRepository;
+import az.developia.springoktyabr5project.repository.ReaderGroupRepository;
 
 @RestController
 @RequestMapping(path = "/books/rest")
@@ -35,6 +37,9 @@ public class BookRestController {
 	
 	 @Autowired
 	    private BookRepository bookRepository;
+	 
+	 @Autowired
+	 private ReaderGroupRepository readerGroupRepository;
 	
 
 	@GetMapping(path = "/user/{username}")
@@ -78,13 +83,8 @@ public class BookRestController {
 	
 	@DeleteMapping(path="/{id}")
 	public void delete(@PathVariable Integer id) {
-		Book b = bookRepository.findById(id).get();
-		if(b.getReaderUsername().equals(findRealUsername())) {
-			bookRepository.deleteById(id);
-		} else {
-			throw new RuntimeException("Basqa oxuyucunun kitabini silmek olmaz!");
-		}
 		
+		deleteBookById(id);	
 		
 	}
 	
@@ -136,19 +136,27 @@ public class BookRestController {
 	@DeleteMapping(path = "/delete-all")
 	public void deleteAll(@RequestBody List<Integer> bookIds) {
 		for (Integer id : bookIds) {
-			Book b = bookRepository.findById(id).get();
-			if(b.getReaderUsername().equals(findRealUsername())) {
-				bookRepository.deleteById(id);
-			} else {
-				throw new RuntimeException("Basqa oxuyucunun kitabini silmek olmaz!");
-			}
-			
+			deleteBookById(id);
 		}
 	}
 	
 	@ExceptionHandler
 	public String handle(RuntimeException ex) {
 		return ex.getMessage();
+	}
+	
+	private void deleteBookById(Integer id) {
+		Book b = bookRepository.findById(id).get();
+		if(b.getReaderUsername().equals(findRealUsername())) {
+			List<ReaderGroup> groups = readerGroupRepository.findAll();
+			for (ReaderGroup readerGroup : groups) {
+				readerGroup.getBooks().remove(b);
+			}
+			readerGroupRepository.saveAll(groups);
+			bookRepository.deleteById(id);
+		} else {
+			throw new RuntimeException("Basqa oxuyucunun kitabini silmek olmaz!");
+		}
 	}
 	
 	

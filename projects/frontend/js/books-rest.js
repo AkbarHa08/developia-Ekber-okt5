@@ -24,30 +24,6 @@ var updateMode = false;
 var selectedBookId = 0;
 var booksTbody = document.getElementById("books-table-tbody");
 
-function loadBooks() {
-	selectedBookId = 0;
-
-	var booksTbody = document.getElementById("books-table-tbody");
-
-	var booksTbodyHtml = '';
-
-	var http = new XMLHttpRequest();
-
-	http.onload = function () {
-
-		var array = JSON.parse(this.responseText);
-
-		fillBooksToTable(array);
-
-
-	}
-
-	http.open("GET", API_URL + "/books/rest/user/" + localStorage.getItem('username'), true);
-	http.setRequestHeader('Authorization', token);
-
-	http.setRequestHeader("Content-Type", "application/JSON");
-	http.send();
-}
 
 
 function resetValidations() {
@@ -149,38 +125,30 @@ function saveBook(event) {
 
 
 function deleteBook() {
-	var forDeleteBookCheckboxes = document.getElementsByClassName('for-delete-books');
 	var bookIds = [];
-	for (var i = 0; i < forDeleteBookCheckboxes.length; i++) {
-		if (forDeleteBookCheckboxes[i].checked) {
-			bookIds.push(Number(forDeleteBookCheckboxes[i].value));
-		}
-	}
+
+	var selectedRows = gridOptionsGlobal.api.getSelectedRows();
+
+	for (var i = 0; i < selectedRows.length; i++) {
+		bookIds.push(selectedRows[i].id);
+		
+	}	
+
+
 
 
 	if (bookIds.length == 0) {
 		alert('zehmet olmasa kitab secin!!!');
 	} else {
 		var tesdiq = confirm('kitabi silmeye eminsiniz?');
-
 		if (tesdiq) {
-
 			var http = new XMLHttpRequest();
-
 			http.onload = function () {
 				loadBooks();
 			}
-
-
-
-
-
 			http.open("DELETE", API_URL + "/books/rest/delete-all", true);
 			http.setRequestHeader('Authorization', token);
-
-
 			http.setRequestHeader("Content-Type", "application/json")
-
 			http.send(JSON.stringify(bookIds));
 		}
 	}
@@ -278,8 +246,6 @@ function onSelectBook(bookId){
 
 
 
-loadBooks();
-
 
 function loadLanguages() {
 	var http = new XMLHttpRequest();
@@ -354,9 +320,17 @@ function onSearch(event) {
 
 }
 
-function fillBooksToTable(array) {
 
-	const columnDefs = [
+var gridOptionsGlobal;
+
+function fillBooksToTable(array) {
+	this.gridOptionsGlobal.api.setRowData(array);
+}
+
+
+function configureBooksAgGrid(){
+
+	var sutunlar = [
 		{ field: "id", headerName:"ID", checkboxSelection:true },
 		{ field: "name", headerName:"Ad"},
 		{ field: "description", headerName:"Melumat" },
@@ -366,11 +340,9 @@ function fillBooksToTable(array) {
 		{ field: "language", headerName:"Dil" }
 	  ];
   
-  
-  
   const gridOptions = {
-			columnDefs: columnDefs,
-			rowData: null,
+			columnDefs: sutunlar,
+			rowData: [],
 			defaultColDef:{sortable:true, filter:true},
 			  animateRows:true,
 			  floatingFilter:true,
@@ -378,14 +350,40 @@ function fillBooksToTable(array) {
 			  rowSelection:'multiple'
 		  };
 
+		  gridOptionsGlobal = gridOptions;
+
 			  document.addEventListener('DOMContentLoaded', () => {
 			  const gridDiv = document.getElementById('myBooks');
 			  new agGrid.Grid(gridDiv, gridOptions);
-			  gridOptions.api.setRowData(array);
 		  });
-	  
-		  
-	  
-	 
-	  
 }
+
+configureBooksAgGrid();
+
+
+function loadBooks() {
+	selectedBookId = 0;
+
+	var booksTbody = document.getElementById("books-table-tbody");
+
+	var booksTbodyHtml = '';
+
+	var http = new XMLHttpRequest();
+
+	http.onload = function () {
+
+		var array = JSON.parse(this.responseText);
+
+		fillBooksToTable(array);
+
+
+	}
+
+	http.open("GET", API_URL + "/books/rest/user/" + localStorage.getItem('username'), true);
+	http.setRequestHeader('Authorization', token);
+
+	http.setRequestHeader("Content-Type", "application/JSON");
+	http.send();
+}
+
+loadBooks();
