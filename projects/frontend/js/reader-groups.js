@@ -10,28 +10,8 @@ var nameErrorField = document.getElementById('name-error');
 
 var updateMode = false;
 var selectedGroupId = 0;
-var groupTbody = document.getElementById("groups-table-tbody");
-
-function loadGroups() {
-	selectedGroupId = 0;
-
-	var http = new XMLHttpRequest();
-
-	http.onload = function () {
-
-		var array = JSON.parse(this.responseText);
-
-		fillGroupsToTable(array);
 
 
-	}
-
-	http.open("GET", API_URL + "/reader-groups/rest/user/" + localStorage.getItem('username'), true);
-	http.setRequestHeader('Authorization', token);
-
-	http.setRequestHeader("Content-Type", "application/JSON");
-	http.send();
-}
 
 
 function resetValidations() {
@@ -205,8 +185,6 @@ function onSelectGroup(groupId){
 
 
 
-loadGroups();
-
 function onSearch(event) {
 	var searchText = event.target.value;
 
@@ -232,19 +210,7 @@ function onSearch(event) {
 
 }
 
-function fillGroupsToTable(array) {
 
-	var groupsTbodyHtml = '';
-
-	for (var i = 0; i < array.length; i++) {
-		var g = array[i];
-		groupsTbodyHtml += "<tr><td class='group-id' >" + g.id
-			+ "<input class='for-delete-group' type='checkbox' value='" + g.id + "'> </td>";
-		groupsTbodyHtml += "<td>" + g.name + "</td>";
-		groupsTbodyHtml += "</tr>";
-	}
-	groupTbody.innerHTML = groupsTbodyHtml;
-}
 
 function checkName(event){
 	var name = event.target.value;
@@ -258,3 +224,60 @@ function checkName(event){
 		}
 	}
 }
+
+var gridOptionsGlobal;
+
+function configureGroupsAgGrid(){
+
+	var sutunlar = [
+		{ field: "id", headerName:"ID", checkboxSelection:true },
+		{ field: "name", headerName:"Ad"}
+	  ];
+  
+  const gridOptions = {
+			columnDefs: sutunlar,
+			rowData: [],
+			defaultColDef:{sortable:true, filter:true},
+			  animateRows:true,
+			  floatingFilter:true,
+			  pagination:true,
+			  rowSelection:'multiple'
+		  };
+
+		  gridOptionsGlobal = gridOptions;
+
+			  document.addEventListener('DOMContentLoaded', () => {
+			  const gridDiv = document.getElementById('myGroups');
+			  new agGrid.Grid(gridDiv, gridOptions);
+		  });
+}
+
+configureGroupsAgGrid();
+
+
+function loadGroups() {
+	selectedGroupId = 0;
+
+	var http = new XMLHttpRequest();
+
+	http.onload = function () {
+
+		var array = JSON.parse(this.responseText);
+
+		fillGroupsToTable(array);
+
+
+	}
+
+	http.open("GET", API_URL + "/reader-groups/rest/user/" + localStorage.getItem('username'), true);
+	http.setRequestHeader('Authorization', token);
+
+	http.setRequestHeader("Content-Type", "application/JSON");
+	http.send();
+}
+
+function fillGroupsToTable(array) {
+	gridOptionsGlobal.api.setRowData(array);
+}
+
+loadGroups();
