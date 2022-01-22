@@ -46,8 +46,18 @@ public class Book {
     private List<Genre> genres;
     
     private String readerUsername;
+    
+    private String photo;
 
-    public String getReaderUsername() {
+    public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getReaderUsername() {
 		return readerUsername;
 	}
 

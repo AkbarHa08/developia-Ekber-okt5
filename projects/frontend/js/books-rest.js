@@ -12,6 +12,7 @@ var priceInput = document.getElementById('book-price');
 var pageCountInput = document.getElementById('book-page-count');
 var languageInput = document.getElementById('languages-select');
 var genresInputs = document.getElementsByClassName('genres')
+var photoInput = document.getElementById('book-photo');
 
 var saveBookButton = document.getElementById('save-book-button');
 
@@ -35,89 +36,29 @@ function resetValidations() {
 
 
 
-function saveBook(event) {
-	resetValidations();
+async function saveBook(event) {
+	
 
 	event.preventDefault();
-	var name = nameInput.value;
-	var description = descriptionInput.value;
-	var author = authorInput.value;
-	var price = priceInput.value;
-	var pageCount = pageCountInput.value;
-	var language = languageInput.value;
 
-	var genres = [];
-
-	for (var i = 0; i < genresInputs.length; i++) {
-		var genreCheckbox = genresInputs[i];
-		if (genreCheckbox.checked) {
-			genres.push({ id: genreCheckbox.value });
+	let formData = new FormData();
+	let photo=document.getElementById('book-photo').files[0];
+	formData.append('file',photo);
+	
+	let response = await fetch(API_URL+'/files/rest/upload',{
+		method:"POST",
+		body:formData,
+		headers:{
+			"Authorization":token
 		}
-	}
-	console.log(genres);
+	});
 
-	var book = { name: name, description: description, author: author, price: price, pageCount: pageCount, language: language, genres: genres };
+	let imageNameObj = await response.json();
+	let imageName = imageNameObj.imageName;
+	
 
-	var http = new XMLHttpRequest();
+	saveBookObject(imageName);
 
-	http.onload = function () {
-		var errors = this.responseText;
-		var errorsArray = JSON.parse(errors);
-		if (errorsArray.length == 0) {
-			updateMode = false;
-			saveBookButton.value = "Qeydiyyat et";
-			loadBooks();
-
-		} else {
-			// burada error mesajlarini goster
-			//alert("sehv var, tam doldurun!");
-
-			var nameErrorV = '';
-			var descriptionErrorV = '';
-			var authorErrorV = '';
-			var priceErrorV = '';
-
-			for (var i = 0; i < errorsArray.length; i++) {
-				var error = errorsArray[i];
-				var field = error.split(":::")[0];
-				var message = error.split(":::")[1];
-				if (field == 'name') {
-					nameErrorV += message + "<br>";
-				}
-				if (field == 'description') {
-					descriptionErrorV += message + "<br>";
-				}
-				if (field == 'author') {
-					authorErrorV += message + "<br>";
-				}
-				if (field == 'price') {
-					priceErrorV += message + "<br>";
-				}
-
-			}
-
-			nameErrorField.innerHTML = nameErrorV;
-			descriptionErrorField.innerHTML = descriptionErrorV;
-			authorErrorField.innerHTML = authorErrorV;
-			priceErrorField.innerHTML = priceErrorV;
-		}
-	}
-
-	if (updateMode) {
-		http.open("PUT", API_URL + "/books/rest", true);
-		http.setRequestHeader('Authorization', token);
-
-		http.setRequestHeader("Content-Type", "application/JSON");
-		book.id = selectedBookId;
-		http.send(JSON.stringify(book));
-
-	} else {
-		http.open("POST", API_URL + "/books/rest/user/" + localStorage.getItem('username'), true);
-		http.setRequestHeader('Authorization', token);
-
-		http.setRequestHeader("Content-Type", "application/JSON");
-		http.send(JSON.stringify(book));
-	}
 
 
 }
@@ -387,3 +328,87 @@ function loadBooks() {
 }
 
 loadBooks();
+
+function saveBookObject(profilePhoto){
+	resetValidations();
+	var name = nameInput.value;
+	var description = descriptionInput.value;
+	var author = authorInput.value;
+	var price = priceInput.value;
+	var pageCount = pageCountInput.value;
+	var language = languageInput.value;
+
+	var genres = [];
+
+	for (var i = 0; i < genresInputs.length; i++) {
+		var genreCheckbox = genresInputs[i];
+		if (genreCheckbox.checked) {
+			genres.push({ id: genreCheckbox.value });
+		}
+	}
+	console.log(genres);
+
+	var book = { name: name, description: description, author: author, price: price, pageCount: pageCount, language: language, genres: genres, photo: profilePhoto };
+
+	var http = new XMLHttpRequest();
+
+	http.onload = function () {
+		var errors = this.responseText;
+		var errorsArray = JSON.parse(errors);
+		if (errorsArray.length == 0) {
+			updateMode = false;
+			saveBookButton.value = "Qeydiyyat et";
+			loadBooks();
+
+		} else {
+			// burada error mesajlarini goster
+			//alert("sehv var, tam doldurun!");
+
+			var nameErrorV = '';
+			var descriptionErrorV = '';
+			var authorErrorV = '';
+			var priceErrorV = '';
+
+			for (var i = 0; i < errorsArray.length; i++) {
+				var error = errorsArray[i];
+				var field = error.split(":::")[0];
+				var message = error.split(":::")[1];
+				if (field == 'name') {
+					nameErrorV += message + "<br>";
+				}
+				if (field == 'description') {
+					descriptionErrorV += message + "<br>";
+				}
+				if (field == 'author') {
+					authorErrorV += message + "<br>";
+				}
+				if (field == 'price') {
+					priceErrorV += message + "<br>";
+				}
+
+			}
+
+			nameErrorField.innerHTML = nameErrorV;
+			descriptionErrorField.innerHTML = descriptionErrorV;
+			authorErrorField.innerHTML = authorErrorV;
+			priceErrorField.innerHTML = priceErrorV;
+		}
+	}
+
+	if (updateMode) {
+		http.open("PUT", API_URL + "/books/rest", true);
+		http.setRequestHeader('Authorization', token);
+
+		http.setRequestHeader("Content-Type", "application/JSON");
+		book.id = selectedBookId;
+		http.send(JSON.stringify(book));
+
+	} else {
+		http.open("POST", API_URL + "/books/rest/user/" + localStorage.getItem('username'), true);
+		http.setRequestHeader('Authorization', token);
+
+		http.setRequestHeader("Content-Type", "application/JSON");
+		http.send(JSON.stringify(book));
+	}
+
+}
