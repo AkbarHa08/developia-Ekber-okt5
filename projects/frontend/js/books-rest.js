@@ -412,3 +412,7 @@ function saveBookObject(profilePhoto){
 	}
 
 }
+
+function showImage(){
+	document.getElementById('book-image').src=API_URL+'/files/rest/download/'+gridOptionsGlobal.api.getSelectedRows()[0].photo;
+}

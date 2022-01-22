@@ -1,11 +1,19 @@
 package az.developia.springoktyabr5project.controller.rest;
 
+import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +44,18 @@ public class MyFileRestController {
 		
 		
 		return model;
+	}
+	
+	@GetMapping(path = "/download/{fileName:.+}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
+		try {
+			Resource file = new UrlResource(Paths.get("C:\\Users\\User\\Desktop\\project-files").resolve(fileName).toUri());
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"").body(file);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
 	}
 }
