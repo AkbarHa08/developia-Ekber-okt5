@@ -39,4 +39,9 @@ public class StudentRestController {
 		studentRepository.deleteById(id);
 	}
 	
+	@GetMapping(path = "/{id}")
+	public Student findById(@PathVariable Integer id) {
+		return studentRepository.findById(id).get();
+	}
+	
 }
