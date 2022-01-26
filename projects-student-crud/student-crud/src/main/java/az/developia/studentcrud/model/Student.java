@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Student {
@@ -11,7 +13,15 @@ public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotEmpty(message = "Bos qoymaq olmaz")
+	@Size(min = 2, message = "Ad minimum 2 simvol ola biler!")
+	@Size(max = 20, message = "Ad maksimum 20 simvol ola biler!")
 	private String name;
+	
+	@NotEmpty(message = "Bos qoymaq olmaz")
+	@Size(min = 2, message = "Soyad minimum 2 simvol ola biler!")
+	@Size(max = 25, message = "Soyad maksimum 25 simvol ola biler!")
 	private String surname;
 	
 	public Integer getId() {

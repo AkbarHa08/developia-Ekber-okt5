@@ -7,6 +7,9 @@ var API_URL = localStorage.getItem('API_URL');
         var studentsTbodyElement = document.getElementById('students-tbody');
         var headerText = document.getElementById('header-text');
 
+        var nameErrorField = document.getElementById('name-error');
+        var surnameErrorField = document.getElementById('surname-error');
+
         function onSaveStudent(event){
             event.preventDefault();
             var studentName = studentNameInput.value;
@@ -21,9 +24,28 @@ var API_URL = localStorage.getItem('API_URL');
             var http = new XMLHttpRequest();
 
             http.onload=function(){
-                selectedStudentId=null;
-                setHeaderText('Yeni telebe qeydiyyati')
-                loadAllStudents();
+                if(this.status==400){
+                    var nameError="";
+                    var surnameError="";
+                   var errorObject = JSON.parse(this.responseText);
+                   errorObject.validations.forEach(error => {
+                       if(error.field=='name'){
+                           nameError+=error.message+'<br>';
+                       }
+                       if(error.field=='surname'){
+                           surnameError+=error.message+'<br>';
+                       }
+                   });
+                   nameErrorField.innerHTML=nameError;
+                   surnameErrorField.innerHTML=surnameError;
+                } else{
+                    
+                    resetErrors();
+                    selectedStudentId=null;
+                    loadAllStudents();
+                }
+
+                
             }
 
             http.open("POST",API_URL+"/students",true);
@@ -97,6 +119,12 @@ var API_URL = localStorage.getItem('API_URL');
 
         function setHeaderText(text){
             headerText.innerHTML = text;
+        }
+
+        function resetErrors(){
+            nameErrorField.innerHTML = '';
+            surnameErrorField.innerHTML = '';
+            setHeaderText('Yeni telebe qeydiyyati');
         }
 
         setHeaderText('Yeni telebe qeydiyyati');

@@ -155,7 +155,7 @@ public class BookRestController {
 			readerGroupRepository.saveAll(groups);
 			bookRepository.deleteById(id);
 		} else {
-			throw new RuntimeException("Basqa oxuyucunun kitabini silmek olmaz!");
+			throw new RuntimeException("You can't delete another reader's book!");
 		}
 	}
 	

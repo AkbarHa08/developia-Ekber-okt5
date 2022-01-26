@@ -14,18 +14,22 @@
 </head>
 <body>
     <div style="width: 30%; margin: auto;">
-        <h3 id="header-text"></h3><br>
+        <h3 id="header-text"></h3>
         <form onsubmit="onSaveStudent(event)">
+            
             <div class="form-group">
                 <label for="student-name">Ad</label>
                 <input id="student-name" class="form-control">
+                <div id="name-error" class="error"></div>
+                
             </div>
             <div class="form-group">
                 <label for="student-surname">Soyad</label>
                 <input id="student-surname" class="form-control">
+                <div id="surname-error" class="error"></div>
             </div>
             <input type="submit" value="Yadda saxla" class="btn btn-success">
-            <input type="reset" value="Sifirla" class="btn btn-warning">
+            <input type="reset" onclick="resetErrors()" value="Sifirla" class="btn btn-warning">
         </form>
     </div>
     <hr>
