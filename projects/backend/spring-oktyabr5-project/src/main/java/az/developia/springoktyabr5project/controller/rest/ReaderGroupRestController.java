@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import az.developia.springoktyabr5project.model.Book;
 import az.developia.springoktyabr5project.model.Genre;
 import az.developia.springoktyabr5project.model.ReaderGroup;
+import az.developia.springoktyabr5project.repository.BookRepository;
 import az.developia.springoktyabr5project.repository.ReaderGroupRepository;
 
 @RestController
@@ -30,6 +32,9 @@ public class ReaderGroupRestController {
 	
 	@Autowired
 	private ReaderGroupRepository readerGroupRepository;
+	
+	@Autowired
+	private BookRepository bookRepository;
 	
 	@GetMapping
 	public List<ReaderGroup> getGroups(){
@@ -99,5 +104,14 @@ public class ReaderGroupRestController {
 			
 		}
 	}
+	
+	@PutMapping	(path = "/group/{groupId}/book/{bookId}") // /reader-groups/rest/group/2/book/2
+    public void addBookToGroup(@PathVariable Integer groupId, @PathVariable Integer bookId) {
+		ReaderGroup group = readerGroupRepository.findById(groupId).get();
+		Book book = bookRepository.findById(bookId).get();	
+		group.getBooks().add(book);
+		readerGroupRepository.save(group);
+
+    } 
 
 }

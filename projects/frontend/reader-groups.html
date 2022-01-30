@@ -33,7 +33,14 @@
 			<div class="col-sm-9">
 				<button class='btn btn-danger' onclick='deleteGroup()'>Sil</button> 
 				<button class='btn btn-primary' onclick='editGroup()'>Redaktə</button> 
+
+				<button type="button" class='btn btn-primary' data-toggle="modal" data-target="#myBooksModal" onclick='onOpenReaderGroupStudentsModal()'>
+				Kitablar
+				</button> 
+
 				<input type="search" id="search-group" placeholder="Buradan axtaris edin..." onchange="onSearch(event)">
+
+
 			</div>
 		
 		</div>
@@ -75,7 +82,30 @@
 	
 	
 		
-		
+	<div class="modal fade" id="myBooksModal">
+		<div class="modal-dialog modal-xl">
+		  <div class="modal-content">
+		  
+			<!-- Modal Header -->
+			<div class="modal-header">
+			  <h4 class="modal-title">Kitablar</h4>
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			
+			<!-- Modal body -->
+			<div class="modal-body">
+				<button class="btn btn-primary" onclick="onAddBookToGroup()">Kitab elave et</button>
+				<div id="mySelectedGroupBooks" style="height: 70vh; width:100%;" class="ag-theme-alpine"></div>	
+			</div>
+			
+			<!-- Modal footer -->
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+			
+		  </div>
+		</div>
+	  </div>
 		
 		
 		<script src="js/reader-groups.js"></script>

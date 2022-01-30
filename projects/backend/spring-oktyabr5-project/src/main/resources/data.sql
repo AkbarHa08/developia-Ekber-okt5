@@ -34,3 +34,4 @@ values('qrup-1','u1'),
 
 insert into reader_group_books(reader_group_id,books_id) 
 values(1,1),(1,3),(2,2),(2,3),(3,1),(3,2),(3,3),(3,4);
+

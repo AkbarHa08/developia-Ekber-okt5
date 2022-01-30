@@ -159,6 +159,12 @@ public class BookRestController {
 		}
 	}
 	
+	@GetMapping(path = "/group/{groupId}") // /books/rest/group/12
+	public List<Book> getBooksForGroup(@PathVariable Integer groupId){
+		ReaderGroup group = readerGroupRepository.findById(groupId).get();
+		return group.getBooks();
+	}
+	
 	
 	
 	

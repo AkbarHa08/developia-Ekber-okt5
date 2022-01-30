@@ -11,7 +11,8 @@ var nameErrorField = document.getElementById('name-error');
 var updateMode = false;
 var selectedGroupId = 0;
 
-
+var gridOptionsGlobal;
+var gridOptionsGlobalBooks;
 
 
 function resetValidations() {
@@ -227,8 +228,6 @@ function checkName(event){
 	}
 }
 
-var gridOptionsGlobal;
-
 function configureGroupsAgGrid(){
 
 	var sutunlar = [
@@ -283,3 +282,96 @@ function fillGroupsToTable(array) {
 }
 
 loadGroups();
+
+function onOpenReaderGroupStudentsModal(){
+	var selectedGroups = gridOptionsGlobal.api.getSelectedRows();
+	var selectedCount = selectedGroups.length;
+	if(selectedCount==0){
+		alert('Siyahidan qrup secin!');
+	} else if(selectedCount>1){
+		alert('Siyahidan sadece 1 qrup secin!');
+	} else{
+		var groupId = selectedGroups[0].id;
+		loadGroupBooks(groupId);
+	}
+
+	
+}
+
+function configureSelectedGroupBooksAgGrid(){
+
+	var sutunlarBooks = [
+		{ field: "id", headerName:"ID", checkboxSelection:true },
+		{ field: "name", headerName:"Ad"},
+		{ field: "surname", headerName:"Soyad"}
+	  ];
+  
+  const gridOptionsBooks = {
+			columnDefs: sutunlarBooks,
+			rowData: [],
+			defaultColDef:{sortable:true, filter:true},
+			  animateRows:true,
+			  floatingFilter:true,
+			  pagination:true,
+			  rowSelection:'multiple'
+		  };
+
+		  gridOptionsGlobalBooks = gridOptionsBooks;
+
+			  document.addEventListener('DOMContentLoaded', () => {
+			  const gridDivBooks = document.getElementById('mySelectedGroupBooks');
+			  new agGrid.Grid(gridDivBooks, gridOptionsBooks);
+		  });
+}
+configureSelectedGroupBooksAgGrid();
+
+
+var selectedGroupId;
+function loadGroupBooks(groupId) {
+	selectedGroupId=groupId;
+
+	var http = new XMLHttpRequest();
+
+	http.onload = function () {
+
+		var array = JSON.parse(this.responseText);
+
+		fillGroupBooksToTable(array);
+
+
+	}
+
+	http.open("GET", API_URL + "/books/rest/group/" + groupId, true);
+	http.setRequestHeader('Authorization', token);
+
+	http.send();
+
+
+	
+}
+
+function fillGroupBooksToTable(array) {
+	gridOptionsGlobalBooks.api.setRowData(array);
+}
+
+
+function onAddBookToGroup(){
+	var bookId=prompt('qrupa elave etmek istediyiniz kitabin kodunu yaz');
+	console.log(bookId);
+
+	var http = new XMLHttpRequest();
+
+	http.onload = function () {
+
+		loadGroupBooks(selectedGroupId);
+
+
+	}
+
+	http.open("PUT", API_URL + "/reader-groups/rest/group/" + selectedGroupId	 + "/book/"+bookId, true);
+	http.setRequestHeader('Authorization', token);
+	http.send();
+}
+
+
+
