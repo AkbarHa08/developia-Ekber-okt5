@@ -1,5 +1,6 @@
 package az.developia.springoktyabr5project.controller.rest;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,6 +37,15 @@ public class MyFileRestController {
 			String fileFormat = fileName.substring(fileName.lastIndexOf("."));
 			String randomName = UUID.randomUUID().toString()+fileFormat;
 			model.setImageName(randomName);
+			
+			File uploadFolder = new File("C:\\\\Users\\\\User\\\\Desktop\\\\project-files\\\\");
+			if (uploadFolder.exists()) {
+				System.out.println("folder movcuddur");
+			} else {
+				System.out.println("folder yarandi");
+				uploadFolder.mkdir();
+			}
+			
 			Files.copy(file.getInputStream(), Paths.get("C:\\Users\\User\\Desktop\\project-files\\"+randomName),
 					StandardCopyOption.REPLACE_EXISTING);
 		} catch (Exception e) {
