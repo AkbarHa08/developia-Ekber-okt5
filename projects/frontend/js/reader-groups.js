@@ -374,4 +374,21 @@ function onAddBookToGroup(){
 }
 
 
+function onRemoveBook(){
+	var selectedBookId = gridOptionsGlobalBooks.api.getSelectedRows()[0].id;
+
+	var http = new XMLHttpRequest();
+
+	http.onload = function () {
+
+		loadGroupBooks(selectedGroupId);
+
+
+	}
+
+	http.open("DELETE", API_URL + "/reader-groups/rest/remove-book/group/" + selectedGroupId	 + "/book/"+selectedBookId, true);
+	http.setRequestHeader('Authorization', token);
+	http.send();
+}
+
 

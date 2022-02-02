@@ -113,5 +113,14 @@ public class ReaderGroupRestController {
 		readerGroupRepository.save(group);
 
     } 
+	
+	@DeleteMapping(path = "/remove-book/group/{groupId}/book/{bookId}") // /reader-groups/rest/remove-book/group/2/book/2
+    public void removeBookFromGroup(@PathVariable Integer groupId, @PathVariable Integer bookId) {
+		ReaderGroup group = readerGroupRepository.findById(groupId).get();
+		Book book = bookRepository.findById(bookId).get();	
+		group.getBooks().remove(book);
+		readerGroupRepository.save(group); 
+
+    } 
 
 }
