@@ -7,12 +7,12 @@ values('Roman')
 ,('Macera')
 ,('Qorxu');
 
-insert into book(name,description,author,price,page_count,language,reader_username) 
-values('Test-1','Test Melumat-1','Test Yazar-5',40,90,'Az','u1')
-,('Test-2','Test Melumat-2','Test Yazar-4',50,80,'Rus','u2')
-,('Test-3','Test Melumat-3','Test Yazar-3',60,70,'Az','u1')
-,('Test-4','Test Melumat-4','Test Yazar-2',70,60,'Rus','u2')
-,('Test-5','Test Melumat-5','Test Yazar-1',80,50,'Az','u2');
+insert into book(name,description,author,price,page_count,language,reader_username,photo) 
+values('Test-1','Test Melumat-1','Test Yazar-5',40,90,'Az','u1','test1.png')
+,('Test-2','Test Melumat-2','Test Yazar-4',50,80,'Rus','u2','test2.png')
+,('Test-3','Test Melumat-3','Test Yazar-3',60,70,'Az','u1','')
+,('Test-4','Test Melumat-4','Test Yazar-2',70,60,'Rus','u2','')
+,('Test-5','Test Melumat-5','Test Yazar-1',80,50,'Az','u2','');
 
 insert into users(username,enabled,password)
 values('u1',1,'{noop}p1'),
