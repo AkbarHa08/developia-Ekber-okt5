@@ -24,41 +24,27 @@ import az.developia.studentcrud.model.StudentNote;
 import az.developia.studentcrud.repository.StudentRepository;
 
 @RestController
-@RequestMapping(path="/students")
+@RequestMapping(path="/student-notes")
 @CrossOrigin(origins = "*")
-public class StudentRestController {
+public class StudentNoteRestController {
 
-	@Autowired
-	private StudentRepository studentRepository;
-	
 	@Autowired
 	private StudentNoteRepository studentNoteRepository;
 	
 	@PostMapping
-	public Student save(@Valid @RequestBody Student student, BindingResult result) {
-		if(result.hasErrors()) {
-			throw new MyRuntimeException(result);
-		}
+	public StudentNote save(@Valid @RequestBody StudentNote studentNote) {
 		
-		return studentRepository.save(student);
+		
+		return studentNoteRepository.save(studentNote);
 	}
 	
-	@GetMapping
-	public List<Student> findAll(){
-		return studentRepository.findAll();
+	@GetMapping(path = "/student/{studentId}")
+	public List<StudentNote> findAllByStudentId(@PathVariable Integer studentId){
+		return studentNoteRepository.findAllByStudentId(studentId);
 	}
+
 	
-	@DeleteMapping(path = "/{id}")
-	public void delete(@PathVariable Integer id) {
-		studentRepository.deleteById(id);
-		List<StudentNote> studentNotes = studentNoteRepository.findAllByStudentId(id);
-		studentNoteRepository.deleteAll(studentNotes);
-	}
 	
-	@GetMapping(path = "/{id}")
-	public Student findById(@PathVariable Integer id) {
-		return studentRepository.findById(id).get();
-	}
 	
 	
 	

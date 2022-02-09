@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,18 +11,33 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
     <link rel="stylesheet" href="css/students.css">
 </head>
+
 <body>
+
+    <script>
+       
+    </script>
+
+
+
     <div style="width: 30%; margin: auto;">
         <h3 id="header-text"></h3>
         <form onsubmit="onSaveStudent(event)">
-            
+
             <div class="form-group">
                 <label for="student-name">Ad</label>
                 <input id="student-name" class="form-control">
                 <div id="name-error" class="error"></div>
-                
+
             </div>
             <div class="form-group">
                 <label for="student-surname">Soyad</label>
@@ -34,7 +50,7 @@
     </div>
     <hr>
     <div class="container">
-        <table class="table table-bordered" id="">
+        <table class="table table-bordered" id="students-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -44,18 +60,98 @@
                 </tr>
             </thead>
             <tbody id="students-tbody">
-                
+
             </tbody>
         </table>
     </div>
 
 
     <script>
-        localStorage.setItem('API_URL','http://localhost:8070');
+        localStorage.setItem('API_URL', 'http://localhost:8070');
     </script>
+
+
+    <div class="modal fade" id="noteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Telebeye qeyd yaz</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <form onsubmit="onSaveStudentNote(event)">
+
+                        <div class="form-group">
+                            <label for="student-note">Qeyd</label>
+                            <input id="student-note" class="form-control" placeholder="Qeydinizi yazin...">
+
+
+                        </div>
+
+                        <input type="submit" value="Yadda saxla" class="btn btn-success">
+                        <input type="reset" value="Sifirla" class="btn btn-warning">
+                    </form>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="modal fade" id="notesListModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Telebeye yazilmis qeydler</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <table class="table table-bordered" id="">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Qeyd</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notes-tbody">
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <script src="js/students.js"></script>
 
 
 </body>
+
 </html>
