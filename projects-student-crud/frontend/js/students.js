@@ -2,6 +2,8 @@ var API_URL = localStorage.getItem('API_URL');
 
         var selectedStudentId=0;
 
+        var token = "Basic "+window.btoa('u:p');
+
         var studentNameInput = document.getElementById('student-name');
         var studentSurnameInput = document.getElementById('student-surname');
         var studentsTbodyElement = document.getElementById('students-tbody');
@@ -56,6 +58,7 @@ var API_URL = localStorage.getItem('API_URL');
 
             http.open("POST",API_URL+"/students",true);
             http.setRequestHeader("Content-Type","application/json");
+            http.setRequestHeader("Authorization",token)
             http.send(JSON.stringify(studentObject));
         }
 
@@ -70,6 +73,7 @@ var API_URL = localStorage.getItem('API_URL');
             }
 
             http.open("GET",API_URL+"/students",true);
+            http.setRequestHeader("Authorization",token)
             http.send();
         }
 
@@ -109,6 +113,7 @@ var API_URL = localStorage.getItem('API_URL');
                 }
 
                 http.open("DELETE",API_URL+"/students/"+id,true);
+                http.setRequestHeader("Authorization",token)
                 http.send();
             }
 
@@ -129,6 +134,7 @@ var API_URL = localStorage.getItem('API_URL');
             }
 
             http.open("GET",API_URL+"/students/"+id,true);
+            http.setRequestHeader("Authorization",token)
             http.send();
         }
 
@@ -159,6 +165,7 @@ var API_URL = localStorage.getItem('API_URL');
             }
 
             http.open("GET",API_URL+"/students/"+id,true);
+            http.setRequestHeader("Authorization",token)
             http.send();
         }
 
@@ -186,6 +193,7 @@ var API_URL = localStorage.getItem('API_URL');
 
             http.open("POST",API_URL+"/student-notes",true);
             http.setRequestHeader("Content-Type","application/json");
+            http.setRequestHeader("Authorization",token)
             http.send(JSON.stringify(studentNoteObject));
         }
 
@@ -218,6 +226,7 @@ var API_URL = localStorage.getItem('API_URL');
             }
 
             http.open("GET",API_URL+"/student-notes/student/"+studentId,true);
+            http.setRequestHeader("Authorization",token)
             http.send();
         }
 
