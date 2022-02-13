@@ -143,10 +143,11 @@ public class Customer {
 	public void setIdFin(String idFin) {
 		this.idFin = idFin;
 	}
-	public String getNationality() {
+	public Nationality getNationality() {
 		return nationality;
 	}
-	public void setNationality(String nationality) {
+	public void setNationality(Nationality nationality) {
 		this.nationality = nationality;
 	}
+	
 }
