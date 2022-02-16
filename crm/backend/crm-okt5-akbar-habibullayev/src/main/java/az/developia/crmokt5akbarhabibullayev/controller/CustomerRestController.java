@@ -1,14 +1,20 @@
 package az.developia.crmokt5akbarhabibullayev.controller;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.crmokt5akbarhabibullayev.model.Customer;
@@ -31,6 +37,19 @@ public class CustomerRestController {
 		}
 		Customer savedCustomer = customerRepository.save(customer);
 		return savedCustomer;
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public String handleMyValidationException(MyValidationException exception) {
+		BindingResult result = exception.getBindingResult();
+		ArrayList<String> errors = new ArrayList<String>();
+		
+		for(FieldError error : result.getFieldErrors()) {
+			errors.add(error.getField()+":::"+error.getDefaultMessage());
+		}
+		
+		return errors;
 	}
 	
 }
