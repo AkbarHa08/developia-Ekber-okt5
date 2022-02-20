@@ -41,7 +41,7 @@ public class CustomerRestController {
 	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public String handleMyValidationException(MyValidationException exception) {
+	public ArrayList<String> handleMyValidationException(MyValidationException exception) {
 		BindingResult result = exception.getBindingResult();
 		ArrayList<String> errors = new ArrayList<String>();
 		
