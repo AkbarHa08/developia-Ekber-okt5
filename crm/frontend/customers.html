@@ -49,7 +49,23 @@
 
     <script>
         function onSaveCustomer(event){
-            event.preventDefault();     
+            event.preventDefault();   
+
+            var customer = {};
+            customer.name = document.getElementById('firstName').value;
+            customer.surname = document.getElementById('lastName').value;
+            customer.phone="055";
+            customer.email="cus@mail.com";
+            customer.gender='male';
+            customer.address='Baku';
+
+            
+            var http = new XMLHttpRequest();
+
+            http.open("POST","http://localhost:8083/customers",true);
+            http.setRequestHeader("Content-Type","application/json");
+            http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
+            http.send(JSON.stringify(customer)); 
         }
     </script>
 
