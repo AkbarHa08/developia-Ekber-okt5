@@ -1,0 +1,10 @@
+insert into nationality
+(name)
+values
+('Azerbaycan'),('Rus'),('Ingilis'),('Alman');
+
+insert into customer
+(name,surname,phone,email,birthday,address,gender,id_number,id_fin,nationality_id)
+values
+('Adil','Əliyev','055-999-99-99','adil@gmail.com','1999-04-09','Azerbaycan','male','AZ23132','FAJDKC',1);
+
