@@ -78,7 +78,7 @@
 
             http.onload = function(){
                 alert('SUCCESS');
-                loadAllCustomers();
+                loadAllCustomers(); 
             }
 
             http.open("POST","http://localhost:8083/customers",true);
@@ -115,6 +115,26 @@
 
         function delCust(id){
 
+            if(confirm('Eminsiniz?')){
+                var http = new XMLHttpRequest();
+
+http.onload=function(){
+    loadAllCustomers();
+    let status = this.status;
+    if(status==400){
+        alert(this.responseText);
+    }
+}
+
+http.open("DELETE","http://localhost:8083/customers/"+id,true);
+http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
+http.send();  
+            }
+            
+            
+                
+            
+              
             
         }
 
