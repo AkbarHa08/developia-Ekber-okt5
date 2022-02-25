@@ -78,7 +78,7 @@ public class CustomerRestController {
 	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public String handleNotFoundException(NotFoundException exception) {
+	public String handleRuntimeException(RuntimeException exception) {
 		return exception.getMessage();
 	}
 	

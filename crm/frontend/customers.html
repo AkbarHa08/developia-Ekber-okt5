@@ -47,6 +47,20 @@
         </div>
     </div>
 
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Surname</th>
+            </tr>
+        </thead>
+        <tbody id="customers-tbody">
+            
+        </tbody>
+    </table>
+
     <script>
         function onSaveCustomer(event){
             event.preventDefault();   
@@ -62,11 +76,49 @@
             
             var http = new XMLHttpRequest();
 
+            http.onload = function(){
+                alert('SUCCESS');
+                loadAllCustomers();
+            }
+
             http.open("POST","http://localhost:8083/customers",true);
             http.setRequestHeader("Content-Type","application/json");
             http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
             http.send(JSON.stringify(customer)); 
         }
+
+        function loadAllCustomers(){
+
+            var http = new XMLHttpRequest();
+
+            http.onload=function(){
+                let customers = JSON.parse(this.responseText);
+
+                let customersHtml = "";
+            for (let i = 0; i < customers.length; i++) {
+                const c = customers[i];
+                customersHtml+="<tr><td>"+c.id+"</td>";
+                customersHtml+="<td>"+c.name+"</td>";
+                customersHtml+="<td>"+c.surname+"</td>";
+                customersHtml+="<td> <button onclick='delCust("+c.id+")' class='btn btn-danger'>Sil</button> </td></tr>";
+                
+            }
+            document.getElementById('customers-tbody').innerHTML = customersHtml;
+            }
+
+            http.open("GET","http://localhost:8083/customers",true);
+            http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
+            http.send(); 
+            
+        }
+        loadAllCustomers();
+
+        function delCust(id){
+
+            
+        }
+
+
     </script>
 
 

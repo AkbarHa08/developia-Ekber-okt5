@@ -1,6 +1,7 @@
 package az.developia.crmokt5akbarhabibullayev.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,12 +73,17 @@ public class Customer {
 	private String idFin;
 	
 	@ManyToOne
-	@JoinColumn(name = "nationality_id")
 	private Nationality nationality;
 	
 	
 	
 	
+	public Nationality getNationality() {
+		return nationality;
+	}
+	public void setNationality(Nationality nationality) {
+		this.nationality = nationality;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -144,11 +150,7 @@ public class Customer {
 	public void setIdFin(String idFin) {
 		this.idFin = idFin;
 	}
-	public Nationality getNationality() {
-		return nationality;
-	}
-	public void setNationality(Nationality nationality) {
-		this.nationality = nationality;
-	}
+	
+	
 	
 }
