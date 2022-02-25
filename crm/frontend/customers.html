@@ -15,7 +15,8 @@
 <body>
 
     <h1>Musterilen siyahisi</h1>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#customer-save">Yeni musteri elave et</button>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#customer-save">Yeni musteri elave
+        et</button>
 
     <div class="modal fade" id="customer-save">
         <div class="modal-dialog">
@@ -29,19 +30,19 @@
                 <div class="modal-body">
                     <form onsubmit="onSaveCustomer(event)">
                         <div class="form-group">
-                          <label for="firstName">Ad:</label>
-                          <input type="text" class="form-control" id="firstName">
+                            <label for="firstName">Ad:</label>
+                            <input type="text" class="form-control" id="firstName">
                         </div>
                         <div class="form-group">
-                          <label for="lastName">Soyad:</label>
-                          <input type="text" class="form-control" id="lastName">
+                            <label for="lastName">Soyad:</label>
+                            <input type="text" class="form-control" id="lastName">
                         </div>
-                         
+
                         <button type="submit" class="btn btn-success">Yadda saxla</button>
-                      </form>
+                    </form>
                 </div>
 
-                
+
 
             </div>
         </div>
@@ -57,85 +58,102 @@
             </tr>
         </thead>
         <tbody id="customers-tbody">
-            
+
         </tbody>
     </table>
 
     <script>
-        function onSaveCustomer(event){
-            event.preventDefault();   
+        function onSaveCustomer(event) {
+            event.preventDefault();
 
             var customer = {};
             customer.name = document.getElementById('firstName').value;
             customer.surname = document.getElementById('lastName').value;
-            customer.phone="055";
-            customer.email="cus@mail.com";
-            customer.gender='male';
-            customer.address='Baku';
+            customer.phone = "055";
+            customer.email = "cus@mail.com";
+            customer.gender = 'male';
+            customer.address = 'Baku';
 
-            
+
             var http = new XMLHttpRequest();
 
-            http.onload = function(){
+            http.onload = function () {
                 alert('SUCCESS');
-                loadAllCustomers(); 
+                loadAllCustomers();
             }
 
-            http.open("POST","http://localhost:8083/customers",true);
-            http.setRequestHeader("Content-Type","application/json");
-            http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
-            http.send(JSON.stringify(customer)); 
+            http.open("POST", "http://localhost:8083/customers", true);
+            http.setRequestHeader("Content-Type", "application/json");
+            http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+            http.send(JSON.stringify(customer));
         }
 
-        function loadAllCustomers(){
+        function loadAllCustomers() {
 
             var http = new XMLHttpRequest();
 
-            http.onload=function(){
+            http.onload = function () {
                 let customers = JSON.parse(this.responseText);
 
                 let customersHtml = "";
-            for (let i = 0; i < customers.length; i++) {
-                const c = customers[i];
-                customersHtml+="<tr><td>"+c.id+"</td>";
-                customersHtml+="<td>"+c.name+"</td>";
-                customersHtml+="<td>"+c.surname+"</td>";
-                customersHtml+="<td> <button onclick='delCust("+c.id+")' class='btn btn-danger'>Sil</button> </td></tr>";
-                
-            }
-            document.getElementById('customers-tbody').innerHTML = customersHtml;
+                for (let i = 0; i < customers.length; i++) {
+                    const c = customers[i];
+                    customersHtml += "<tr><td>" + c.id + "</td>";
+                    customersHtml += "<td>" + c.name + "</td>";
+                    customersHtml += "<td>" + c.surname + "</td>";
+                    customersHtml += "<td> <button onclick='delCust(" + c.id + ")' class='btn btn-danger'>Sil</button>" +
+                        " <button onclick='updateCust(" + c.id + ")'  class='btn btn-primary' data-toggle='modal' data-target='#customer-save'>Redakte</button> </td></tr>";
+
+                }
+                document.getElementById('customers-tbody').innerHTML = customersHtml;
             }
 
-            http.open("GET","http://localhost:8083/customers",true);
-            http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
-            http.send(); 
-            
+            http.open("GET", "http://localhost:8083/customers", true);
+            http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+            http.send();
+
         }
         loadAllCustomers();
 
-        function delCust(id){
+        function delCust(id) {
 
-            if(confirm('Eminsiniz?')){
+            if (confirm('Eminsiniz?')) {
                 var http = new XMLHttpRequest();
 
-http.onload=function(){
-    loadAllCustomers();
-    let status = this.status;
-    if(status==400){
-        alert(this.responseText);
-    }
-}
+                http.onload = function () {
+                    loadAllCustomers();
+                    let status = this.status;
+                    if (status == 400) {
+                        alert(this.responseText);
+                    }
+                }
 
-http.open("DELETE","http://localhost:8083/customers/"+id,true);
-http.setRequestHeader("Authorization","Basic "+window.btoa("u:p"));
-http.send();  
+                http.open("DELETE", "http://localhost:8083/customers/" + id, true);
+                http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+                http.send();
             }
-            
-            
+
+
+
+
+
+
+        }
+
+        function updateCust(id) {
+            var http = new XMLHttpRequest();
+
+            http.onload = function () {
+                 
+                let customer = JSON.parse(this.responseText);
+                document.getElementById('firstName').value = customer.name;
+                document.getElementById('lastName').value = customer.surname; 
                 
-            
-              
-            
+            }
+
+            http.open("GET", "http://localhost:8083/customers/" + id, true);
+            http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+            http.send();
         }
 
 

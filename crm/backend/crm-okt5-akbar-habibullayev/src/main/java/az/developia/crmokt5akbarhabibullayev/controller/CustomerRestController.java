@@ -64,6 +64,16 @@ public class CustomerRestController {
 		return customers;
 	}
 	
+	@GetMapping(path = "/{id}")
+	public Customer getById(@PathVariable(name = "id") Integer id) {
+		boolean customerExists = customerRepository.findById(id).isPresent();
+		if(customerExists) {
+			return customerRepository.findById(id).get();
+		} else {
+			throw new RuntimeException("Musteri movcud deyil! ID="+id);
+		}
+	}
+	
 	@DeleteMapping(path = "/{id}")
 	public void deleteById(@PathVariable(name = "id") Integer id) {
 		boolean customerExists = customerRepository.findById(id).isPresent();
