@@ -73,7 +73,7 @@ public class Customer {
 	private String idFin;
 	
 	@ManyToOne
-	private Nationality nationality;
+	private Nationality nationality; 
 	
 	
 	

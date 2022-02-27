@@ -1,5 +1,7 @@
 package az.developia.crmokt5akbarhabibullayev.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,11 @@ public class UserRestController {
 	@PostMapping
 	public User addUser(@RequestBody User user) {
 		
+		Optional<User> userOptional = userRepository.findById(user.getUsername());
+		if(userOptional.isPresent()) {
+			user.setUsername("");
+			return user;
+		} else {
 		user.setPassword("{noop}"+user.getPassword());
 		user.setEnabled(true);
 		User savedUser = userRepository.save(user);
@@ -37,6 +44,7 @@ public class UserRestController {
 		authorityRepository.save(authority);
 		
 		return savedUser;
+		}
 	}
 	
 	@GetMapping(path = "/login")
