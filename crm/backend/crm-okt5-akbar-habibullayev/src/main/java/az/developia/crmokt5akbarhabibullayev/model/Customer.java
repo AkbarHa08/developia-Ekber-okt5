@@ -73,11 +73,22 @@ public class Customer {
 	private String idFin;
 	
 	@ManyToOne
+	@JoinColumn(name="nationality_id")
 	private Nationality nationality; 
 	
+	@OneToMany
+	@JoinColumn(name="customer_id")
+	private List<Ticket> tickets;
 	
 	
 	
+	
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 	public Nationality getNationality() {
 		return nationality;
 	}
