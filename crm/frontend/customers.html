@@ -15,7 +15,8 @@
 <body>
 
     <h1>Musterilen siyahisi</h1>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#customer-save">Yeni musteri elave
+    <button onclick="onOpenCustomerSaveModal()" type="button" class="btn btn-success" data-toggle="modal"
+        data-target="#customer-save">Yeni musteri elave
         et</button>
 
     <div class="modal fade" id="customer-save">
@@ -28,7 +29,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form onsubmit="onSaveCustomer(event)">
+                    <form onsubmit="onSaveCustomer(event)" id="customer-save-form">
                         <div class="form-group">
                             <label for="firstName">Ad:</label>
                             <input type="text" class="form-control" id="firstName">
@@ -63,6 +64,11 @@
     </table>
 
     <script>
+
+        let updateMod = false;
+
+        let selectedCustomerId = 0;
+
         function onSaveCustomer(event) {
             event.preventDefault();
 
@@ -79,12 +85,20 @@
 
             http.onload = function () {
                 alert('SUCCESS');
+                updateMod = false;
                 loadAllCustomers();
             }
 
             http.open("POST", "http://localhost:8083/customers", true);
             http.setRequestHeader("Content-Type", "application/json");
             http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+
+            if(updateMod){
+                customer.id = selectedCustomerId;
+            } else{
+                customer.id = null;
+            }
+
             http.send(JSON.stringify(customer));
         }
 
@@ -141,14 +155,17 @@
         }
 
         function updateCust(id) {
+            updateMod = true;
+            selectedCustomerId = id;
+
             var http = new XMLHttpRequest();
 
             http.onload = function () {
-                 
+
                 let customer = JSON.parse(this.responseText);
                 document.getElementById('firstName').value = customer.name;
-                document.getElementById('lastName').value = customer.surname; 
-                
+                document.getElementById('lastName').value = customer.surname;
+
             }
 
             http.open("GET", "http://localhost:8083/customers/" + id, true);
@@ -156,6 +173,11 @@
             http.send();
         }
 
+
+        function onOpenCustomerSaveModal() {
+            updateMod = false;
+            document.getElementById('customer-save-form').reset();
+        }
 
     </script>
 
