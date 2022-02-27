@@ -64,7 +64,9 @@
     </table>
 
     <script>
-
+        var username = localStorage.getItem('username');
+        var password = localStorage.getItem('password');
+        var token = "Basic " + window.btoa(username+":"+password);
         let updateMod = false;
 
         let selectedCustomerId = 0;
@@ -91,7 +93,7 @@
 
             http.open("POST", "http://localhost:8083/customers", true);
             http.setRequestHeader("Content-Type", "application/json");
-            http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+            http.setRequestHeader("Authorization", token);
 
             if(updateMod){
                 customer.id = selectedCustomerId;
@@ -123,7 +125,7 @@
             }
 
             http.open("GET", "http://localhost:8083/customers", true);
-            http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+            http.setRequestHeader("Authorization", token);
             http.send();
 
         }
@@ -143,7 +145,7 @@
                 }
 
                 http.open("DELETE", "http://localhost:8083/customers/" + id, true);
-                http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+                http.setRequestHeader("Authorization", token);
                 http.send();
             }
 
@@ -169,7 +171,7 @@
             }
 
             http.open("GET", "http://localhost:8083/customers/" + id, true);
-            http.setRequestHeader("Authorization", "Basic " + window.btoa("u:p"));
+            http.setRequestHeader("Authorization", token);
             http.send();
         }
 

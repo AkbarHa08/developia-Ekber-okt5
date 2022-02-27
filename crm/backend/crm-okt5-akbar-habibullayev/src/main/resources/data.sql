@@ -1,3 +1,13 @@
+insert into users
+(username,password,enabled)
+values
+('company-1','{noop}1',true);
+
+insert into authorities
+(id,authority,username)
+values
+(1,'company','company-1');
+
 insert into NATIONALITY
 (name)
 values
