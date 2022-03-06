@@ -98,7 +98,7 @@ public class CustomerRestController {
 		return exception.getMessage();
 	}
 	
-	@PutMapping(path="/customer/{customerId}/ticket/{ticked}") // /customers/customer/3/ticket/2
+	@PutMapping(path="/customer/{customerId}/ticket/{ticketId}") // /customers/customer/3/ticket/2
 	public void addTicketToCustomer(@PathVariable Integer customerId,@PathVariable Integer ticketId) {
 		Customer c = customerRepository.findById(customerId).get();
 		Ticket t = ticketRepository.findById(ticketId).get();
