@@ -132,9 +132,11 @@
     </div>
 
     <script>
+        var token = "Basic " + window.btoa(localStorage.getItem('username')+":"+localStorage.getItem('password'));
+
         var loggedIn = localStorage.getItem('loggedIn');
         if(loggedIn){
-            
+
         }
 
         var usernameInput = document.getElementById('username');
@@ -163,6 +165,31 @@
             http.open("GET","http://localhost:8053/users/login",true);
             http.setRequestHeader("Authorization","Basic "+window.btoa(username+":"+password));
             http.send();
+        }
+
+        function onSignup(event){
+            event.preventDefault();
+            var newUsername = newUsernameInput.value;
+            var newPassword = newPasswordInput.value;
+
+            var http = new XMLHttpRequest();
+
+            http.onload = function(){
+                var response = JSON.parse(this.responseText);
+                if(response.username==""){
+                    alert('Bu istifadeci adi artiq movcuddur!!!');
+                } else{
+                    alert('Success');
+                }
+            }
+
+            var userObj = {};
+            userObj.username = newUsername;
+            userObj.password = newPassword;
+
+            http.open("POST","http://localhost:8053/users/signup",true);
+            http.setRequestHeader("Content-Type","application/json");
+            http.send(JSON.stringify(userObj));
         }
 
     </script>

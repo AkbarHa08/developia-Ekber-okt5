@@ -1,5 +1,8 @@
 package az.developia.computershoppingekberhebibullayev.controller;
 
+import java.lang.StackWalker.Option;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,15 +34,26 @@ public class UserRestController {
 	}
 	
 	@PostMapping(path = "/signup")
-	public void signup(@RequestBody User user) {
-		user.setEnabled(true);
-		user.setPassword("{noop}"+user.getPassword());
-		userRepository.save(user);
+	public User signup(@RequestBody User user) {
 		
-		Authority authority = new Authority();
-		authority.setUsername(user.getUsername());
-		authority.setAuthority("user");
-		authorityRepository.save(authority);
+		Optional<User> userOptional = userRepository.findById(user.getUsername());
+		if(userOptional.isPresent()) {
+			user.setUsername("");
+			return user;
+		} else {
+			user.setEnabled(true);
+			user.setPassword("{noop}"+user.getPassword());
+			User savedUser = userRepository.save(user);
+			
+			Authority authority = new Authority();
+			authority.setUsername(user.getUsername());
+			authority.setAuthority("user");
+			authorityRepository.save(authority);
+			
+			return savedUser;
+		}
+		
+		
 		
 	}
 }
