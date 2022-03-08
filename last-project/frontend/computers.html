@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komputerlərim</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"/>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="js/computers.js" defer></script>
+    <link rel="stylesheet" href="css/computers.css">
+    <script>
+        $(document).ready(function () {
+          console.log("computers-table-element begin");
+          $("#computers-table-element").DataTable({
+            pageLength: 5,
+            lengthMenu: [
+              [2, 5, 7, 10, 20, 30, 50, 100, -1],
+              [2, 5, 7, 10, 20, 30, 50, 100, "Hamısı"],
+            ],
+          });
+          console.log("computers-table-element end");
+        });
+    </script>
+
+    <style>
+        #save-computer-modal{
+    display: none;
+    background-color: lightgray;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+@keyframes save-computer-modal-animation{
+    from{
+        transform: scale(0);
+        left: -800px;
+        opacity: 0;
+    }
+
+    to{
+        transform: scale(1);
+        left: 0;
+        opacity: 1;
+    }
+}
+
+#save-computer-modal-content{
+    animation-name: save-computer-modal-animation;
+    animation-duration: 0.5s;
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+    position: relative;
+    margin: 30px auto;
+    padding: 5px 10px;
+    background-color: rgb(235, 324, 423);
+}
+
+#save-computer-modal-close-button{
+    float: right;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: brown;
+    color: white;
+    border-radius: 5px;
+}
+
+#save-computer-modal-close-button:hover{
+    background-color: red;
+}
+
+#computer-image-show{
+    height: 100px;
+}
+
+#computer-search-input{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    width: 150px;
+}
+
+.computers-loading{
+    display: none;
+    text-align: center;
+}
+
+#computer-modal-image-show{
+    width: 100%;
+    border-radius: 10px;
+}
+
+@keyframes computer-image-modal-animation{
+    from{
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#computer-image-modal{
+    display: none;
+    background-color: thistle;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+#computer-image-modal-content{
+    animation-name: computer-image-modal-content;
+    animation-duration: 0.5s;
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+    position: relative;
+    margin: auto;
+    padding: 5px 10px;
+}
+
+@media screen and(min-width: 400px){
+    #computer-image-modal-content{
+        width: 75%;
+    }
+}
+
+@media screen and(min-width: 600px){
+    #computer-image-modal-content{
+        width: 70%;
+    }
+}
+
+@media screen and(min-width: 800px){
+    #computer-image-modal-content{
+        width: 65%;
+    }
+}
+
+@media screen and(min-width: 900px){
+    #computer-image-modal-content{
+        width: 60%;
+    }
+}
+
+@media screen and(min-width: 1000px){
+    #computer-image-modal-content{
+        width: 55%;
+    }
+}
+
+@media screen and(min-width: 1100px){
+    #computer-image-modal-content{
+        width: 50%;
+    }
+}
+
+@media screen and(min-width: 1300px){
+    #computer-image-modal-content{
+        width: 45%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container-fluid" id="main-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <hr>
+                <a href="index.html" class="btn btn-warning">Əsas Səhifə</a>
+                <button class="btn btn-primary" onclick="onNewComputer()">Yeni Komputer</button>
+                <hr>
+                <div class="computers-loading">
+                    <div class="spinner-border"></div>
+                </div>
+                <div class="computers-table">
+                    <table class="table table-bordered table-striped" id="computers-table-element">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">ID</th>
+                                <th style="width: 30%;">Ad</th>
+                                <th style="width: 20%;">Sekil</th>
+                                <th style="width: 15%;">Qiymet</th>
+                                <th style="width: 25%;">Emeliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="computers-table-body" style="font-size: 15px;"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="save-computer-modal">
+        <div id="save-computer-modal-content">
+            <div style="overflow: auto; margin-bottom: 5px;">
+                <span id="save-computer-modal-close-button">X</span>
+            </div>
+            <h1 class="text-light" style="text-align: center;" id="save-computer-header-message"></h1>
+            <div id="save-computer-modal-form-div">
+                <form action="" id="save-computer-modal-form" class="was-validated" onsubmit="onSaveComputer(event)">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="computer-category">Kateqoriya</label>
+                                <select name="computer-category" id="computer-category" class="form-control">
+                                    
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-name">Ad</label>
+                                <input type="text" name="computer-name" class="form-control" id="computer-name" required minlength="2" maxlength="30">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 30 simvol ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-price">Qiymet</label>
+                                <input type="number" name="computer-price" class="form-control" id="computer-price" required min="2" max="10000">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 10000 ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-description">Tesvir</label>
+                                <input type="text" name="computer-description" class="form-control" id="computer-description" required minlength="2" maxlength="100">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 100 simvol ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-isNew">Yeni</label>
+                                <select name="computer-isNew" id="computer-isNew" class="form-control">
+                                    <option value="true">Beli</option>
+                                    <option value="false">Xeyr</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-image">Sekil</label>
+                                <input type="docu" name="computer-image" class="form-control" id="computer-image" required oninput="onComputerImageChanged(this)">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin.</div>
+                            </div>
+                            <div>
+                                <img src="" alt="Bu linkde sekil yoxdur" style="display: none;" id="computer-image-show">
+                            </div>
+                            
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="computer-ram">Emeli Yaddas(GB):</label>
+                                <input type="number" name="computer-ram" class="form-control" id="computer-ram" required min="2" max="96" step="1">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 96 ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-cpu">Merkezi prosessor(CPU):</label>
+                                <input type="text" name="computer-cpu" class="form-control" id="computer-cpu" required minlength="2" maxlength="100">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 100 simvol ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-drive">Daimi yaddas(GB):</label>
+                                <input type="number" name="computer-drive" class="form-control" id="computer-drive" required min="0" max="10000">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 0, maksimum 10000 ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-drive-type">Daimi yaddas tipi:</label>
+                                <select name="computer-drive-type" id="computer-drive-type" class="form-control">
+                                    <option value="hdd">HDD</option>
+                                    <option value="ssd">SSD</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-os">Komputer OS</label>
+                                <input type="text" name="computer-os" class="form-control" id="computer-os" required minlength="2" maxlength="100">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 100 simvol ola biler</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer-video-card">Video kart(GB)</label>
+                                <input type="number" name="computer-description" class="form-control" id="computer-video-card" required min="2" max="30">
+                                <div class="valid-feedback">Dogrudur</div>
+                                <div class="invalid-feedback">Bos qoymayin. Minimum 2, maksimum 30 ola biler</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success" type="submit" id="saveBtn" onclick="">Yadda saxla</button>
+                            <button class="btn btn-primary" type="reset" id="resetBtn" onclick="resetComputerForm()">Sifirla</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" class="form-control" placeholder="Axtaris..." id="computer-search-input" style="display: none;" onkeydown="onSearchKeyDown(event) ">
+
+    <div id="computer-image-modal">
+        <div id="computer-image-modal-content">
+            <img id="computer-modal-image-show">
+        </div>
+    </div>
+
+    <script>
+        var computersTableBodyElement = document.getElementById('computers-table-body');
+var mainContentElement = document.getElementById('main-content');
+var saveComputerModalElement = document.getElementById('save-computer-modal');
+var saveComputerModalCloseButtonElement = document.getElementById('save-computer-modal-close-button');
+var computerImageInputElement = document.getElementById('computer-image');
+var computerImageShowElement = document.getElementById('computer-image-show');
+var computerNameElement = document.getElementById('computer-name');
+var computerPriceElement = document.getElementById('computer-price');
+var computerDescriptionElement = document.getElementById('computer-description');
+var computerIsNew = document.getElementById('computer-isNew');
+var computerRam = document.getElementById('computer-ram');
+var computerCpu = document.getElementById('computer-cpu');
+var computerMemory = document.getElementById('computer-drive');
+var computerMemoryType = document.getElementById('computer-drive-type');
+var computerOs = document.getElementById('computer-os');
+var computerVideoCard = document.getElementById('computer-video-card');
+var saveButton = document.getElementById('saveBtn');
+var resetButton = document.getElementById('resetBtn');
+var computerCategoryElement = document.getElementById('computer-category');
+var saveComputerHeaderMessage = document.getElementById('save-computer-header-message');
+var saveComputerModalForm = document.getElementById('save-computer-modal-form');
+var computersTableElement = document.getElementById('computers-table');
+var computersLoading = document.getElementById('computers-loading');
+var computerImageModalElement = document.getElementById('computer-image-modal');
+var computerModalImageShowElement = document.getElementById('computer-modal-image-show');
+var computerImagePath = computerImageInputElement.value;
+
+var editMode = false;
+var selectedComputerId = 0;
+var computers = [];
+var computersString = localStorage.getItem('computers');
+if(computersString==null){
+
+} else{
+    computers = JSON.parse(computersString);
+}
+
+var computersGlobal = computers.slice();
+
+var loggedInUserId = localStorage.getItem('logged-in-user-id');
+if(loggedInUserId==null){
+    computers = [];
+    window.location.href = 'index.html';
+} else{
+    mainContentElement.style.display = 'block';
+}
+
+var userComputers = [];
+
+for(let i=0;i<computers.length;i++){
+    const c = computers[i];
+    if(c.userId==loggedInUserId){
+        userComputers.push(c);
+    }
+}
+
+computers = userComputers;
+
+console.log(computers)
+
+var usersString = localStorage.getItem('users');
+var users = JSON.parse(usersString);
+
+function onNewComputer(){
+    editMode = false;
+    selectedComputerId = 0;
+    saveComputerModalElement.style.display = 'block';
+    saveComputerHeaderMessage.innerHTML = 'Yeni';
+}
+
+var categories = [];
+var categoriesString = localStorage.getItem('categories');
+if(categoriesString==null){
+
+} else{
+    categories = JSON.parse(categoriesString);
+}
+
+saveComputerModalCloseButtonElement.addEventListener('click',function(event){
+    saveComputerModalElement.style.display = 'none';
+});
+
+window.addEventListener('click',function(event){
+    if(event.target == computerImageModalElement){
+        computerImageModalElement.style.display = 'none';
+    }
+})
+
+function refreshComputers() {
+    computersTableBodyElement.innerHTML = '';
+    var computersTableBodyElementHtml = '';
+    for (let index = 0; index < computers.length; index++) {
+        const computer = computers[index];
+        computersTableBodyElementHtml += '<tr><td>' + computer.id;
+        computersTableBodyElementHtml += '</td><td>' + computer.name;
+        computersTableBodyElementHtml += '</td><td><img class="computer-image" src="' +
+            computer.imagePath;
+        computersTableBodyElementHtml += '" onclick="onImageSelected(\'' + computer.imagePath + '\')" /></td><td>' + computer.price;
+
+        computersTableBodyElementHtml += ' AZN</td><td> <button class="btn btn-danger"' +
+            ' onclick="onDeleteComputer(' + computer.id + ')" >Sil</button>  ' +
+            '<button class="btn btn-primary" onclick="onEditComputer(' + computer.id +
+            ')">Redaktə</button>  ';
+        computersTableBodyElementHtml += '</td></tr>';
+    }
+    computersTableBodyElement.innerHTML = computersTableBodyElementHtml;
+}
+
+refreshComputers();
+
+computerCategoryElement.innerHTML = '';
+var computerCategoryElementHTML = '';
+for(let i=0;i<categories.length;i++){
+    const c = categories[i];
+    computerCategoryElementHTML += '<option value="'+c.id+'"> ' + c.name + '</option>';
+}
+
+computerCategoryElement.innerHTML = computerCategoryElementHTML;
+
+function onComputerImageChanged(imageInputElement){
+    var imageValue = imageInputElement.value;
+    imageValue = imageValue.trim();
+    if(imageValue == ''){
+        computerImageShowElement.style.display = 'none';
+    } else {
+        computerImageShowElement.style.display = 'block';
+        computerImageShowElement.src = imageValue;
+    }
+}
+
+function onSaveComputer(event){
+    event.preventDefault();
+    var computer = {};
+    var computerId = 0;
+    for(let i=0;i<computersGlobal.length;i++){
+        const c = computersGlobal[i];
+        if(c.id>computerId){
+            computerId = c.id;
+        }
+    }
+    computerId++;
+    computer.id = computerId;
+    computer.name = computerNameElement.value;
+    computer.price = Number(computerPriceElement.value);
+    computer.imagePath = computerImageInputElement.value;
+    computer.description = computerDescriptionElement.value;
+    computer.isNew = computerIsNew.value;
+    computer.ram = Number(computerRam.value);
+    computer.cpu = computerCpu.value;
+    computer.drive = Number(computerMemory.value);
+    computer.driveType = computerMemoryType.value;
+    computer.os = computerOs.value;
+    computer.videoCard = Number(computerVideoCard.value);
+    computer.categoryId = Number(computerCategoryElement)
+    computer.userId = Number(loggedInUserId);
+    console.log(computer);
+
+    for(let j=0;j<users.length;j++){
+        const u = users[j];
+        if(u.id=== computer.userId){
+            computer.phone = u.phone;
+            break;
+        }
+    }
+
+
+    if(editMode){
+        computer.id = selectedComputerId;
+        for(let i=0;i<computersGlobal.length;i++){
+            const c = computersGlobal[i];
+            if(c.id == selectedComputerId){
+                computersGlobal[i] = computer;
+                break;
+            }
+        }
+        alert('Komputer ugurla redakte olundu!');
+    } else {
+        computersGlobal.push(computer);
+        alert('Komputer ugurla qeydiyyat olundu!');
+    }
+
+    localStorage.setItem('computers',JSON.stringify(computersGlobal));
+
+    window.location.reload();
+
+    userComputers = [];
+    for(let i=0;i<computersGlobal.length;i++){
+        const c = computersGlobal[i];
+        if(c.userId==loggedInUserId){
+            userComputers.push(c);
+        }
+    }
+
+    computers = userComputers;
+
+    refreshComputers();
+}
+
+function onDeleteComputer(computerId){
+    var result = confirm('Komputeri silmekden eminsiniz?');
+    if(result){
+        for(let i=0;i<computersGlobal.length;i++){
+            const c = computersGlobal[i];
+            if(c.id == computerId){
+                computersGlobal.splice(i,1);
+                break;
+            }
+        }
+
+        localStorage.setItem('computers',JSON.stringify(computersGlobal));
+        userComputers = [];
+        for(let i=0;i<computersGlobal;i++){
+            const computer = computersGlobal[i];
+            if(computer.userId == loggedInUserId){
+                userComputers.push(computer);
+            }
+        }
+
+        computers = userComputers;
+        alert('Komputer ugurla silindi!');
+        window.location.reload();
+    }
+}
+
+function onEditComputer(computerId){
+    editMode = true;
+    selectedComputerId = computerId;
+    saveComputerModalElement.style.display = 'block';
+    saveComputerHeaderMessage.innerHTML = 'Redakte';
+    setTimeout(()=>{
+        var selectedComputer = {};
+        for(let i=0;i<computersGlobal.length;i++){
+            const c = computersGlobal[i];
+            if(computer.id == computerId){
+                selectedComputer = computer;
+                break;
+            }
+        }
+        computerCategoryElement.value = selectedComputer.categoryId;
+        computerNameElement.value = selectedComputer.name;
+        computerPriceElement.value = selectedComputer.price;
+        computerDescriptionElement.value = selectedComputer.description;
+        computerIsNew.value = selectedComputer.isNew;
+        computerImageInputElement.value = selectedComputer.imagePath;
+
+        var imageValue = selectedComputer.imagePath;
+        if(imageValue == ''){
+            computerImageShowElement.style.display = 'none';
+        } else{
+            computerImageShowElement.style.display = 'block';
+            computerImageShowElement.src = imageValue;
+        }
+
+        computerRam.value = selectedComputer.ram;
+        computerCpu.value = selectedComputer.cpu;
+        computerMemoryType.value = selectedComputer.driveType;
+        computerMemory.value = selectedComputer.drive;
+        computerOs.value = selectedComputer.os;
+        computerVideoCard.value = selectedComputer.videoCard;
+    }, 500);
+}
+
+function resetComputerForm(){
+    computerImageShowElement.style.display = 'none';
+}
+
+var computersTableBodyElementHtml = '';
+function addComputersToPage(computersLocal) {
+
+    for (let index = 0; index < computersLocal.length; index++) {
+        const computer = computersLocal[index];
+        computersTableBodyElementHtml += '<tr><td>' + computer.id;
+        computersTableBodyElementHtml += '</td><td>' + computer.name;
+        computersTableBodyElementHtml += '</td><td><img style="width:120px;" src="' +
+            computer.imagePath;
+        computersTableBodyElementHtml += '" /></td><td>' + computer.price;
+
+        computersTableBodyElementHtml += ' AZN</td><td> <button class="btn btn-danger"' +
+            ' onclick="onDeleteComputer(' + computer.id + ')" >Sil</button>  ' +
+            '<button class="btn btn-primary" onclick="onEditComputer(' + computer.id +
+            ')">Redaktə</button>  ';
+        computersTableBodyElementHtml += '</td><tr>';
+    }
+    computersTableBodyElement.innerHTML = computersTableBodyElementHtml;
+}
+
+function onSearchKeyDown(event){
+    if(event.keyCode == 13){
+        computersTableElement.style.display = 'none';
+        computersLoading.style.display = 'block';
+        computersTableBodyElement.innerHTML = '';
+        computersTableBodyElementHtml = '';
+        setTimeout(()=>{
+            computersTableElement.style.display = 'block';
+            computersLoading.style.display = 'none';
+            var searchValue = event.target.value.toLowerCase();
+            searchValue = searchValue.trim();
+            var findedComputers = [];
+            for(let i=0;i<computers.length;i++){
+                const c = computers[i];
+                if(c.name.toLowerCase().includes(searchValue)){
+                    findedComputers.push(c);
+                }
+            }
+            addComputersToPage(findedComputers);
+        } ,500)
+    }
+}
+
+function onImageSelected(computerImagePath){
+    computerImageModalElement.style.display = 'block';
+    computerModalImageShowElement.src = computerImagePath;
+}
+    </script>
+</body>
+</html>
