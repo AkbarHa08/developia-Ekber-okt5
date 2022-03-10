@@ -198,7 +198,13 @@ function configureComputersAgGrid() {
     { field: "id", headerName: "ID", checkboxSelection: true },
     { field: "name", headerName: "Ad" },
     { field: "description", headerName: "Melumat" },
-    { field: "price", headerName: "Qiymet" }
+    { field: "price", headerName: "Qiymet" },
+    { field: "isNew", headerName: "Yeni" },
+    { field: "ram", headerName: "Emeli yaddas" },
+    { field: "cpu", headerName: "Merkezi prosessor" },
+    { field: "drive", headerName: "Daimi yaddas" },
+    { field: "driveType", headerName: "Daimi yaddas tipi" },
+    { field: "os", headerName: "OS" },
   ];
 
   const gridOptions = {
