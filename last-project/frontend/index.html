@@ -135,19 +135,14 @@
     </div>
 
     <script>
+
+        
+
         var token = "Basic " + window.btoa(localStorage.getItem('username')+":"+localStorage.getItem('password'));
 
         var signinBtn = document.getElementById('signin-btn');
         var signupBtn = document.getElementById('signup-btn');
 
-        var loggedIn = localStorage.getItem('loggedIn');
-        if(loggedIn){
-          signinBtn.style.display = 'none';
-          signupBtn.style.display = 'none';
-        } else{
-          signinBtn.style.display = 'inline';
-          signupBtn.style.display = 'inline';
-        }
 
         
         var usernameInput = document.getElementById('username');

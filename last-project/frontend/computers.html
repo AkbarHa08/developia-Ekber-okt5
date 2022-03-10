@@ -12,8 +12,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script src="js/computers.js" defer></script>
-    <link rel="stylesheet" href="css/computers.css">
     <script>
         $(document).ready(function () {
             console.log("computers-table-element begin");
@@ -216,7 +214,7 @@
             </div>
             <h1 class="text-light" style="text-align: center;" id="save-computer-header-message"></h1>
             <div id="save-computer-modal-form-div">
-                <form action="" id="save-computer-modal-form" class="was-validated" onsubmit="onSaveComputer(event)">
+                <form id="save-computer-modal-form" onsubmit="saveComputer()">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -227,20 +225,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="computer-name">Ad</label>
-                                <input type="text" name="computer-name" class="form-control" id="computer-name" required
-                                    minlength="2" maxlength="30">
+                                <input type="text" name="computer-name" class="form-control" id="computer-name">
+                                    <p id="name-error" class="h6 text-danger"></p>
                                 
                             </div>
                             <div class="form-group">
                                 <label for="computer-price">Qiymet</label>
-                                <input type="number" name="computer-price" class="form-control" id="computer-price"
-                                    required min="2" max="10000">
+                                <input type="number" name="computer-price" class="form-control" id="computer-price">
+                                    <p id="price-error" class="h6 text-danger"></p>
                                 
                             </div>
                             <div class="form-group">
                                 <label for="computer-description">Tesvir</label>
                                 <input type="text" name="computer-description" class="form-control"
-                                    id="computer-description" required minlength="2" maxlength="100">
+                                    id="computer-description">
+                                    <p id="description-error" class="h6 text-danger"></p>
                                 
                             </div>
                             <div class="form-group">
@@ -252,33 +251,25 @@
                             </div>
                             <div class="form-group">
                                 <label for="computer-image">Sekil</label>
-                                <input type="docu" name="computer-image" class="form-control" id="computer-image"
-                                    required oninput="onComputerImageChanged(this)">
+                                <input type="file" name="computer-image" class="form-control" id="computer-image">
                                 
-                            </div>
-                            <div>
-                                <img src="" alt="Bu linkde sekil yoxdur" style="display: none;"
-                                    id="computer-image-show">
                             </div>
 
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="computer-ram">Emeli Yaddas(GB):</label>
-                                <input type="number" name="computer-ram" class="form-control" id="computer-ram" required
-                                    min="2" max="96" step="1">
+                                <input type="number" name="computer-ram" class="form-control" id="computer-ram">
                                 
                             </div>
                             <div class="form-group">
                                 <label for="computer-cpu">Merkezi prosessor(CPU):</label>
-                                <input type="text" name="computer-cpu" class="form-control" id="computer-cpu" required
-                                    minlength="2" maxlength="100">
+                                <input type="text" name="computer-cpu" class="form-control" id="computer-cpu">
                                 
                             </div>
                             <div class="form-group">
                                 <label for="computer-drive">Daimi yaddas(GB):</label>
-                                <input type="number" name="computer-drive" class="form-control" id="computer-drive"
-                                    required min="0" max="10000">
+                                <input type="number" name="computer-drive" class="form-control" id="computer-drive">
                                 
                             </div>
                             <div class="form-group">
@@ -290,14 +281,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="computer-os">Komputer OS</label>
-                                <input type="text" name="computer-os" class="form-control" id="computer-os" required
-                                    minlength="2" maxlength="100">
-                                
-                            </div>
-                            <div class="form-group">
-                                <label for="computer-video-card">Video kart(GB)</label>
-                                <input type="number" name="computer-description" class="form-control"
-                                    id="computer-video-card" required min="2" max="30">
+                                <input type="text" name="computer-os" class="form-control" id="computer-os">
                                 
                             </div>
                         </div>
@@ -305,7 +289,7 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <button class="btn btn-success" type="submit" id="saveBtn" onclick="">Yadda saxla</button>
+                            <button class="btn btn-success" type="submit" id="saveBtn">Yadda saxla</button>
                             <button class="btn btn-primary" type="reset" id="resetBtn"
                                 onclick="resetComputerForm()">Sifirla</button>
                         </div>
@@ -332,7 +316,6 @@
         var saveComputerModalElement = document.getElementById('save-computer-modal');
         var saveComputerModalCloseButtonElement = document.getElementById('save-computer-modal-close-button');
         var computerImageInputElement = document.getElementById('computer-image');
-        var computerImageShowElement = document.getElementById('computer-image-show');
         var computerNameElement = document.getElementById('computer-name');
         var computerPriceElement = document.getElementById('computer-price');
         var computerDescriptionElement = document.getElementById('computer-description');
@@ -342,7 +325,6 @@
         var computerMemory = document.getElementById('computer-drive');
         var computerMemoryType = document.getElementById('computer-drive-type');
         var computerOs = document.getElementById('computer-os');
-        var computerVideoCard = document.getElementById('computer-video-card');
         var saveButton = document.getElementById('saveBtn');
         var resetButton = document.getElementById('resetBtn');
         var computerCategoryElement = document.getElementById('computer-category');
@@ -353,9 +335,17 @@
         var computerImageModalElement = document.getElementById('computer-image-modal');
         var computerModalImageShowElement = document.getElementById('computer-modal-image-show');
         var computerImagePath = computerImageInputElement.value;
+        var nameErrorElement = document.getElementById('name-error');
+        var priceErrorElement = document.getElementById('price-error');
+        var descriptionErrorElement = document.getElementById('description-error');
 
         var editMode = false;
         var selectedComputerId = 0;
+
+        var computersTableBodyElementHtml = '';
+        computersTableBodyElement.innerHTML = '';
+
+        loadComputers();
 
         function onNewComputer() {
             editMode = false;
@@ -392,31 +382,62 @@
             }
         })
 
-        function refreshComputers() {
-            computersTableBodyElement.innerHTML = '';
-            var computersTableBodyElementHtml = '';
-            for (let index = 0; index < computers.length; index++) {
-                const computer = computers[index];
-                computersTableBodyElementHtml += '<tr><td>' + computer.id;
-                computersTableBodyElementHtml += '</td><td>' + computer.name;
-                computersTableBodyElementHtml += '</td><td><img class="computer-image" src="' +
-                    computer.imagePath;
-                computersTableBodyElementHtml += '" onclick="onImageSelected(\'' + computer.imagePath + '\')" /></td><td>' + computer.price;
+        function saveComputer(){
+            
 
-                computersTableBodyElementHtml += ' AZN</td><td> <button class="btn btn-danger"' +
-                    ' onclick="onDeleteComputer(' + computer.id + ')" >Sil</button>  ' +
-                    '<button class="btn btn-primary" onclick="onEditComputer(' + computer.id +
-                    ')">Redaktə</button>  ';
-                computersTableBodyElementHtml += '</td></tr>';
+            var http = new XMLHttpRequest();
+
+            http.onload = function(){
+                var errors = this.responseText;
+                var errorsArr = JSON.parse(errors);
+                if(errorsArr.length == 0){
+                    loadComputers();
+                } else{
+                    
+                    var nameErrorV = '';
+                    var descriptionErrorV = '';
+                    var priceErrorV = '';
+                
+                    for (let i = 0; i < errorsArr.length; i++) {
+                        var error = errorsArr[i];
+                        var field = error.split(':::')[0];
+                        var message = error.split(':::')[1];
+                        if(field=='name'){
+                            nameErrorV += message + '<br>';
+                        }
+                        if(field=='description'){
+                            descriptionErrorV += message + '<br>';
+                        }
+                        if(field=='price'){
+                            priceErrorV += message + '<br>';
+                        }
+                        
+                    }
+
+                    nameErrorElement.innerHTML = nameErrorV;
+                    priceErrorElement.innerHTML = priceErrorV;
+                    descriptionErrorElement.innerHTML = descriptionErrorV;
+
+                }
             }
-            computersTableBodyElement.innerHTML = computersTableBodyElementHtml;
+
+            var computerObj = {};
+            computerObj.name = computerNameElement.value;
+            computerObj.price = computerPriceElement.value;
+            computerObj.description = computerDescriptionElement.value;
+            computerObj.isNew = computerIsNew.value;
+            computerObj.photo = computerImageInputElement.value;
+            computerObj.ram = computerRam.value;
+            computerObj.cpu = computerCpu.value;
+            computerObj.drive = computerMemory.value;
+            computerObj.driveType = computerMemoryType.value;
+            computerObj.os = computerOs.value;
+
+            http.open("POST","http://localhost:8053/computers",true);
+            http.setRequestHeader('Authorization', token);
+            http.setRequestHeader("Content-Type", "application/JSON");
+            http.send(JSON.stringify(computerObj));
         }
-
-        refreshComputers();
-
-
-
-
 
 
 
@@ -441,15 +462,28 @@
             computerImageShowElement.style.display = 'none';
         }
 
+        function loadComputers(){
+            var http = new XMLHttpRequest();
+
+            http.onload = function(){
+                var response = this.responseText;
+                var computersArr = JSON.parse(response);
+                addComputersToPage(computersArr);
+            }
+
+            http.open("GET","http://localhost:8053/computers",true);
+            http.setRequestHeader("Authorization",token);
+            http.send();
+        }
+
         var computersTableBodyElementHtml = '';
         function addComputersToPage(computersLocal) {
-
+                computersTableBodyElement.innerHTML = '';
             for (let index = 0; index < computersLocal.length; index++) {
                 const computer = computersLocal[index];
                 computersTableBodyElementHtml += '<tr><td>' + computer.id;
                 computersTableBodyElementHtml += '</td><td>' + computer.name;
-                computersTableBodyElementHtml += '</td><td><img style="width:120px;" src="' +
-                    computer.imagePath;
+                computersTableBodyElementHtml += '</td><td><img style="width:120px;" src="';
                 computersTableBodyElementHtml += '" /></td><td>' + computer.price;
 
                 computersTableBodyElementHtml += ' AZN</td><td> <button class="btn btn-danger"' +
@@ -465,6 +499,8 @@
             computerImageModalElement.style.display = 'block';
             computerModalImageShowElement.src = computerImagePath;
         }
+
+        
     </script>
 </body>
 

@@ -30,7 +30,6 @@ public class Computer {
 	@Size(min = 2, max = 100, message = "Tesvir minimum 2, maksimum 100 simvol ola biler!")
 	private String description;
 	
-	@Size(min = 2, max = 100, message = "Emeliyyat sistemi minimum 2, maksimum 100 simvol ola biler!")
 	private String os;
 	
 	@NotNull(message = "Bos qoymaq olmaz!")

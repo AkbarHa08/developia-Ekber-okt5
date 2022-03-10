@@ -1,6 +1,7 @@
 package az.developia.computershoppingekberhebibullayev.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
@@ -69,5 +70,10 @@ public class ComputerRestController {
 		} else {
 			throw new RuntimeException("Musteri movcud deyil! Id="+id);
 		}
+	}
+	
+	@GetMapping
+	public List<Computer> getAll(){
+		return computerRepository.findAll();
 	}
 }
