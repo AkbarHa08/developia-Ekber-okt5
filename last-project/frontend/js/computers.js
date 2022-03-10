@@ -165,7 +165,10 @@ function onImageSelected(computerImagePath) {
   computerModalImageShowElement.src = computerImagePath;
 }
 
-function onDeleteComputer(id) {
+function onDeleteComputer() {
+    var computerId = gridOptionsGlobal.api.getSelectedRows()[0].id;
+
+
   var tesdiq = confirm("Komputeri silmeye eminsiniz?");
 
   if (tesdiq) {
@@ -175,7 +178,7 @@ function onDeleteComputer(id) {
       loadComputers();
     };
 
-    http.open("DELETE", "http://localhost:8053/computers/" + id, true);
+    http.open("DELETE", "http://localhost:8053/computers/" + computerId, true);
     http.setRequestHeader("Authorization", token);
     http.send();
   }
