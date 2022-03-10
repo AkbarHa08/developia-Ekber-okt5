@@ -500,7 +500,23 @@
             computerModalImageShowElement.src = computerImagePath;
         }
 
-        
+        function onDeleteComputer(id) {
+            var tesdiq = confirm('Komputeri silmeye eminsiniz?');
+
+            if(tesdiq){
+                var http = new XMLHttpRequest();
+
+                http.onload = function(){
+                    loadComputers();
+                }
+
+                http.open("DELETE","http://localhost:8053/computers/"+id,true);
+                http.setRequestHeader("Authorization",token);
+                http.send();
+            }
+
+            
+        }
     </script>
 </body>
 
