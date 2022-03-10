@@ -166,10 +166,14 @@ function onImageSelected(computerImagePath) {
 }
 
 function onDeleteComputer() {
-    var computerId = gridOptionsGlobal.api.getSelectedRows()[0].id;
+    var selectedRows = gridOptionsGlobal.api.getSelectedRows();
 
+    if(selectedRows==0){
+        alert('Siyahidan 1 komputer secin!!!');
+    } else{
+        var computerId = selectedRows[0].id;
 
-  var tesdiq = confirm("Komputeri silmeye eminsiniz?");
+        var tesdiq = confirm("Komputeri silmeye eminsiniz?");
 
   if (tesdiq) {
     var http = new XMLHttpRequest();
@@ -182,7 +186,61 @@ function onDeleteComputer() {
     http.setRequestHeader("Authorization", token);
     http.send();
   }
+    }
+
+
+  
 }
+
+function onEditComputer(){
+
+    
+
+    var selectedRows = gridOptionsGlobal.api.getSelectedRows();
+
+    if(selectedRows==0){
+        alert('Siyahidan 1 komputer secin!!!');
+    } else{
+
+        onNewComputer();
+  saveComputerHeaderMessage.innerHTML = "Redakte";
+
+        var computerId = selectedRows[0].id;
+
+        var http = new XMLHttpRequest();
+
+        http.onload = function() {
+
+            var response = this.responseText;
+            var computer = JSON.parse(response);
+
+            computerCategoryElement.value = computer.category.name;
+            computerNameElement.value = computer.name;
+            computerPriceElement.value = computer.price;
+            computerDescriptionElement.value = computer.description;
+            computerIsNew.selectedIndex = !computer.isNew;
+            computerMemory.value = computer.drive;
+            computerMemoryType.value = computer.driveType;
+            computerCpu.value = computer.cpu;
+            computerOs.value = computer.os;
+            computerRam.value = computer.ram;
+        
+        }
+
+        http.open("GET","http://localhost:8053/computers/"+computerId,true);
+        http.setRequestHeader("Authorization",token);
+        http.send();
+
+        }
+
+        
+
+
+
+        }
+    
+
+
 
 
 
