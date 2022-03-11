@@ -14,6 +14,6 @@ values
 ('Acer'),('Hp'),('Apple'),('Asus');
 
 insert into computers
-(name,description,os,price,drive,drive_type,cpu,ram,is_new,photo,user_id,category_id)
+(category,name,description,os,price,drive,drive_type,cpu,ram,is_new,photo,user_id)
 values
-('Acer-2','dasd','Windows 10',300,4,'hdd','intel i7',2,true,'cdf.png','u-1',1);
+('Hp','Hp-2','Hp','Windows 11',1200,16,'ssd','intel core i7',4,true,'cdf.png','u-1');

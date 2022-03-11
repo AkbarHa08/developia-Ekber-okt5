@@ -50,9 +50,7 @@ public class Computer {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+	private String category;
 
 	public Integer getId() {
 		return id;
@@ -150,13 +148,15 @@ public class Computer {
 		this.user = user;
 	}
 
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
+
+	
 
 	
 	

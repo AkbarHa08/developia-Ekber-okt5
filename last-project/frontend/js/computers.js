@@ -4,6 +4,8 @@ var token =
     localStorage.getItem("username") + ":" + localStorage.getItem("password")
   );
 
+  var editMode = false;
+
 var mainContentElement = document.getElementById("main-content");
 var saveComputerModalElement = document.getElementById("save-computer-modal");
 var saveComputerModalCloseButtonElement = document.getElementById(
@@ -40,34 +42,16 @@ var priceErrorElement = document.getElementById("price-error");
 var descriptionErrorElement = document.getElementById("description-error");
 
 var editMode = false;
-var selectedComputerId = 0;
+var computerId = 0;
 
 loadComputers();
 
 function onNewComputer() {
   editMode = false;
-  selectedComputerId = 0;
+  computerId = 0;
   saveComputerModalElement.style.display = "block";
   saveComputerHeaderMessage.innerHTML = "Yeni";
-  var http = new XMLHttpRequest();
-
-  computerCategoryElement.innerHTML = "";
-  var computerCategoryElementHTML = "";
-
-  http.onload = function () {
-    var response = this.responseText;
-    var categories = JSON.parse(response);
-    for (let i = 0; i < categories.length; i++) {
-      const c = categories[i];
-      computerCategoryElementHTML +=
-        '<option value="' + c.id + '"> ' + c.name + "</option>";
-    }
-    computerCategoryElement.innerHTML = computerCategoryElementHTML;
-  };
-
-  http.open("GET", "http://localhost:8053/categories", true);
-  http.setRequestHeader("Authorization", token);
-  http.send();
+  loadCategoires();
 }
 saveComputerModalCloseButtonElement.addEventListener("click", function (event) {
   saveComputerModalElement.style.display = "none";
@@ -79,15 +63,27 @@ window.addEventListener("click", function (event) {
   }
 });
 
+function resetValidations() {
+	nameErrorElement.innerHTML = '';
+      priceErrorElement.innerHTML = '';
+      descriptionErrorElement.innerHTML = '';
+}
+
 function saveComputer() {
+
   var http = new XMLHttpRequest();
 
+  console.log(editMode);
+
+
   http.onload = function () {
-    var errors = this.responseText;
-    var errorsArr = JSON.parse(errors);
-    if (errorsArr.length == 0) {
+    if(this.status==200){
+      resetValidations();
       loadComputers();
-    } else {
+    } else if(this.status==400){
+      var errors = this.responseText;
+    var errorsArr = JSON.parse(errors);
+    
       var nameErrorV = "";
       var descriptionErrorV = "";
       var priceErrorV = "";
@@ -111,9 +107,12 @@ function saveComputer() {
       priceErrorElement.innerHTML = priceErrorV;
       descriptionErrorElement.innerHTML = descriptionErrorV;
     }
+    
+    
   };
 
   var computerObj = {};
+  computerObj.category = computerCategoryElement.value;
   computerObj.name = computerNameElement.value;
   computerObj.price = computerPriceElement.value;
   computerObj.description = computerDescriptionElement.value;
@@ -125,10 +124,20 @@ function saveComputer() {
   computerObj.driveType = computerMemoryType.value;
   computerObj.os = computerOs.value;
 
-  http.open("POST", "http://localhost:8053/computers", true);
-  http.setRequestHeader("Authorization", token);
-  http.setRequestHeader("Content-Type", "application/JSON");
-  http.send(JSON.stringify(computerObj));
+  if(editMode){
+    http.open("POST", "http://localhost:8053/computers", true);
+    http.setRequestHeader("Authorization", token);
+    http.setRequestHeader("Content-Type", "application/JSON");
+    computerObj.id = gridOptionsGlobal.api.getSelectedRows()[0].id;
+    http.send(JSON.stringify(computerObj));
+  } else{
+    http.open("POST", "http://localhost:8053/computers", true);
+    http.setRequestHeader("Authorization", token);
+    http.setRequestHeader("Content-Type", "application/JSON");
+    http.send(JSON.stringify(computerObj));
+  }
+
+  
 }
 
 function onComputerImageChanged(imageInputElement) {
@@ -140,10 +149,6 @@ function onComputerImageChanged(imageInputElement) {
     computerImageShowElement.style.display = "block";
     computerImageShowElement.src = imageValue;
   }
-}
-
-function resetComputerForm() {
-  computerImageShowElement.style.display = "none";
 }
 
 function loadComputers() {
@@ -192,9 +197,35 @@ function onDeleteComputer() {
   
 }
 
+function resetForm() {
+
+}
+
+function loadCategoires() {
+  var http = new XMLHttpRequest();
+    
+  computerCategoryElement.innerHTML = "";
+  var computerCategoryElementHTML = "";
+
+  http.onload = function () {
+    var response = this.responseText;
+    var categories = JSON.parse(response);
+    for (let i = 0; i < categories.length; i++) {
+      const c = categories[i];
+      computerCategoryElementHTML +=
+        '<option value="' + c.name + '"> ' + c.name + "</option>";
+    }
+    computerCategoryElement.innerHTML = computerCategoryElementHTML;
+  };
+
+  http.open("GET", "http://localhost:8053/categories", true);
+  http.setRequestHeader("Authorization", token);
+  http.send();
+}
+
 function onEditComputer(){
 
-    
+    editMode = true;
 
     var selectedRows = gridOptionsGlobal.api.getSelectedRows();
 
@@ -202,19 +233,27 @@ function onEditComputer(){
         alert('Siyahidan 1 komputer secin!!!');
     } else{
 
-        onNewComputer();
-  saveComputerHeaderMessage.innerHTML = "Redakte";
+      saveComputerModalElement.style.display = "block";
+      saveComputerHeaderMessage.innerHTML = "Redakte";
+      
 
         var computerId = selectedRows[0].id;
+
+        loadCategoires();
+
 
         var http = new XMLHttpRequest();
 
         http.onload = function() {
 
+          editMode = true;
+
             var response = this.responseText;
             var computer = JSON.parse(response);
 
-            computerCategoryElement.value = computer.category.name;
+            console.log(computer.name);
+
+            computerCategoryElement.value = computer.category;
             computerNameElement.value = computer.name;
             computerPriceElement.value = computer.price;
             computerDescriptionElement.value = computer.description;
@@ -254,6 +293,7 @@ function fillComputersToTable(array) {
 function configureComputersAgGrid() {
   var sutunlar = [
     { field: "id", headerName: "ID", checkboxSelection: true },
+    { field: "category", headerName: "Kateqoriya" },
     { field: "name", headerName: "Ad" },
     { field: "description", headerName: "Melumat" },
     { field: "price", headerName: "Qiymet" },
