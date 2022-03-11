@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,6 +48,10 @@ public class ComputerRestController {
 		if(bindingResult.hasErrors()) {
 			throw new MyValidationException(bindingResult);
 		}
+		
+		String user = getRealUsername();
+		computer.setUserUsername(user);
+		
 		Computer savedComputer = computerRepository.save(computer);
 		return savedComputer;
 	}
@@ -76,7 +81,7 @@ public class ComputerRestController {
 	
 	@GetMapping
 	public List<Computer> getAll(){
-		return computerRepository.findAll();
+		return computerRepository.findAllByUserUsername(getRealUsername());
 	}
 	
 	@DeleteMapping(path = "/{id}")
@@ -99,4 +104,10 @@ public class ComputerRestController {
 		}
 		return errorMessages;
 	}
+	
+	private String getRealUsername() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
+	
+	
 }
