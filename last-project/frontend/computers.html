@@ -176,7 +176,7 @@
                 <button class="btn btn-primary" onclick="onNewComputer()">Yeni Komputer</button>
                 <button class="btn btn-danger" onclick="onDeleteComputer()">Sil</button>
                 <button class="btn btn-secondary" onclick="onEditComputer()">Redakte</button>
-                <button class="btn btn-dark" onclick="" data-toggle="modal" data-target="#photoModal">Sekli goster</button>
+                <button class="btn btn-dark" onclick="showImage()" data-toggle="modal" data-target="#photoModal">Sekli goster</button>
                 <hr>
                 <div class="computers-loading">
                     <div class="spinner-border"></div>
@@ -193,7 +193,7 @@
             </div>
             <h1 class="text-dark" style="text-align: center;" id="save-computer-header-message"></h1>
             <div id="save-computer-modal-form-div">
-                <form id="save-computer-modal-form" onsubmit="saveComputer()">
+                <form id="save-computer-modal-form" onsubmit="saveComputer(event)" enctype="multipart/form-data"> 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -311,7 +311,7 @@
 		</div>
 	  </div>	
 
-    <script src="js/computers.js"></script>
+    <script src="js/computers.js"</script>
 </body>
 
 </html>

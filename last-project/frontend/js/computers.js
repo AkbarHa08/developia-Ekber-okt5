@@ -6,6 +6,10 @@ var token =
 
   var editMode = false;
 
+  var API_URL = 'http://localhost:8053';
+
+  var imagesPath = "../images";
+
 var mainContentElement = document.getElementById("main-content");
 var saveComputerModalElement = document.getElementById("save-computer-modal");
 var saveComputerModalCloseButtonElement = document.getElementById(
@@ -36,6 +40,7 @@ var computerImageModalElement = document.getElementById("computer-image-modal");
 var computerModalImageShowElement = document.getElementById(
   "computer-modal-image-show"
 );
+var imageShowModal = document.getElementById('computer-image');
 var computerImagePath = computerImageInputElement.value;
 var nameErrorElement = document.getElementById("name-error");
 var priceErrorElement = document.getElementById("price-error");
@@ -49,6 +54,7 @@ loadComputers();
 function onNewComputer() {
   editMode = false;
   computerId = 0;
+  resetForm();
   saveComputerModalElement.style.display = "block";
   saveComputerHeaderMessage.innerHTML = "Yeni";
   loadCategoires();
@@ -69,16 +75,39 @@ function resetValidations() {
       descriptionErrorElement.innerHTML = '';
 }
 
-function saveComputer() {
+async function saveComputer(event) {
+  event.preventDefault();
+  let formData = new FormData();
+  let photo = computerImageInputElement.files[0];
+  console.log(photo);
+  formData.append("file",photo);
 
+  let response = await fetch(API_URL+'/files/upload',{
+		method:"POST",
+		body:formData,
+		headers:{
+			"Authorization":token
+		}
+	});
+
+  let imageNameObj = await response.json();
+	let imageName = imageNameObj.imageName;
+
+  saveComputerObj(imageName);
+  resetForm();
+  saveComputerModalElement.style.display = "none";
+
+  
+}
+
+function saveComputerObj(computerImage){
   var http = new XMLHttpRequest();
-
-  console.log(editMode);
 
 
   http.onload = function () {
     if(this.status==200){
       resetValidations();
+      
       loadComputers();
     } else if(this.status==400){
       var errors = this.responseText;
@@ -123,6 +152,7 @@ function saveComputer() {
   computerObj.drive = computerMemory.value;
   computerObj.driveType = computerMemoryType.value;
   computerObj.os = computerOs.value;
+  computerObj.photo = computerImage;
 
   if(editMode){
     http.open("POST", "http://localhost:8053/computers", true);
@@ -136,8 +166,6 @@ function saveComputer() {
     http.setRequestHeader("Content-Type", "application/JSON");
     http.send(JSON.stringify(computerObj));
   }
-
-  
 }
 
 function onComputerImageChanged(imageInputElement) {
@@ -198,6 +226,17 @@ function onDeleteComputer() {
 }
 
 function resetForm() {
+  computerCategoryElement.value = 'Acer';
+  computerNameElement.value = '';
+  computerPriceElement.value = '';
+  computerDescriptionElement.value = '';
+  computerIsNew.value = 'true';
+  computerImageInputElement.files = null;
+  computerRam.value = '';
+  computerCpu.value = '';
+  computerMemory.value = '';
+  computerMemoryType.value = 'hdd';
+  computerOs.value = '';
 
 }
 
@@ -258,6 +297,7 @@ function onEditComputer(){
             computerPriceElement.value = computer.price;
             computerDescriptionElement.value = computer.description;
             computerIsNew.selectedIndex = !computer.isNew;
+            computerImageInputElement.files[0] = null;
             computerMemory.value = computer.drive;
             computerMemoryType.value = computer.driveType;
             computerCpu.value = computer.cpu;
@@ -324,3 +364,13 @@ function configureComputersAgGrid() {
 }
 
 configureComputersAgGrid();
+
+
+function showImage() {
+  var selectedComputers = gridOptionsGlobal.api.getSelectedRows();
+  console.log(selectedComputers[0]);
+
+  document.getElementById('computer-image').src = 'http://localhost:8053/files/download/'+selectedComputers[0].photo;
+  
+
+}

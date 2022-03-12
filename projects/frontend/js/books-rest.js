@@ -49,7 +49,8 @@ async function saveBook(event) {
 		method:"POST",
 		body:formData,
 		headers:{
-			"Authorization":token
+			"Authorization":token,
+			"Content-Type":"multipart/form-data"
 		}
 	});
 
