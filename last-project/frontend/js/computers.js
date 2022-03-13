@@ -370,7 +370,7 @@ function showImage() {
   var selectedComputers = gridOptionsGlobal.api.getSelectedRows();
   console.log(selectedComputers[0]);
 
-  document.getElementById('computer-image').src = 'http://localhost:8053/files/download/'+selectedComputers[0].photo;
+  document.getElementById('computer-photo').src = 'http://localhost:8053/files/download/'+selectedComputers[0].photo;
   
 
 }

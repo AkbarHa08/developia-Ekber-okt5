@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alış-Veriş</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/shopping.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="index.html" class="btn btn-warning">Əsas Səhifə</a>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-3">
+                <input type="search" id="category-search-input" class="form-control" placeholder="Axtarış..." oninput="searchCategory(this)">
+                <br>
+                <div id="computer-categories-div"></div>
+            </div>
+            <div class="col-sm-9">
+                <div id="computers-loading">
+                    <div class="spinner-border"></div>
+                </div>
+                <div id="computers-div"></div>
+                <div id="computers-loading-next">
+                    <div class="spinner-border"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="computer-details-modal">
+       
+        <div id="computer-details-modal-content">
+            
+            <span class="h2" style="text-align: center;">Komputer haqqında ətraflı məlumat</span>
+            <div style="display: inline; overflow: auto; margin-bottom: 5px;">
+                <button id="save-computer-modal-close-button" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="computer-modal-image-container"></div>
+            <div id="computer-modal-name">Ad: </div>
+            <div id="computer-modal-description">Təsvir: </div>
+            <div id="computer-modal-price">Qiymət: </div>
+            <div id="computer-modal-isNew">Yeni: </div>
+            <div id="computer-modal-ram">Ram: </div>
+            <div id="computer-modal-cpu">Prosessor: </div>
+            <div id="computer-modal-drive">Daimi yaddaş: </div>
+            <div id="computer-modal-drive-type">Daimi yaddaş tipi: </div>
+            <div id="computer-modal-os">Əməliyyat sistemi: </div>
+        </div>
+    </div>
+
+    <div id="fixed-elements"></div>
+    <input type="text" id="computer-search-input" class="form-control" placeholder="Axtarış..." onchange="onSearch()">
+
+
+    <script src="js/shopping.js"></script>
+
+</body>
+</html>

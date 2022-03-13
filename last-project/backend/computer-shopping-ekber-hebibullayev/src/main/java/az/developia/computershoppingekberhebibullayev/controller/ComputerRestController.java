@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import az.developia.computershoppingekberhebibullayev.model.Category;
 import az.developia.computershoppingekberhebibullayev.model.Computer;
+import az.developia.computershoppingekberhebibullayev.model.Search;
 import az.developia.computershoppingekberhebibullayev.repository.CategoryRepository;
 import az.developia.computershoppingekberhebibullayev.repository.ComputerRepository;
 import az.developia.computershoppingekberhebibullayev.repository.UserRepository;
@@ -84,6 +86,11 @@ public class ComputerRestController {
 		return computerRepository.findAllByUserUsername(getRealUsername());
 	}
 	
+	@GetMapping(path = "/category/{categoryName}")
+	public List<Computer> getAllByCategory(@PathVariable String categoryName){
+		return computerRepository.findAllByCategory(categoryName);
+	}
+	
 	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable(name = "id") Integer id) {
 		computerRepository.deleteById(id);
@@ -107,6 +114,12 @@ public class ComputerRestController {
 	
 	private String getRealUsername() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
+	
+	@PostMapping(path="/search") 
+	public List<Computer> searchComputers(@RequestBody Search search){
+		
+		return computerRepository.findAllByName(search.getSearchText());
 	}
 	
 	
